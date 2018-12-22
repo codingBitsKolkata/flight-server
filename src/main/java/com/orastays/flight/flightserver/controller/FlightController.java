@@ -6,18 +6,26 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.helper.Util;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
 import com.orastays.flight.flightserver.model.ResponseModel;
 
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
+@RestController
+@CrossOrigin(origins = "*")
+@RequestMapping("/api")
+@Api(value = "Flight", tags = "Flight")
 public class FlightController extends BaseController {
 	
 	private static final Logger logger = LogManager.getLogger(FlightController.class);
@@ -25,7 +33,16 @@ public class FlightController extends BaseController {
 	@PostMapping(value = "/fetch-one-way-flights", produces = "application/json")
 	@ApiOperation(value = "Fetch OW flights", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 201, message = "Please Try after Sometime!!!")})
+			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
+			@ApiResponse(code=1700, message="Please select an origin!!"),
+			@ApiResponse(code=1701, message="Please select a destination!!"),
+			@ApiResponse(code=1702, message="Please select departure date!!"),
+			@ApiResponse(code=1704, message="Please select class!!"),
+			@ApiResponse(code=1705, message="Please select number of adults!!"),
+			@ApiResponse(code=1706, message="Please provide segments!!"),
+			@ApiResponse(code=1707, message="Please select tenant!!"),
+			@ApiResponse(code=1708, message="Please select class!!"),
+			@ApiResponse(code=1709, message="Please provide multicity details")})
 	public ResponseEntity<ResponseModel> fetchOneWayFlights(@RequestBody FlightSearchModel flightSearchModel) {
 		
 		if (logger.isInfoEnabled()) {
@@ -64,7 +81,17 @@ public class FlightController extends BaseController {
 	@PostMapping(value = "/fetch-round-trip-flights", produces = "application/json")
 	@ApiOperation(value = "Fetch RT flights", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 201, message = "Please Try after Sometime!!!")})
+			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
+			@ApiResponse(code=1700, message="Please select an origin!!"),
+			@ApiResponse(code=1701, message="Please select a destination!!"),
+			@ApiResponse(code=1702, message="Please select departure date!!"),
+			@ApiResponse(code=1703, message="Please select arrival date!!"),
+			@ApiResponse(code=1704, message="Please select class!!"),
+			@ApiResponse(code=1705, message="Please select number of adults!!"),
+			@ApiResponse(code=1706, message="Please provide segments!!"),
+			@ApiResponse(code=1707, message="Please select tenant!!"),
+			@ApiResponse(code=1708, message="Please select class!!"),
+			@ApiResponse(code=1709, message="Please provide multicity details")})
 	public ResponseEntity<ResponseModel> fetchRoundTripFlights(@RequestBody FlightSearchModel flightSearchModel) {
 		
 		if (logger.isInfoEnabled()) {
@@ -103,7 +130,16 @@ public class FlightController extends BaseController {
 	@PostMapping(value = "/fetch-multi-city-flights", produces = "application/json")
 	@ApiOperation(value = "Fetch MCT flights", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 201, message = "Please Try after Sometime!!!")})
+			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
+			@ApiResponse(code=1700, message="Please select an origin!!"),
+			@ApiResponse(code=1701, message="Please select a destination!!"),
+			@ApiResponse(code=1702, message="Please select departure date!!"),
+			@ApiResponse(code=1704, message="Please select class!!"),
+			@ApiResponse(code=1705, message="Please select number of adults!!"),
+			@ApiResponse(code=1706, message="Please provide segments!!"),
+			@ApiResponse(code=1707, message="Please select tenant!!"),
+			@ApiResponse(code=1708, message="Please select class!!"),
+			@ApiResponse(code=1709, message="Please provide multicity details")})
 	public ResponseEntity<ResponseModel> fetchMultiCityFlights(@RequestBody FlightSearchModel flightSearchModel) {
 		
 		if (logger.isInfoEnabled()) {

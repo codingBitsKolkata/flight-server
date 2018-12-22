@@ -18,7 +18,6 @@ public class BaseController {
 	
 	@Autowired
 	protected MessageUtil messageUtil;
-	
 
 	@Autowired
 	protected FlightService flightService;

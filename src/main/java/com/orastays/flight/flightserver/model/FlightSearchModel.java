@@ -1,8 +1,12 @@
 package com.orastays.flight.flightserver.model;
 
+import java.util.List;
+
+import org.apache.commons.collections.map.MultiKeyMap;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -64,52 +68,6 @@ public class FlightSearchModel extends CommonModel {
 	@JsonProperty("flexi")
 	private String flexi;
 
-	//In case of multicity search
-	@JsonProperty("multicityCount")
-	private String multicityCount;
-	
-	@JsonProperty("origin0")
-	private String origin0;
-	
-	@JsonProperty("originCountry0")
-	private String originCountry0;
-	
-	@JsonProperty("destination0")
-	private String destination0;
-	
-	@JsonProperty("destinationCountry0")
-	private String destinationCountry0;
-	
-	@JsonProperty("flightDepartDate0")
-	private String flightDepartDate0;
-	
-	@JsonProperty("origin1")
-	private String origin1;
-	
-	@JsonProperty("originCountry1")
-	private String originCountry1;
-	
-	@JsonProperty("destination1")
-	private String destination1;
-	
-	@JsonProperty("destinationCountry1")
-	private String destinationCountry1;
-	
-	@JsonProperty("flightDepartDate1")
-	private String flightDepartDate1;
-	
-	@JsonProperty("origin2")
-	private String origin2;
-	
-	@JsonProperty("originCountry2")
-	private String originCountry2;
-	
-	@JsonProperty("destination2")
-	private String destination2;
-	
-	@JsonProperty("destinationCountry2")
-	private String destinationCountry2;
-	
-	@JsonProperty("flightDepartDate2")
-	private String flightDepartDate2;
+	@JsonProperty("multiCities")
+	List<MultiCityModel> multiCityModels;
 }

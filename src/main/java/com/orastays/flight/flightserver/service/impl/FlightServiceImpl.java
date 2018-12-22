@@ -1,6 +1,8 @@
 package com.orastays.flight.flightserver.service.impl;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.transaction.Transactional;
 
@@ -17,6 +19,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
+import com.orastays.flight.flightserver.model.MultiCityModel;
 import com.orastays.flight.flightserver.service.FlightService;
 
 @Service
@@ -76,7 +79,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			logger.info("fetchRoundTripFlights -- START");
 		}
 
-		flightValidation.validateSearchData(flightSearchModel);
+		//flightValidation.validateSearchData(flightSearchModel);
 		try {
 			HttpEntity<String> response = multiCityFetch(flightSearchModel);
 		} catch (Exception e) {
@@ -99,25 +102,24 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String tenantName = flightSearchModel.getTenantName();
 		String tripType = flightSearchModel.getTripType();
 		String viewName = "normal";
-		String flexi = "0";
+		//String flexi = "0";
 		String noOfSegments = flightSearchModel.getNoOfSegments();
 		String origin = flightSearchModel.getOrigin();
 		String originCountry = flightSearchModel.getOriginCountry();
 		String destination = flightSearchModel.getDestination();
 		String destinationCountry = flightSearchModel.getDestinationCountry();
-		String flight_depart_date = flightSearchModel.getFlightDepartDate0();
+		String flight_depart_date = flightSearchModel.getFlightDepartDate();
 		String ADT = flightSearchModel.getNoOfAdults();
 		String CHD = flightSearchModel.getNoOfChild();
 		String INF = flightSearchModel.getNoOfInfants();
 		String classType = flightSearchModel.getClassType();
-		String hb = "0";
-		String source= "fresco-home";
-		String bookingtype = "official";
+		//String hb = "0";
+		//String source= "fresco-home";
+		//String bookingtype = "official";
 		
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(FlightConstant.BASE_URL+"/"+tenantName)
 		        .queryParam("type", tripType)
 		        .queryParam("viewName", viewName)
-		        .queryParam("flexi", flexi)
 		        .queryParam("noOfSegments", noOfSegments)
 		        .queryParam("origin", origin)
 		        .queryParam("originCountry", originCountry)
@@ -127,10 +129,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		        .queryParam("ADT", ADT)
 		        .queryParam("CHD", CHD)
 		        .queryParam("INF", INF)
-		        .queryParam("class", classType)
-		        .queryParam("hb", hb)
-		        .queryParam("source", source)
-		        .queryParam("booking-type", bookingtype);
+		        .queryParam("class", classType);
 		
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		//URI uri = UriComponentsBuilder.fromUriString(BASE_URL+tenantName).build().encode().toUri();
@@ -158,7 +157,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String tenantName = flightSearchModel.getTenantName();
 		String tripType = flightSearchModel.getTripType();
 		String viewName = "normal";
-		String flexi = "0";
+		//String flexi = "0";
 		String noOfSegments = flightSearchModel.getNoOfSegments();
 		String origin = flightSearchModel.getOrigin();
 		String originCountry = flightSearchModel.getOriginCountry();
@@ -177,7 +176,6 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(FlightConstant.BASE_URL+"/"+tenantName)
 		        .queryParam("type", tripType)
 		        .queryParam("viewName", viewName)
-		        .queryParam("flexi", flexi)
 		        .queryParam("noOfSegments", noOfSegments)
 		        .queryParam("origin", origin)
 		        .queryParam("originCountry", originCountry)
@@ -210,11 +208,22 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	}
 	
 	public HttpEntity<String> multiCityFetch(FlightSearchModel flightSearchModel) {
-
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("emailId", FlightConstant.EMAILID);
 		headers.add("password", FlightConstant.PASSWORD);
 		headers.add("apiKey", FlightConstant.APIKEY);
+
+		Map<String, String> newModel = new HashMap<>();
+		int i=0;
+		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
+			newModel.put("origin_"+i, multiCityModel.getOrigin());
+			newModel.put("originCountry_"+i, multiCityModel.getOriginCountry());
+			newModel.put("destination_"+i, multiCityModel.getDestination());
+			newModel.put("destinationCountry_"+i, multiCityModel.getDestinationCountry());
+			newModel.put("flight_depart_date_"+i, multiCityModel.getFlightDepartDate());
+			i++;
+		}
 
 		String tenantName = flightSearchModel.getTenantName();
 		String viewName = "normal";
@@ -225,15 +234,39 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String INF = flightSearchModel.getNoOfInfants();
 		String classType = flightSearchModel.getClassType();
 		String noOfSegments = flightSearchModel.getNoOfSegments();
-		String hb = "0";
-		String unique="860814371532";
-		String flightDepartDate0 = flightSearchModel.getFlightDepartDate0();
-		String origin0 = flightSearchModel.getOrigin0();
-		String originCountry0 = flightSearchModel.getOriginCountry0();
-		String destinationCountry0 = flightSearchModel.getDestinationCountry0();
-		String destination0 = flightSearchModel.getDestination0();
 		
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(FlightConstant.BASE_URL+"/"+tenantName)
+		newModel.keySet().stream()
+		.forEach(System.out::println);
+		
+		for ( String key : newModel.keySet() ) {
+		    System.out.println( key );
+		}
+		
+		newModel.forEach((key, value) -> {
+			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(FlightConstant.BASE_URL+"/"+tenantName)
+			        .queryParam("viewName", viewName)
+			        .queryParam("flexi", flexi)
+			        .queryParam("type", tripType)
+			        .queryParam("ADT", ADT)
+			        .queryParam("CHD", CHD)
+			        .queryParam("INF", INF)
+			        .queryParam("class", classType)
+			        .queryParam("noOfSegments", noOfSegments)
+			        .queryParam(key, newModel.get("flight_depart_date_0"))
+			        /*.queryParam("origin_0", newModel.get("origin_0"))
+			        .queryParam("originCountry_0", newModel.get("originCountry_0"))
+			        .queryParam("destination_0", newModel.get("destination_0"))
+			        .queryParam("destinationCountry_0", newModel.get("destinationCountry_0"))
+			        .queryParam("flight_depart_date_1", newModel.get(""))*/
+			        /*.queryParam("origin_1", multiCityMo)
+			        .queryParam("originCountry_1", multiCityModel.getOriginCountry1())
+			        .queryParam("destination_1", multiCityModel.getDestination1())
+			        .queryParam("destinationCountry_1", multiCityModel.getDestinationCountry1())*/;
+			
+			System.out.println("BUILDER::"+builder.buildAndExpand().toUri());
+		});
+		
+		/*UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(FlightConstant.BASE_URL+"/"+tenantName)
 		        .queryParam("viewName", viewName)
 		        .queryParam("flexi", flexi)
 		        .queryParam("type", tripType)
@@ -242,18 +275,16 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		        .queryParam("INF", INF)
 		        .queryParam("class", classType)
 		        .queryParam("noOfSegments", noOfSegments)
-		        .queryParam("hb", hb)
-		        .queryParam("unique", unique)
-		        .queryParam("flight_depart_date_0", flightDepartDate0)
-		        .queryParam("origin_0", origin0)
-		        .queryParam("originCountry_0", originCountry0)
-		        .queryParam("destination_0", destination0)
-		        .queryParam("destinationCountry_0", destinationCountry0)
-		        .queryParam("flight_depart_date_1", flightSearchModel.getFlightDepartDate1())
-		        .queryParam("origin_1", flightSearchModel.getOrigin1())
-		        .queryParam("originCountry_1", flightSearchModel.getOriginCountry1())
-		        .queryParam("destination_1", flightSearchModel.getDestination1())
-		        .queryParam("destinationCountry_1", flightSearchModel.getDestinationCountry1());
+		        .queryParam("flight_depart_date_0", multiCityModel.getFlightDepartDate0())
+		        .queryParam("origin_0", multiCityModel.getOrigin0())
+		        .queryParam("originCountry_0", multiCityModel.getOriginCountry0())
+		        .queryParam("destination_0", multiCityModel.getDestination0())
+		        .queryParam("destinationCountry_0", multiCityModel.getDestinationCountry0())
+		        .queryParam("flight_depart_date_1", multiCityModel.getFlightDepartDate1())
+		        .queryParam("origin_1", multiCityModel.getOrigin1())
+		        .queryParam("originCountry_1", multiCityModel.getOriginCountry1())
+		        .queryParam("destination_1", multiCityModel.getDestination1())
+		        .queryParam("destinationCountry_1", multiCityModel.getDestinationCountry1());*/
 		
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		//URI uri = UriComponentsBuilder.fromUriString(BASE_URL+tenantName).build().encode().toUri();
@@ -262,12 +293,12 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity,String.class);
 		String responseData = responseEntity.getBody();*/
 		
-		HttpEntity<String> response = restTemplate.exchange(
+		/*HttpEntity<String> response = restTemplate.exchange(
 		        builder.toUriString(), 
 		        HttpMethod.GET, 
 		        entity, 
-		        String.class);
+		        String.class);*/
 		
-		return response;
+		return null;
 	}
 }
