@@ -237,25 +237,24 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String INF = flightSearchModel.getNoOfInfants();
 		String classType = flightSearchModel.getClassType();
 		String noOfSegments = flightSearchModel.getNoOfSegments();
-		
-		 UriBuilder builder = UriBuilder
-		            .fromPath(FlightConstant.BASE_URL)
-		            .queryParam("viewName", viewName)
-		            .queryParam("flexi", flexi)
-		            .queryParam("type", tripType)
-			        .queryParam("ADT", ADT)
-			        .queryParam("CHD", CHD)
-			        .queryParam("INF", INF)
-			        .queryParam("class", classType)
-			        .queryParam("noOfSegments", noOfSegments);
 
-		    for (Entry<String, String> entry : newModel.entrySet()) {
-		        builder.queryParam(entry.getKey(), entry.getValue());
-		    }
+		UriBuilder builder = UriBuilder
+				.fromPath(FlightConstant.BASE_URL)
+				.queryParam("viewName", viewName)
+				.queryParam("flexi", flexi)
+				.queryParam("type", tripType)
+				.queryParam("ADT", ADT)
+				.queryParam("CHD", CHD)
+				.queryParam("INF", INF)
+				.queryParam("class", classType)
+				.queryParam("noOfSegments", noOfSegments);
 
-		    URI uri = builder.build();
-		    System.out.println("builder1::"+uri);
-		
+		for (Entry<String, String> entry : newModel.entrySet()) {
+			builder.queryParam(entry.getKey(), entry.getValue());
+		}
+
+		URI uri = builder.build();
+
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		//URI uri = UriComponentsBuilder.fromUriString(BASE_URL+tenantName).build().encode().toUri();
 		/*RequestEntity<String> requestEntity = new RequestEntity<>(headers,
@@ -264,11 +263,11 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String responseData = responseEntity.getBody();*/
 		
 		HttpEntity<String> response = restTemplate.exchange(
-		        builder.toUriString(), 
+				uri, 
 		        HttpMethod.GET, 
 		        entity, 
 		        String.class);
-		
-		return null;
+		System.out.println(response);
+		return response;
 	}
 }
