@@ -1,10 +1,13 @@
 package com.orastays.flight.flightserver.service.impl;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 
 import javax.transaction.Transactional;
+import javax.ws.rs.core.UriBuilder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -235,56 +238,23 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String classType = flightSearchModel.getClassType();
 		String noOfSegments = flightSearchModel.getNoOfSegments();
 		
-		newModel.keySet().stream()
-		.forEach(System.out::println);
-		
-		for ( String key : newModel.keySet() ) {
-		    System.out.println( key );
-		}
-		
-		newModel.forEach((key, value) -> {
-			UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(FlightConstant.BASE_URL+"/"+tenantName)
-			        .queryParam("viewName", viewName)
-			        .queryParam("flexi", flexi)
-			        .queryParam("type", tripType)
+		 UriBuilder builder = UriBuilder
+		            .fromPath(FlightConstant.BASE_URL)
+		            .queryParam("viewName", viewName)
+		            .queryParam("flexi", flexi)
+		            .queryParam("type", tripType)
 			        .queryParam("ADT", ADT)
 			        .queryParam("CHD", CHD)
 			        .queryParam("INF", INF)
 			        .queryParam("class", classType)
-			        .queryParam("noOfSegments", noOfSegments)
-			        .queryParam(key, newModel.get("flight_depart_date_0"))
-			        /*.queryParam("origin_0", newModel.get("origin_0"))
-			        .queryParam("originCountry_0", newModel.get("originCountry_0"))
-			        .queryParam("destination_0", newModel.get("destination_0"))
-			        .queryParam("destinationCountry_0", newModel.get("destinationCountry_0"))
-			        .queryParam("flight_depart_date_1", newModel.get(""))*/
-			        /*.queryParam("origin_1", multiCityMo)
-			        .queryParam("originCountry_1", multiCityModel.getOriginCountry1())
-			        .queryParam("destination_1", multiCityModel.getDestination1())
-			        .queryParam("destinationCountry_1", multiCityModel.getDestinationCountry1())*/;
-			
-			System.out.println("BUILDER::"+builder.buildAndExpand().toUri());
-		});
-		
-		/*UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(FlightConstant.BASE_URL+"/"+tenantName)
-		        .queryParam("viewName", viewName)
-		        .queryParam("flexi", flexi)
-		        .queryParam("type", tripType)
-		        .queryParam("ADT", ADT)
-		        .queryParam("CHD", CHD)
-		        .queryParam("INF", INF)
-		        .queryParam("class", classType)
-		        .queryParam("noOfSegments", noOfSegments)
-		        .queryParam("flight_depart_date_0", multiCityModel.getFlightDepartDate0())
-		        .queryParam("origin_0", multiCityModel.getOrigin0())
-		        .queryParam("originCountry_0", multiCityModel.getOriginCountry0())
-		        .queryParam("destination_0", multiCityModel.getDestination0())
-		        .queryParam("destinationCountry_0", multiCityModel.getDestinationCountry0())
-		        .queryParam("flight_depart_date_1", multiCityModel.getFlightDepartDate1())
-		        .queryParam("origin_1", multiCityModel.getOrigin1())
-		        .queryParam("originCountry_1", multiCityModel.getOriginCountry1())
-		        .queryParam("destination_1", multiCityModel.getDestination1())
-		        .queryParam("destinationCountry_1", multiCityModel.getDestinationCountry1());*/
+			        .queryParam("noOfSegments", noOfSegments);
+
+		    for (Entry<String, String> entry : newModel.entrySet()) {
+		        builder.queryParam(entry.getKey(), entry.getValue());
+		    }
+
+		    URI uri = builder.build();
+		    System.out.println("builder1::"+uri);
 		
 		HttpEntity<?> entity = new HttpEntity<>(headers);
 		//URI uri = UriComponentsBuilder.fromUriString(BASE_URL+tenantName).build().encode().toUri();
@@ -293,11 +263,11 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity,String.class);
 		String responseData = responseEntity.getBody();*/
 		
-		/*HttpEntity<String> response = restTemplate.exchange(
+		HttpEntity<String> response = restTemplate.exchange(
 		        builder.toUriString(), 
 		        HttpMethod.GET, 
 		        entity, 
-		        String.class);*/
+		        String.class);
 		
 		return null;
 	}
