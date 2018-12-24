@@ -11,8 +11,6 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONArray;
-import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -28,6 +26,8 @@ import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
 import com.orastays.flight.flightserver.model.MultiCityModel;
+import com.orastays.flight.flightserver.model.ResultDataModel;
+import com.orastays.flight.flightserver.model.YatraResponseModel;
 import com.orastays.flight.flightserver.service.FlightService;
 
 @Service
@@ -51,16 +51,28 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			String response = oneWayFetch(flightSearchModel);
 			System.out.println("RESPONSE::"+response);
 			
+			RestTemplate restTemplate = new RestTemplate();
+		    YatraResponseModel yatraResponseModel = restTemplate.getForObject(response + "/1", YatraResponseModel.class);
+		    for (ResultDataModel resultDataModel:yatraResponseModel.getResultDatas()) {
+		    	String searchId = resultDataModel.getFltSchedule().getScid();
+		    	System.out.println("searchId is::"+searchId);
+		    }
+			
 			//Parse the json
-			JSONObject jsonObject = new JSONObject(response);
+			//JSONObject jsonObject = new JSONObject(response);
 			//JSONArray jsonArray = new JSONArray();
-			if (jsonObject.has("eagerFetch")) {
+			/*if (jsonObject.has("eagerFetch")) {
 				if (jsonObject.getString("eagerFetch") == "true") {
-					JSONArray array = jsonObject.getJSONArray("resultData"); 
-
-					String searchId = jsonObject.getString("resultData");
+					JSONArray array = jsonObject.getJSONArray("resultData");
+					String fltSchedule= array.getJSONObject(i).getString("fltSchedule");
+					for(int i = 0 ; i < array.length() ; i++){
+						for (int j=0; j<=array.getJSONObject(i).getString("fltSchedule").length();j++) {
+							
+							
+						}
+					}
 				}
-			}
+			}*/
 			
 		} catch (Exception e) {
 		}
