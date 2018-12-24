@@ -11,11 +11,16 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONArray;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -41,9 +46,21 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			logger.info("fetchOneWayFlights -- START");
 		}
 
-		flightValidation.validateSearchData(flightSearchModel);
+		flightValidation.validateOneWayData(flightSearchModel);
 		try {
-			HttpEntity<String> response = oneWayFetch(flightSearchModel);
+			String response = oneWayFetch(flightSearchModel);
+			System.out.println("RESPONSE::"+response);
+			
+			//Parse the json
+			JSONObject jsonObject = new JSONObject(response);
+			//JSONArray jsonArray = new JSONArray();
+			if (jsonObject.has("eagerFetch")) {
+				if (jsonObject.getString("eagerFetch") == "true") {
+					JSONArray array = jsonObject.getJSONArray("resultData"); 
+
+					String searchId = jsonObject.getString("resultData");
+				}
+			}
 			
 		} catch (Exception e) {
 		}
@@ -62,9 +79,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			logger.info("fetchRoundTripFlights -- START");
 		}
 
-		flightValidation.validateSearchData(flightSearchModel);
+		flightValidation.validateRoundTripData(flightSearchModel);
 		try {
-			HttpEntity<String> response = roundTripFetch(flightSearchModel);
+			//HttpEntity<String> response = roundTripFetch(flightSearchModel);
 		} catch (Exception e) {
 		}
 
@@ -82,9 +99,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			logger.info("fetchRoundTripFlights -- START");
 		}
 
-		//flightValidation.validateSearchData(flightSearchModel);
+		flightValidation.validateMulticityData(flightSearchModel);
 		try {
-			HttpEntity<String> response = multiCityFetch(flightSearchModel);
+			//HttpEntity<String> response = multiCityFetch(flightSearchModel);
 		} catch (Exception e) {
 		}
 
@@ -95,122 +112,129 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		return null;
 	}
 	
-	public HttpEntity<String> oneWayFetch(FlightSearchModel flightSearchModel) {
+	public String oneWayFetch(FlightSearchModel flightSearchModel) {
+
+		if (logger.isInfoEnabled()) {
+			logger.info("oneWayFetch -- START");
+		}
 
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("emailId", FlightConstant.EMAILID);
 		headers.add("password", FlightConstant.PASSWORD);
-		headers.add("apiKey", FlightConstant.APIKEY);
+		headers.add("apikey", FlightConstant.APIKEY);
+
+		Map<String, String> newModel = new HashMap<>();
+		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
+			newModel.put("origin", multiCityModel.getOrigin());
+			newModel.put("originCountry", multiCityModel.getOriginCountry());
+			newModel.put("destination", multiCityModel.getDestination());
+			newModel.put("destinationCountry", multiCityModel.getDestinationCountry());
+			newModel.put("flight_depart_date", multiCityModel.getFlightDepartDate());
+		}
 
 		String tenantName = flightSearchModel.getTenantName();
 		String tripType = flightSearchModel.getTripType();
 		String viewName = "normal";
-		//String flexi = "0";
 		String noOfSegments = flightSearchModel.getNoOfSegments();
-		String origin = flightSearchModel.getOrigin();
-		String originCountry = flightSearchModel.getOriginCountry();
-		String destination = flightSearchModel.getDestination();
-		String destinationCountry = flightSearchModel.getDestinationCountry();
-		String flight_depart_date = flightSearchModel.getFlightDepartDate();
 		String ADT = flightSearchModel.getNoOfAdults();
 		String CHD = flightSearchModel.getNoOfChild();
 		String INF = flightSearchModel.getNoOfInfants();
 		String classType = flightSearchModel.getClassType();
-		//String hb = "0";
-		//String source= "fresco-home";
-		//String bookingtype = "official";
-		
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(FlightConstant.BASE_URL+"/"+tenantName)
-		        .queryParam("type", tripType)
-		        .queryParam("viewName", viewName)
-		        .queryParam("noOfSegments", noOfSegments)
-		        .queryParam("origin", origin)
-		        .queryParam("originCountry", originCountry)
-		        .queryParam("destination", destination)
-		        .queryParam("destinationCountry", destinationCountry)
-		        .queryParam("flight_depart_date", flight_depart_date)
-		        .queryParam("ADT", ADT)
-		        .queryParam("CHD", CHD)
-		        .queryParam("INF", INF)
-		        .queryParam("class", classType);
-		
-		HttpEntity<?> entity = new HttpEntity<>(headers);
-		//URI uri = UriComponentsBuilder.fromUriString(BASE_URL+tenantName).build().encode().toUri();
-		/*RequestEntity<String> requestEntity = new RequestEntity<>(headers,
-				HttpMethod.GET, uri);
-		ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity,String.class);
-		String responseData = responseEntity.getBody();*/
-		
-		HttpEntity<String> response = restTemplate.exchange(
-		        builder.toUriString(), 
-		        HttpMethod.GET, 
-		        entity, 
-		        String.class);
-		
-		return response;
+
+		String createUrl = FlightConstant.BASE_URL+"/"+tenantName+"/search?"+"type="+tripType+"&viewName="+viewName+"&noOfSegments="+noOfSegments+
+				"&origin="+newModel.get("origin")+"&originCountry="+newModel.get("originCountry")+"&destination="+newModel.get("destination")+
+				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&ADT="+ADT+
+				"&CHD="+CHD+"&INF="+INF+"&class="+classType;
+
+		ResponseEntity<String> responseEntity = null;
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			URI uri = UriComponentsBuilder.fromUriString(createUrl).build().encode().toUri();
+			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
+			responseEntity = restTemplate.exchange(requestEntity, String.class);
+			
+		} catch (RestClientResponseException e) {
+			logger.info("Error in oneWayFetch response -- END");
+			e.getStackTrace();
+		}
+
+		if (logger.isInfoEnabled()) {
+			logger.info("oneWayFetch -- END");
+		}
+
+		return responseEntity.getBody();
 	}
 	
 	public HttpEntity<String> roundTripFetch(FlightSearchModel flightSearchModel) {
 
+		if (logger.isInfoEnabled()) {
+			logger.info("roundTripFetch -- START");
+		}
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("emailId", FlightConstant.EMAILID);
 		headers.add("password", FlightConstant.PASSWORD);
 		headers.add("apiKey", FlightConstant.APIKEY);
 
+		Map<String, String> newModel = new HashMap<>();
+		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
+			newModel.put("origin", multiCityModel.getOrigin());
+			newModel.put("originCountry", multiCityModel.getOriginCountry());
+			newModel.put("destination", multiCityModel.getDestination());
+			newModel.put("destinationCountry", multiCityModel.getDestinationCountry());
+			newModel.put("flight_depart_date", multiCityModel.getFlightDepartDate());
+		}
+		
 		String tenantName = flightSearchModel.getTenantName();
 		String tripType = flightSearchModel.getTripType();
 		String viewName = "normal";
-		//String flexi = "0";
 		String noOfSegments = flightSearchModel.getNoOfSegments();
-		String origin = flightSearchModel.getOrigin();
-		String originCountry = flightSearchModel.getOriginCountry();
-		String destination = flightSearchModel.getDestination();
-		String destinationCountry = flightSearchModel.getDestinationCountry();
-		String flight_depart_date = flightSearchModel.getFlightDepartDate();
 		String arrivalDate = flightSearchModel.getArrivalDate();
 		String ADT = flightSearchModel.getNoOfAdults();
 		String CHD = flightSearchModel.getNoOfChild();
 		String INF = flightSearchModel.getNoOfInfants();
 		String classType = flightSearchModel.getClassType();
-		String hb = "0";
-		String source= "fresco-home";
-		String bookingtype = "official";
 		
-		UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(FlightConstant.BASE_URL+"/"+tenantName)
-		        .queryParam("type", tripType)
+		UriBuilder builder = UriBuilder
+				.fromPath(FlightConstant.BASE_URL+"/"+tenantName)
+				.queryParam("type", tripType)
 		        .queryParam("viewName", viewName)
 		        .queryParam("noOfSegments", noOfSegments)
-		        .queryParam("origin", origin)
-		        .queryParam("originCountry", originCountry)
-		        .queryParam("destination", destination)
-		        .queryParam("destinationCountry", destinationCountry)
-		        .queryParam("flight_depart_date", flight_depart_date)
+		        .queryParam("origin", newModel.containsKey("origin"))
+		        .queryParam("originCountry", newModel.containsKey("originCountry"))
+		        .queryParam("destination", newModel.containsKey("destination"))
+		        .queryParam("destinationCountry", newModel.containsKey("destinationCountry"))
+		        .queryParam("flight_depart_date", newModel.containsKey("flight_depart_date"))
 		        .queryParam("arrivalDate", arrivalDate)
 		        .queryParam("ADT", ADT)
 		        .queryParam("CHD", CHD)
 		        .queryParam("INF", INF)
-		        .queryParam("class", classType)
-		        .queryParam("hb", hb)
-		        .queryParam("source", source)
-		        .queryParam("booking-type", bookingtype);
-		
+		        .queryParam("class", classType);
+
+		URI uri = builder.build();
+
 		HttpEntity<?> entity = new HttpEntity<>(headers);
-		//URI uri = UriComponentsBuilder.fromUriString(BASE_URL+tenantName).build().encode().toUri();
-		/*RequestEntity<String> requestEntity = new RequestEntity<>(headers,
-				HttpMethod.GET, uri);
-		ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity,String.class);
-		String responseData = responseEntity.getBody();*/
 		
+		RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 		HttpEntity<String> response = restTemplate.exchange(
-		        builder.toUriString(), 
+				uri, 
 		        HttpMethod.GET, 
 		        entity, 
 		        String.class);
 		
-		return response;
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("roundTripFetch -- END");
+		}
+		
+		return null;
 	}
 	
 	public HttpEntity<String> multiCityFetch(FlightSearchModel flightSearchModel) {
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("multiCityFetch -- START");
+		}
 		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("emailId", FlightConstant.EMAILID);
@@ -239,7 +263,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String noOfSegments = flightSearchModel.getNoOfSegments();
 
 		UriBuilder builder = UriBuilder
-				.fromPath(FlightConstant.BASE_URL)
+				.fromPath(FlightConstant.BASE_URL+"/"+tenantName)
 				.queryParam("viewName", viewName)
 				.queryParam("flexi", flexi)
 				.queryParam("type", tripType)
@@ -262,12 +286,18 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity,String.class);
 		String responseData = responseEntity.getBody();*/
 		
+		RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 		HttpEntity<String> response = restTemplate.exchange(
 				uri, 
 		        HttpMethod.GET, 
 		        entity, 
 		        String.class);
 		System.out.println(response);
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("multiCityFetch -- END");
+		}
+		
 		return response;
 	}
 }

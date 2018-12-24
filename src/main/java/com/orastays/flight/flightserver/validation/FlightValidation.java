@@ -21,48 +21,53 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 	private static final Logger logger = LogManager.getLogger(FlightValidation.class);
 	
-	public FlightSearchModel validateSearchData(FlightSearchModel flightSearchModel) throws FormExceptions {
+public FlightSearchModel validateOneWayData(FlightSearchModel flightSearchModel) throws FormExceptions {
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("validateSearchData -- Start");
+			logger.debug("validateOneWayData -- Start");
 		}
 		
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
 		
 		if(Objects.nonNull(flightSearchModel)) {
-			if(StringUtils.isBlank(flightSearchModel.getOrigin())) {
-				exceptions.put(messageUtil.getBundle("origin.null.code"), new Exception(messageUtil.getBundle("origin.null.message")));
-			}
-			if(StringUtils.isBlank(flightSearchModel.getDestination())) {
-				exceptions.put(messageUtil.getBundle("destination.null.code"), new Exception(messageUtil.getBundle("destination.null.message")));
-			}
-			if(StringUtils.isBlank(flightSearchModel.getFlightDepartDate())) {
-				exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.null.message")));
-			}
-			if(StringUtils.isBlank(flightSearchModel.getArrivalDate())) {
-				exceptions.put(messageUtil.getBundle("arrival.date.null.code"), new Exception(messageUtil.getBundle("arrival.date.null.message")));
-			}
-			if(StringUtils.isBlank(flightSearchModel.getClassType())) {
-				exceptions.put(messageUtil.getBundle("class.type.null.code"), new Exception(messageUtil.getBundle("class.type.null.message")));
-			}
-			if(StringUtils.isBlank(flightSearchModel.getNoOfAdults())) {
-				exceptions.put(messageUtil.getBundle("adult.number.null.code"), new Exception(messageUtil.getBundle("adult.number.null.message")));
-			}
-			if(StringUtils.isBlank(flightSearchModel.getNoOfSegments())) {
-				exceptions.put(messageUtil.getBundle("segments.null.code"), new Exception(messageUtil.getBundle("segments.null.message")));
-			}
+			
 			if(StringUtils.isBlank(flightSearchModel.getTenantName())) {
 				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
 			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getTripType())) {
+				exceptions.put(messageUtil.getBundle("trip.type.null.code"), new Exception(messageUtil.getBundle("trip.type.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getNoOfSegments())) {
+				exceptions.put(messageUtil.getBundle("segments.null.code"), new Exception(messageUtil.getBundle("segments.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getNoOfAdults())) {
+				exceptions.put(messageUtil.getBundle("adult.number.null.code"), new Exception(messageUtil.getBundle("adult.number.null.message")));
+			}
+			
 			if(StringUtils.isBlank(flightSearchModel.getClassType())) {
 				exceptions.put(messageUtil.getBundle("class.type.null.code"), new Exception(messageUtil.getBundle("class.type.null.message")));
 			}
 						
 			if(Objects.nonNull(flightSearchModel.getMultiCityModels())) {
 				for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
-					/*if(StringUtils.isBlank(multiCityModel.getOrigin0())) {
-						exceptions.put(messageUtil.getBundle("origin0.null.code"), new Exception(messageUtil.getBundle("origin0.null.message")));
-					}*/
+					if(StringUtils.isBlank(multiCityModel.getOrigin())) {
+						exceptions.put(messageUtil.getBundle("origin.null.code"), new Exception(messageUtil.getBundle("origin.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getDestination())) {
+						exceptions.put(messageUtil.getBundle("destination.null.code"), new Exception(messageUtil.getBundle("destination.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getOriginCountry())) {
+						exceptions.put(messageUtil.getBundle("origin.country.null.code"), new Exception(messageUtil.getBundle("origin.country.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getDestinationCountry())) {
+						exceptions.put(messageUtil.getBundle("destination.country.null.code"), new Exception(messageUtil.getBundle("destination.country.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getFlightDepartDate())) {
+						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.country.null.message")));
+					}
 				}
 				}
 			}	
@@ -71,7 +76,131 @@ public class FlightValidation extends AuthorizeUserValidation {
 			throw new FormExceptions(exceptions);
 		
 		if (logger.isDebugEnabled()) {
-			logger.debug("validateSearchData -- End");
+			logger.debug("validateOneWayData -- End");
+		}	
+		return flightSearchModel;
+	}
+	
+	public FlightSearchModel validateRoundTripData(FlightSearchModel flightSearchModel) throws FormExceptions {
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("validateRoundTripData -- Start");
+		}
+		
+		Map<String, Exception> exceptions = new LinkedHashMap<>();
+		
+		if(Objects.nonNull(flightSearchModel)) {
+			
+			if(StringUtils.isBlank(flightSearchModel.getTenantName())) {
+				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getTripType())) {
+				exceptions.put(messageUtil.getBundle("trip.type.null.code"), new Exception(messageUtil.getBundle("trip.type.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getNoOfSegments())) {
+				exceptions.put(messageUtil.getBundle("segments.null.code"), new Exception(messageUtil.getBundle("segments.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getNoOfAdults())) {
+				exceptions.put(messageUtil.getBundle("adult.number.null.code"), new Exception(messageUtil.getBundle("adult.number.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getClassType())) {
+				exceptions.put(messageUtil.getBundle("class.type.null.code"), new Exception(messageUtil.getBundle("class.type.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getArrivalDate())) {
+				exceptions.put(messageUtil.getBundle("arrival.date.null.code"), new Exception(messageUtil.getBundle("arrival.date.null.message")));
+			}
+						
+			if(Objects.nonNull(flightSearchModel.getMultiCityModels())) {
+				for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
+					if(StringUtils.isBlank(multiCityModel.getOrigin())) {
+						exceptions.put(messageUtil.getBundle("origin.null.code"), new Exception(messageUtil.getBundle("origin.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getDestination())) {
+						exceptions.put(messageUtil.getBundle("destination.null.code"), new Exception(messageUtil.getBundle("destination.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getOriginCountry())) {
+						exceptions.put(messageUtil.getBundle("origin.country.null.code"), new Exception(messageUtil.getBundle("origin.country.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getDestinationCountry())) {
+						exceptions.put(messageUtil.getBundle("destination.country.null.code"), new Exception(messageUtil.getBundle("destination.country.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getFlightDepartDate())) {
+						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.country.null.message")));
+					}
+				}
+				}
+			}	
+
+		if (exceptions.size() > 0)
+			throw new FormExceptions(exceptions);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("validateRoundTripData -- End");
+		}	
+		return flightSearchModel;
+	}
+	
+public FlightSearchModel validateMulticityData(FlightSearchModel flightSearchModel) throws FormExceptions {
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("validateMulticityData -- Start");
+		}
+		
+		Map<String, Exception> exceptions = new LinkedHashMap<>();
+		
+		if(Objects.nonNull(flightSearchModel)) {
+			
+			if(StringUtils.isBlank(flightSearchModel.getTenantName())) {
+				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getTripType())) {
+				exceptions.put(messageUtil.getBundle("trip.type.null.code"), new Exception(messageUtil.getBundle("trip.type.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getNoOfSegments())) {
+				exceptions.put(messageUtil.getBundle("segments.null.code"), new Exception(messageUtil.getBundle("segments.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getNoOfAdults())) {
+				exceptions.put(messageUtil.getBundle("adult.number.null.code"), new Exception(messageUtil.getBundle("adult.number.null.message")));
+			}
+			
+			if(StringUtils.isBlank(flightSearchModel.getClassType())) {
+				exceptions.put(messageUtil.getBundle("class.type.null.code"), new Exception(messageUtil.getBundle("class.type.null.message")));
+			}
+						
+			if(Objects.nonNull(flightSearchModel.getMultiCityModels())) {
+				for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
+					if(StringUtils.isBlank(multiCityModel.getOrigin())) {
+						exceptions.put(messageUtil.getBundle("origin.null.code"), new Exception(messageUtil.getBundle("origin.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getDestination())) {
+						exceptions.put(messageUtil.getBundle("destination.null.code"), new Exception(messageUtil.getBundle("destination.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getOriginCountry())) {
+						exceptions.put(messageUtil.getBundle("origin.country.null.code"), new Exception(messageUtil.getBundle("origin.country.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getDestinationCountry())) {
+						exceptions.put(messageUtil.getBundle("destination.country.null.code"), new Exception(messageUtil.getBundle("destination.country.null.message")));
+					}
+					if(StringUtils.isBlank(multiCityModel.getFlightDepartDate())) {
+						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.country.null.message")));
+					}
+				}
+				}
+			}	
+
+		if (exceptions.size() > 0)
+			throw new FormExceptions(exceptions);
+		
+		if (logger.isDebugEnabled()) {
+			logger.debug("validateMulticityData -- End");
 		}	
 		return flightSearchModel;
 	}

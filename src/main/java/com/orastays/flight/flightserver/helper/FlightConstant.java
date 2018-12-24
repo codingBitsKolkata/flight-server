@@ -16,7 +16,7 @@ public final class FlightConstant {
 	
 	//Flight Details
 	public static final String BASE_URL = "http://203.189.91.50/flightsapi/air-service";
-	public static final String EMAILID = "ajit.nath@yatra.com";
-	public static final String PASSWORD = "ajit@123456";
-	public static final String APIKEY = "ajit1234";
+	public static final String EMAILID = "apit3018@gmail.com";
+	public static final String PASSWORD = "apitest1234";
+	public static final String APIKEY = "f674b053-d558-49e1-b591-99d34d190d43";
 }

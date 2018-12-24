@@ -20,32 +20,14 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class FlightSearchModel extends CommonModel {
 
-	//b2bdom, b2bint
 	@JsonProperty("tenantName")
 	private String tenantName;
 	
-	//R,O,M
 	@JsonProperty("tripType")
 	private String tripType;
 	
-	//Number of segments based on trip type(one way, round trip, multicity)
 	@JsonProperty("noOfSegments")
 	private String noOfSegments;
-	
-	@JsonProperty("origin")
-	private String origin;
-	
-	@JsonProperty("originCountry")
-	private String originCountry;
-	
-	@JsonProperty("destination")
-	private String destination;
-	
-	@JsonProperty("destinationCountry")
-	private String destinationCountry;
-	
-	@JsonProperty("flight_depart_date")
-	private String flightDepartDate;
 	
 	@JsonProperty("arrival_date")
 	private String arrivalDate;
