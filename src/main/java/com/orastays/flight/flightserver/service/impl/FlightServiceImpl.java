@@ -22,6 +22,7 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.google.gson.Gson;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
@@ -48,11 +49,15 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 
 		flightValidation.validateOneWayData(flightSearchModel);
 		try {
-			String response = oneWayFetch(flightSearchModel);
-			System.out.println("RESPONSE::"+response);
+			String searchResponse = oneWayFetch(flightSearchModel);
+			System.out.println("RESPONSE::"+searchResponse);
 			
-			RestTemplate restTemplate = new RestTemplate();
-		    YatraResponseModel yatraResponseModel = restTemplate.getForObject(response + "/1", YatraResponseModel.class);
+			Gson gson = new Gson();
+			String jsonString = gson.toJson(searchResponse);
+			System.out.println("jsonString::"+jsonString);
+			YatraResponseModel yatraResponseModel = gson.fromJson(jsonString, YatraResponseModel.class);
+			System.out.println("yatraResponseModel::"+yatraResponseModel);
+			
 		    for (ResultDataModel resultDataModel:yatraResponseModel.getResultDatas()) {
 		    	String searchId = resultDataModel.getFltSchedule().getScid();
 		    	System.out.println("searchId is::"+searchId);
