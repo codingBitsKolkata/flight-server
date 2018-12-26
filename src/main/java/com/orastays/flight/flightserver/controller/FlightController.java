@@ -57,8 +57,9 @@ public class FlightController extends BaseController {
 		Util.printLog(flightSearchModel, FlightConstant.INCOMING, "Fetch OneWay flights", request);
 		
 		try {
-			JSONObject jsonObject = flightService.fetchOneWayFlights(flightSearchModel);
-			responseModel.setResponseBody(jsonObject);
+			String response = flightService.fetchOneWayFlights(flightSearchModel);
+			System.out.println("OBJ::"+response);
+			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
 		} catch (FormExceptions fe) {

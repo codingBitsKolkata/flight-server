@@ -41,21 +41,16 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	private RestTemplate restTemplate;
 
 	@Override
-	public JSONObject fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
+	public String fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchOneWayFlights -- START");
 		}
 
 		flightValidation.validateOneWayData(flightSearchModel);
-		
 		String searchResponse = null;
 		try {
 			searchResponse = oneWayFetch(flightSearchModel);
-
-			/*String searchId = parseJson(searchResponse);
-			System.out.println("SearchID::"+searchId);
-			callPricingApi(searchId);*/
 		} catch (RestClientResponseException e) {
 			e.printStackTrace();
 		}
@@ -64,7 +59,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			logger.info("fetchOneWayFlights -- END");
 		}
 		JSONObject jsonObj = new JSONObject(searchResponse);
-		return jsonObj;
+		return searchResponse;
 	}
 
 	//Call Pricing Api
@@ -79,7 +74,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		headers.add("password", FlightConstant.PASSWORD);
 		headers.add("apikey", FlightConstant.APIKEY);
 		
-		Map<String, String> newModel = new HashMap<>();
+/*		Map<String, String> newModel = new HashMap<>();
 		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
 			newModel.put("origin", multiCityModel.getOrigin());
 			newModel.put("originCountry", multiCityModel.getOriginCountry());
@@ -116,7 +111,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 
 		if (logger.isInfoEnabled()) {
 			logger.info("callPricingApi -- END");
-		}
+		}*/
 
 		//return responseEntity.getBody();
 		
