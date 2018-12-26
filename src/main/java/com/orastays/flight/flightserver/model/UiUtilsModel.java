@@ -1,7 +1,6 @@
 package com.orastays.flight.flightserver.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.EqualsAndHashCode;
@@ -14,17 +13,6 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class ResultDataModel {
+public class UiUtilsModel {
 
-	@JsonProperty("isFlights")
-	private boolean isFlights;
-	
-	@JsonProperty("isError")
-	private boolean isError;
-	
-	@JsonProperty("isWarnings")
-	private boolean isWarnings;
-	
-	@JsonProperty("fltSchedule")
-	private FltScheduleModel fltSchedule;
 }

@@ -19,6 +19,4 @@ public class FltScheduleModel {
 	@JsonProperty("scid")
 	private String scid;
 	
-	@JsonProperty("lang")
-	private String lang;
 }

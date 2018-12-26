@@ -23,10 +23,10 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 @EnableAutoConfiguration
-//@EnableCircuitBreaker
-//@EnableHystrix
+@EnableCircuitBreaker
+@EnableHystrix
 public class FlightServerApplication extends WebMvcConfigurerAdapter {
 
 	public static void main(String[] args) {

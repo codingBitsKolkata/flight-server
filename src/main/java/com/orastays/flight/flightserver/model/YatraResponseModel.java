@@ -19,7 +19,7 @@ import lombok.ToString;
 public class YatraResponseModel {
 
 	@JsonProperty("eagerFetch")
-	private String eagerFetch;
+	private boolean eagerFetch;
 	
 	@JsonProperty("resultDatas")
 	List<ResultDataModel> resultDatas;

@@ -5,6 +5,7 @@ import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -56,8 +57,8 @@ public class FlightController extends BaseController {
 		Util.printLog(flightSearchModel, FlightConstant.INCOMING, "Fetch OneWay flights", request);
 		
 		try {
-			List<FlightSearchModel> flightSearchModels = flightService.fetchOneWayFlights(flightSearchModel);
-			responseModel.setResponseBody(flightSearchModels);
+			JSONObject jsonObject = flightService.fetchOneWayFlights(flightSearchModel);
+			responseModel.setResponseBody(jsonObject);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
 		} catch (FormExceptions fe) {

@@ -1,6 +1,7 @@
 package com.orastays.flight.flightserver.service.impl;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +12,8 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.json.JSONException;
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -22,13 +25,10 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.google.gson.Gson;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
 import com.orastays.flight.flightserver.model.MultiCityModel;
-import com.orastays.flight.flightserver.model.ResultDataModel;
-import com.orastays.flight.flightserver.model.YatraResponseModel;
 import com.orastays.flight.flightserver.service.FlightService;
 
 @Service
@@ -41,51 +41,111 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	private RestTemplate restTemplate;
 
 	@Override
-	public List<FlightSearchModel> fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions {
+	public JSONObject fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchOneWayFlights -- START");
 		}
 
 		flightValidation.validateOneWayData(flightSearchModel);
+		
+		String searchResponse = null;
 		try {
-			String searchResponse = oneWayFetch(flightSearchModel);
-			System.out.println("RESPONSE::"+searchResponse);
-			
-			Gson gson = new Gson();
-			String jsonString = gson.toJson(searchResponse);
-			System.out.println("jsonString::"+jsonString);
-			YatraResponseModel yatraResponseModel = gson.fromJson(jsonString, YatraResponseModel.class);
-			System.out.println("yatraResponseModel::"+yatraResponseModel);
-			
-		    for (ResultDataModel resultDataModel:yatraResponseModel.getResultDatas()) {
-		    	String searchId = resultDataModel.getFltSchedule().getScid();
-		    	System.out.println("searchId is::"+searchId);
-		    }
-			
-			//Parse the json
-			//JSONObject jsonObject = new JSONObject(response);
-			//JSONArray jsonArray = new JSONArray();
-			/*if (jsonObject.has("eagerFetch")) {
-				if (jsonObject.getString("eagerFetch") == "true") {
-					JSONArray array = jsonObject.getJSONArray("resultData");
-					String fltSchedule= array.getJSONObject(i).getString("fltSchedule");
-					for(int i = 0 ; i < array.length() ; i++){
-						for (int j=0; j<=array.getJSONObject(i).getString("fltSchedule").length();j++) {
-							
-							
-						}
-					}
-				}
-			}*/
-			
-		} catch (Exception e) {
+			searchResponse = oneWayFetch(flightSearchModel);
+
+			/*String searchId = parseJson(searchResponse);
+			System.out.println("SearchID::"+searchId);
+			callPricingApi(searchId);*/
+		} catch (RestClientResponseException e) {
+			e.printStackTrace();
 		}
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchOneWayFlights -- END");
 		}
+		JSONObject jsonObj = new JSONObject(searchResponse);
+		return jsonObj;
+	}
+
+	//Call Pricing Api
+	private void callPricingApi(String searchId) {
 		
+		if (logger.isInfoEnabled()) {
+			logger.info("callPricingApi -- START");
+		}
+
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("emailId", FlightConstant.EMAILID);
+		headers.add("password", FlightConstant.PASSWORD);
+		headers.add("apikey", FlightConstant.APIKEY);
+		
+		Map<String, String> newModel = new HashMap<>();
+		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
+			newModel.put("origin", multiCityModel.getOrigin());
+			newModel.put("originCountry", multiCityModel.getOriginCountry());
+			newModel.put("destination", multiCityModel.getDestination());
+			newModel.put("destinationCountry", multiCityModel.getDestinationCountry());
+			newModel.put("flight_depart_date", multiCityModel.getFlightDepartDate());
+		}
+
+		String tenantName = flightSearchModel.getTenantName();
+		String tripType = flightSearchModel.getTripType();
+		String viewName = "normal";
+		String noOfSegments = flightSearchModel.getNoOfSegments();
+		String ADT = flightSearchModel.getNoOfAdults();
+		String CHD = flightSearchModel.getNoOfChild();
+		String INF = flightSearchModel.getNoOfInfants();
+		String classType = flightSearchModel.getClassType();
+
+		String createUrl = FlightConstant.BASE_URL+"/"+tenantName+"/search?"+"type="+tripType+"&viewName="+viewName+"&noOfSegments="+noOfSegments+
+				"&origin="+newModel.get("origin")+"&originCountry="+newModel.get("originCountry")+"&destination="+newModel.get("destination")+
+				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&ADT="+ADT+
+				"&CHD="+CHD+"&INF="+INF+"&class="+classType;
+
+		ResponseEntity<String> responseEntity = null;
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			URI uri = UriComponentsBuilder.fromUriString(createUrl).build().encode().toUri();
+			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
+			responseEntity = restTemplate.exchange(requestEntity, String.class);
+			
+		} catch (RestClientResponseException e) {
+			logger.info("Error in PricingApi response -- END");
+			e.getStackTrace();
+		}
+
+		if (logger.isInfoEnabled()) {
+			logger.info("callPricingApi -- END");
+		}
+
+		//return responseEntity.getBody();
+		
+	}
+
+	//Parse response from search api
+	private String parseJson(String jsonString) throws JSONException {
+
+		JSONObject jsonObj = new JSONObject(jsonString);
+		List<String> requestParamForPrice = new ArrayList<>();
+		String searchId = jsonObj.getJSONObject("requestParams").getString("searchId");
+		String origin = jsonObj.getJSONObject("requestParams").getString("origin");
+		String destination = jsonObj.getJSONObject("requestParams").getString("destination");
+		String requestMode = jsonObj.getJSONObject("requestParams").getString("requestMode");
+		
+		//For future reference
+		/*JSONArray jsonArray = jsonObj.getJSONArray("resultData");
+		  String pageName = obj.getJSONObject("pageInfo").getString("pageName");
+		 
+		 String scid = null;
+		//Parsing the array inside object
+		for (int i = 0; i < jsonArray.length(); i++)
+		{
+			//String isFlights = jsonArray.getJSONObject(i).getString("isFlights");
+			//boolean isError = jsonArray.getJSONObject(i).getBoolean("isError");
+			//boolean isWarnings = jsonArray.getJSONObject(i).getBoolean("isWarnings");
+			//String fltSchedule = jsonArray.getJSONObject(i).getString("fltSchedule");
+			scid = jsonArray.getJSONObject(i).getJSONObject("fltSchedule").getString("scid");
+		}*/
 		return null;
 	}
 
@@ -129,6 +189,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		return null;
 	}
 	
+	//Call one way search api
 	public String oneWayFetch(FlightSearchModel flightSearchModel) {
 
 		if (logger.isInfoEnabled()) {

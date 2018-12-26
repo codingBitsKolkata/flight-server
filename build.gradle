@@ -41,10 +41,10 @@ dependencies {
 	compile group: 'org.springframework', name: 'spring-tx'
 	
 	compile('org.springframework.boot:spring-boot-starter-actuator')
-	//compile('org.springframework.cloud:spring-cloud-starter-eureka')
-	//compile('org.springframework.cloud:spring-cloud-starter-hystrix')
+	compile('org.springframework.cloud:spring-cloud-starter-eureka')
+	compile('org.springframework.cloud:spring-cloud-starter-hystrix')
 	compile('org.springframework.cloud:spring-cloud-starter-config')
-	//compile('org.springframework.cloud:spring-cloud-starter-zipkin')
+	compile('org.springframework.cloud:spring-cloud-starter-zipkin')
 	
 	
 	runtimeOnly('mysql:mysql-connector-java')
