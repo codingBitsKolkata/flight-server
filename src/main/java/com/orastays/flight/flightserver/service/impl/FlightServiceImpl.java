@@ -15,7 +15,6 @@ import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -58,7 +57,6 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchOneWayFlights -- END");
 		}
-		JSONObject jsonObj = new JSONObject(searchResponse);
 		return searchResponse;
 	}
 
@@ -145,15 +143,16 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	}
 
 	@Override
-	public List<FlightSearchModel> fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions {
+	public String fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions {
 		
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchRoundTripFlights -- START");
 		}
 
 		flightValidation.validateRoundTripData(flightSearchModel);
+		String response = null;
 		try {
-			//HttpEntity<String> response = roundTripFetch(flightSearchModel);
+			response = roundTripFetch(flightSearchModel);
 		} catch (Exception e) {
 		}
 
@@ -161,27 +160,28 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			logger.info("fetchRoundTripFlights -- END");
 		}
 		
-		return null;
+		return response;
 	}
 	
 	@Override
-	public List<FlightSearchModel> fetchMultiCityFlights(FlightSearchModel flightSearchModel) throws FormExceptions {
+	public String fetchMultiCityFlights(FlightSearchModel flightSearchModel) throws FormExceptions {
 		
 		if (logger.isInfoEnabled()) {
-			logger.info("fetchRoundTripFlights -- START");
+			logger.info("fetchMultiCityFlights -- START");
 		}
 
 		flightValidation.validateMulticityData(flightSearchModel);
+		String response = null;
 		try {
-			//HttpEntity<String> response = multiCityFetch(flightSearchModel);
+			response = multiCityFetch(flightSearchModel);
 		} catch (Exception e) {
 		}
 
 		if (logger.isInfoEnabled()) {
-			logger.info("fetchRoundTripFlights -- END");
+			logger.info("fetchMultiCityFlights -- END");
 		}
 		
-		return null;
+		return response;
 	}
 	
 	//Call one way search api
@@ -227,7 +227,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
 			
 		} catch (RestClientResponseException e) {
-			logger.info("Error in oneWayFetch response -- END");
+			logger.info("Error in oneWayFetch response");
 			e.getStackTrace();
 		}
 
@@ -238,7 +238,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		return responseEntity.getBody();
 	}
 	
-	public HttpEntity<String> roundTripFetch(FlightSearchModel flightSearchModel) {
+	public String roundTripFetch(FlightSearchModel flightSearchModel) {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("roundTripFetch -- START");
@@ -268,42 +268,31 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String INF = flightSearchModel.getNoOfInfants();
 		String classType = flightSearchModel.getClassType();
 		
-		UriBuilder builder = UriBuilder
-				.fromPath(FlightConstant.BASE_URL+"/"+tenantName)
-				.queryParam("type", tripType)
-		        .queryParam("viewName", viewName)
-		        .queryParam("noOfSegments", noOfSegments)
-		        .queryParam("origin", newModel.containsKey("origin"))
-		        .queryParam("originCountry", newModel.containsKey("originCountry"))
-		        .queryParam("destination", newModel.containsKey("destination"))
-		        .queryParam("destinationCountry", newModel.containsKey("destinationCountry"))
-		        .queryParam("flight_depart_date", newModel.containsKey("flight_depart_date"))
-		        .queryParam("arrivalDate", arrivalDate)
-		        .queryParam("ADT", ADT)
-		        .queryParam("CHD", CHD)
-		        .queryParam("INF", INF)
-		        .queryParam("class", classType);
+		String createUrl = FlightConstant.BASE_URL+"/"+tenantName+"/search?"+"type="+tripType+"&viewName="+viewName+"&noOfSegments="+noOfSegments+
+				"&origin="+newModel.get("origin")+"&originCountry="+newModel.get("originCountry")+"&destination="+newModel.get("destination")+
+				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&arrivalDate="+arrivalDate+
+				"&ADT="+ADT+"&CHD="+CHD+"&INF="+INF+"&class="+classType;
 
-		URI uri = builder.build();
-
-		HttpEntity<?> entity = new HttpEntity<>(headers);
-		
-		RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
-		HttpEntity<String> response = restTemplate.exchange(
-				uri, 
-		        HttpMethod.GET, 
-		        entity, 
-		        String.class);
-		
+		ResponseEntity<String> responseEntity = null;
+		try {
+			RestTemplate restTemplate = new RestTemplate();
+			URI uri = UriComponentsBuilder.fromUriString(createUrl).build().encode().toUri();
+			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
+			responseEntity = restTemplate.exchange(requestEntity, String.class);
+			
+		} catch (RestClientResponseException e) {
+			logger.info("Error in roundTripFetch response");
+			e.getStackTrace();
+		}
 		
 		if (logger.isInfoEnabled()) {
 			logger.info("roundTripFetch -- END");
 		}
 		
-		return null;
+		return responseEntity.getBody();
 	}
 	
-	public HttpEntity<String> multiCityFetch(FlightSearchModel flightSearchModel) {
+	public String multiCityFetch(FlightSearchModel flightSearchModel) {
 		
 		if (logger.isInfoEnabled()) {
 			logger.info("multiCityFetch -- START");
@@ -327,7 +316,6 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 
 		String tenantName = flightSearchModel.getTenantName();
 		String viewName = "normal";
-		String flexi = "0";
 		String tripType = flightSearchModel.getTripType();
 		String ADT = flightSearchModel.getNoOfAdults();
 		String CHD = flightSearchModel.getNoOfChild();
@@ -336,9 +324,8 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String noOfSegments = flightSearchModel.getNoOfSegments();
 
 		UriBuilder builder = UriBuilder
-				.fromPath(FlightConstant.BASE_URL+"/"+tenantName)
+				.fromPath(FlightConstant.BASE_URL+"/"+tenantName+"/search")
 				.queryParam("viewName", viewName)
-				.queryParam("flexi", flexi)
 				.queryParam("type", tripType)
 				.queryParam("ADT", ADT)
 				.queryParam("CHD", CHD)
@@ -351,26 +338,20 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		URI uri = builder.build();
-
-		HttpEntity<?> entity = new HttpEntity<>(headers);
-		//URI uri = UriComponentsBuilder.fromUriString(BASE_URL+tenantName).build().encode().toUri();
-		/*RequestEntity<String> requestEntity = new RequestEntity<>(headers,
-				HttpMethod.GET, uri);
-		ResponseEntity<String> responseEntity = restTemplate.exchange(requestEntity,String.class);
-		String responseData = responseEntity.getBody();*/
-		
-		RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
-		HttpEntity<String> response = restTemplate.exchange(
-				uri, 
-		        HttpMethod.GET, 
-		        entity, 
-		        String.class);
-		System.out.println(response);
-		
+		ResponseEntity<String> responseEntity = null;
+		try {
+			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
+			RestTemplate restTemplate = new RestTemplate();
+			responseEntity = restTemplate.exchange(requestEntity, String.class);
+			
+		} catch (RestClientResponseException e) {
+			logger.info("Error in multiCityFetch response");
+			e.getStackTrace();
+		}		
 		if (logger.isInfoEnabled()) {
 			logger.info("multiCityFetch -- END");
 		}
 		
-		return response;
+		return responseEntity.getBody();
 	}
 }

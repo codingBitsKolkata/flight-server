@@ -2,8 +2,6 @@ package com.orastays.flight.flightserver.model;
 
 import java.util.List;
 
-import org.apache.commons.collections.map.MultiKeyMap;
-
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;

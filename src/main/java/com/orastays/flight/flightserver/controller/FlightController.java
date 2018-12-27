@@ -1,11 +1,9 @@
 package com.orastays.flight.flightserver.controller;
 
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -58,7 +56,6 @@ public class FlightController extends BaseController {
 		
 		try {
 			String response = flightService.fetchOneWayFlights(flightSearchModel);
-			System.out.println("OBJ::"+response);
 			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
@@ -118,8 +115,8 @@ public class FlightController extends BaseController {
 		Util.printLog(flightSearchModel, FlightConstant.INCOMING, "Fetch RoundTrip flights", request);
 		
 		try {
-			List<FlightSearchModel> genericFLightSearchModels = flightService.fetchRoundTripFlights(flightSearchModel);
-			responseModel.setResponseBody(genericFLightSearchModels);
+			String response = flightService.fetchRoundTripFlights(flightSearchModel);
+			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
 		} catch (FormExceptions fe) {
@@ -177,8 +174,8 @@ public class FlightController extends BaseController {
 		Util.printLog(flightSearchModel, FlightConstant.INCOMING, "Fetch MultiCity flights", request);
 		
 		try {
-			List<FlightSearchModel> flightSearchModels = flightService.fetchMultiCityFlights(flightSearchModel);
-			responseModel.setResponseBody(flightSearchModels);
+			String response = flightService.fetchMultiCityFlights(flightSearchModel);
+			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
 		} catch (FormExceptions fe) {
@@ -203,6 +200,65 @@ public class FlightController extends BaseController {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchMultiCityFlights -- END");
+		}
+
+		if (responseModel.getResponseCode().equals(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE))) {
+			return new ResponseEntity<>(responseModel, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping(value = "/fetch-one-way-pricing", produces = "application/json")
+	@ApiOperation(value = "Fetch OneWay Pricing", response = ResponseModel.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
+			@ApiResponse(code=1700, message="Please select tenant!!"),
+			@ApiResponse(code=1701, message="Please select trip type!!"),
+			@ApiResponse(code=1702, message="Please provide segments!!"),
+			@ApiResponse(code=1703, message="Please select number of adults!!"),
+			@ApiResponse(code=1704, message="Please select class!!"),
+			@ApiResponse(code=1706, message="Please select an origin!!"),
+			@ApiResponse(code=1707, message="Please select a destination!!"),
+			@ApiResponse(code=1708, message="Please select a origin country!!"),
+			@ApiResponse(code=1709, message="Please select destination country!!"),			
+			@ApiResponse(code=1710, message="Please select departure date!!")})
+	public ResponseEntity<ResponseModel> fetchOneWayPricing(@RequestBody FlightSearchModel flightSearchModel) {
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("fetchOneWayPricing -- START");
+		}
+		
+		ResponseModel responseModel = new ResponseModel();
+		Util.printLog(flightSearchModel, FlightConstant.INCOMING, "Fetch OneWay Pricing", request);
+		
+		try {
+			String response = flightService.fetchMultiCityFlights(flightSearchModel);
+			responseModel.setResponseBody(response);
+			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
+			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
+		} catch (FormExceptions fe) {
+
+			for (Entry<String, Exception> entry : fe.getExceptions().entrySet()) {
+				responseModel.setResponseCode(entry.getKey());
+				responseModel.setResponseMessage(entry.getValue().getMessage());
+				if (logger.isInfoEnabled()) {
+					logger.info("FormExceptions in Fetch OneWay Pricing -- "+Util.errorToString(fe));
+				}
+				break;
+			}
+		} catch (Exception e) {
+			if (logger.isInfoEnabled()) {
+				logger.info("Exception in Fetch OneWay Pricing -- "+Util.errorToString(e));
+			}
+			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_ERROR_CODE));
+			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_ERROR_MESSAGE));
+		}
+		
+		Util.printLog(responseModel, FlightConstant.OUTGOING, "Fetch OneWay Pricing", request);
+
+		if (logger.isInfoEnabled()) {
+			logger.info("fetchOneWayPricing -- END");
 		}
 
 		if (responseModel.getResponseCode().equals(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE))) {
