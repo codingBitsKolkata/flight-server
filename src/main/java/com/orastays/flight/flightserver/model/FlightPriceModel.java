@@ -16,6 +16,9 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class FlightPriceModel {
 	
+	@JsonProperty("tenantName")
+	private String tenantName;
+	
 	@JsonProperty("searchId")
 	private String searchId;
 	
@@ -25,36 +28,12 @@ public class FlightPriceModel {
 	@JsonProperty("requestMode")
 	private String requestMode;
 	
-	@JsonProperty("origin")
-	private String origin;
-	
-	@JsonProperty("destination")
-	private String destination;
-	
 	@JsonProperty("supplierCode")
 	private String supplierCode;
 	
-	@JsonProperty("flightNumber")
-	private String flightNumber;
-	
-	@JsonProperty("dateOfTravel")
-	private String dateOfTravel;	
+	@JsonProperty("flightId")
+	private String flightId;	
 	
 	@JsonProperty("flightPrice")
 	private String flightPrice;
-	
-	@JsonProperty("bpc")
-	private String bpc;
-	
-	@JsonProperty("isSR")
-	private String isSR;
-	
-	@JsonProperty("unique")
-	private String unique;
-	
-	@JsonProperty("variation")
-	private String variation;
-	
-	@JsonProperty("sc")
-	private String sc;
 }
