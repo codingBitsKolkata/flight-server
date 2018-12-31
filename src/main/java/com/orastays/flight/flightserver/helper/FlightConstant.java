@@ -16,14 +16,12 @@ public final class FlightConstant {
 	
 	//Flight Details
 	public static final String BASE_URL = "http://203.189.91.50/flightsapi/air-service";
-	public static final String EMAILID = "apit3018@gmail.com";
-	public static final String PASSWORD = "apitest1234";
-	public static final String APIKEY = "f674b053-d558-49e1-b591-99d34d190d43";
 	public static final String DOM_TENANT_NAME = "b2bdomapi";
 	public static final String INT_TENANT_NAME = "b2bintapi";
 	public static final String UNIQUE = "1536664674033";
 	public static final String ISSR = "false";
 	public static final String BPC = "false";
 	public static final String VARIATION = "0";
+	public static final String VIEW_NAME = "normal";
 	
 }

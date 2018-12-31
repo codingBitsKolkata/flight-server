@@ -10,6 +10,15 @@ public abstract class BaseServiceImpl {
 	@Value("${entitymanager.packagesToScan}")
 	protected String entitymanagerPackagesToScan;
 	
+	@Value("${flight.email}")
+	protected String emailId;
+
+	@Value("${flight.password}")
+	protected String password;
+	
+	@Value("${flight.key}")
+	protected String apiKey;
+	
 	@Autowired
 	protected FlightValidation flightValidation;
 	

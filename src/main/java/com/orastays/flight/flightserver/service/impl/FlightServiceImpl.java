@@ -2,6 +2,7 @@ package com.orastays.flight.flightserver.service.impl;
 
 import java.net.URI;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,6 +12,8 @@ import javax.ws.rs.core.UriBuilder;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.json.JSONException;
+import org.json.JSONObject;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -22,6 +25,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
+import com.orastays.flight.flightserver.helper.MessageUtil;
 import com.orastays.flight.flightserver.model.FlightBookingModel;
 import com.orastays.flight.flightserver.model.FlightPriceModel;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
@@ -32,6 +36,9 @@ import com.orastays.flight.flightserver.service.FlightService;
 @Transactional
 public class FlightServiceImpl extends BaseServiceImpl implements FlightService {
 
+	@Autowired
+	protected MessageUtil messageUtil;
+	
 	private static final Logger logger = LogManager.getLogger(FlightServiceImpl.class);
 
 	@Override
@@ -40,62 +47,80 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchOneWayFlights -- START");
 		}
+		
+		Map<String, Exception> exceptions = new LinkedHashMap<>();
 
 		flightValidation.validateOneWayData(flightSearchModel);
 		String searchResponse = null;
 		try {
 			searchResponse = oneWayFetch(flightSearchModel);
+			JSONObject jsonObj = new JSONObject(searchResponse);
+			boolean eagerFetch = jsonObj.getBoolean("eagerFetch");
+			if (!eagerFetch) {
+				boolean eagerFetchStop=false;
+				for (int i=0;i<=2;i++) {
+					searchResponse = oneWayFetch(flightSearchModel);
+					JSONObject jsonObj1 = new JSONObject(searchResponse);
+					eagerFetchStop = jsonObj1.getBoolean("eagerFetch");
+					if (eagerFetchStop) {
+						return searchResponse;
+					} 
+				} 
+				//Check response code
+				if (!eagerFetchStop){
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+				} 
+			} 
 		} catch (RestClientResponseException e) {
 			e.printStackTrace();
 		}
 
+		if (exceptions.size() > 0)
+			throw new FormExceptions(exceptions);
+		
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchOneWayFlights -- END");
 		}
 		return searchResponse;
 	}
 
-/*	//Parse response from search api
-	private String parseJson(String jsonString) throws JSONException {
-
-		JSONObject jsonObj = new JSONObject(jsonString);
-		List<String> requestParamForPrice = new ArrayList<>();
-		String searchId = jsonObj.getJSONObject("requestParams").getString("searchId");
-		String origin = jsonObj.getJSONObject("requestParams").getString("origin");
-		String destination = jsonObj.getJSONObject("requestParams").getString("destination");
-		String requestMode = jsonObj.getJSONObject("requestParams").getString("requestMode");
-
-		//For future reference
-		JSONArray jsonArray = jsonObj.getJSONArray("resultData");
-		  String pageName = obj.getJSONObject("pageInfo").getString("pageName");
-
-		 String scid = null;
-		//Parsing the array inside object
-		for (int i = 0; i < jsonArray.length(); i++)
-		{
-			//String isFlights = jsonArray.getJSONObject(i).getString("isFlights");
-			//boolean isError = jsonArray.getJSONObject(i).getBoolean("isError");
-			//boolean isWarnings = jsonArray.getJSONObject(i).getBoolean("isWarnings");
-			//String fltSchedule = jsonArray.getJSONObject(i).getString("fltSchedule");
-			scid = jsonArray.getJSONObject(i).getJSONObject("fltSchedule").getString("scid");
-		}
-		return null;
-	}*/
-
 	@Override
-	public String fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions {
+	public String fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchRoundTripFlights -- START");
 		}
 
+		Map<String, Exception> exceptions = new LinkedHashMap<>();
+		
 		flightValidation.validateRoundTripData(flightSearchModel);
 		String response = null;
 		try {
 			response = roundTripFetch(flightSearchModel);
-		} catch (Exception e) {
+			JSONObject jsonObj = new JSONObject(response);
+			boolean eagerFetch = jsonObj.getBoolean("eagerFetch");
+			if (!eagerFetch) {
+				boolean eagerFetchStop=false;
+				for (int i=0;i<=2;i++) {
+					response = roundTripFetch(flightSearchModel);
+					JSONObject jsonObj1 = new JSONObject(response);
+					eagerFetchStop = jsonObj1.getBoolean("eagerFetch");
+					if (eagerFetchStop) {
+						return response;
+					} 
+				} 
+				//Check response code
+				if (!eagerFetchStop){
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+				} 
+			} 
+		} catch (RestClientResponseException e) {
+			e.printStackTrace();
 		}
 
+		if (exceptions.size() > 0)
+			throw new FormExceptions(exceptions);
+		
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchRoundTripFlights -- END");
 		}
@@ -104,18 +129,41 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	}
 
 	@Override
-	public String fetchMultiCityFlights(FlightSearchModel flightSearchModel) throws FormExceptions {
+	public String fetchMultiCityFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchMultiCityFlights -- START");
 		}
 
+		Map<String, Exception> exceptions = new LinkedHashMap<>();
+		
 		flightValidation.validateMulticityData(flightSearchModel);
 		String response = null;
 		try {
 			response = multiCityFetch(flightSearchModel);
-		} catch (Exception e) {
+			JSONObject jsonObj = new JSONObject(response);
+			boolean eagerFetch = jsonObj.getBoolean("eagerFetch");
+			if (!eagerFetch) {
+				boolean eagerFetchStop=false;
+				for (int i=0;i<=2;i++) {
+					response = multiCityFetch(flightSearchModel);
+					JSONObject jsonObj1 = new JSONObject(response);
+					eagerFetchStop = jsonObj1.getBoolean("eagerFetch");
+					if (eagerFetchStop) {
+						return response;
+					} 
+				} 
+				//Check response code
+				if (!eagerFetchStop){
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+				} 
+			} 
+		} catch (RestClientResponseException e) {
+			e.printStackTrace();
 		}
+
+		if (exceptions.size() > 0)
+			throw new FormExceptions(exceptions);
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchMultiCityFlights -- END");
@@ -132,10 +180,10 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", FlightConstant.EMAILID);
-		headers.add("password", FlightConstant.PASSWORD);
-		headers.add("apikey", FlightConstant.APIKEY);
-
+		headers.add("emailId", emailId);
+		headers.add("password", password);
+		headers.add("apikey", apiKey);
+		
 		Map<String, String> newModel = new HashMap<>();
 		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
 			newModel.put("origin", multiCityModel.getOrigin());
@@ -147,7 +195,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 
 		String tenantName = flightSearchModel.getTenantName();
 		String tripType = flightSearchModel.getTripType();
-		String viewName = "normal";
+		String viewName = FlightConstant.VIEW_NAME;
 		String noOfSegments = flightSearchModel.getNoOfSegments();
 		String ADT = flightSearchModel.getNoOfAdults();
 		String CHD = flightSearchModel.getNoOfChild();
@@ -185,9 +233,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", FlightConstant.EMAILID);
-		headers.add("password", FlightConstant.PASSWORD);
-		headers.add("apiKey", FlightConstant.APIKEY);
+		headers.add("emailId", emailId);
+		headers.add("password", password);
+		headers.add("apikey", apiKey);
 
 		Map<String, String> newModel = new HashMap<>();
 		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
@@ -200,7 +248,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 
 		String tenantName = flightSearchModel.getTenantName();
 		String tripType = flightSearchModel.getTripType();
-		String viewName = "normal";
+		String viewName = FlightConstant.VIEW_NAME;
 		String noOfSegments = flightSearchModel.getNoOfSegments();
 		String arrivalDate = flightSearchModel.getArrivalDate();
 		String ADT = flightSearchModel.getNoOfAdults();
@@ -239,9 +287,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", FlightConstant.EMAILID);
-		headers.add("password", FlightConstant.PASSWORD);
-		headers.add("apiKey", FlightConstant.APIKEY);
+		headers.add("emailId", emailId);
+		headers.add("password", password);
+		headers.add("apikey", apiKey);
 
 		Map<String, String> newModel = new HashMap<>();
 		int i=0;
@@ -255,7 +303,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		String tenantName = flightSearchModel.getTenantName();
-		String viewName = "normal";
+		String viewName = FlightConstant.VIEW_NAME;
 		String tripType = flightSearchModel.getTripType();
 		String ADT = flightSearchModel.getNoOfAdults();
 		String CHD = flightSearchModel.getNoOfChild();
@@ -297,17 +345,57 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 
 	@Override
 	public String fetchOneWayPricing(FlightPriceModel flightPriceModel) throws FormExceptions {
-
+		
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchOneWayPricing -- START");
 		}
+		
+		Map<String, Exception> exceptions = new LinkedHashMap<>();
 
 		flightValidation.validateOneWayPricing(flightPriceModel);
+		String response = null;
+		try {
+			response = callOneWayPricing(flightPriceModel);
+			JSONObject jsonObj = new JSONObject(response);
+			boolean shouldRetry = jsonObj.getBoolean("shouldRetry");
+			if (shouldRetry) {
+				boolean shouldRetryStop=true;
+				for (int i=0;i<=2;i++) {
+					response = callOneWayPricing(flightPriceModel);
+					shouldRetryStop = jsonObj.getBoolean("shouldRetry");
+					if (!shouldRetryStop) {
+						return response;
+					}
+				}
+				if(shouldRetry) {
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+				}
+			}
 
+		} catch (Exception e) {
+			logger.info("Error in fetchOneWayPricing response -- END");
+			e.getStackTrace();
+		}
+
+		if (exceptions.size() > 0)
+			throw new FormExceptions(exceptions);
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("fetchOneWayPricing -- END");
+		}
+
+		return response;
+	}
+	public String callOneWayPricing(FlightPriceModel flightPriceModel) throws FormExceptions {
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("callOneWayPricing -- START");
+		}
+		
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", FlightConstant.EMAILID);
-		headers.add("password", FlightConstant.PASSWORD);
-		headers.add("apikey", FlightConstant.APIKEY);
+		headers.add("emailId", emailId);
+		headers.add("password", password);
+		headers.add("apikey", apiKey);
 
 		String tenantName = flightPriceModel.getTenantName();
 		String searchId = flightPriceModel.getSearchId();
@@ -329,12 +417,12 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
 
 		} catch (RestClientResponseException e) {
-			logger.info("Error in OneWayPricing response -- END");
+			logger.info("Error in CallOneWayPricing response -- END");
 			e.getStackTrace();
 		}
 
 		if (logger.isInfoEnabled()) {
-			logger.info("fetchOneWayPricing -- END");
+			logger.info("callOneWayPricing -- END");
 		}
 
 		return responseEntity.getBody();
@@ -347,12 +435,14 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			logger.info("fetchRoundTripPricing -- START");
 		}
 
+		Map<String, Exception> exceptions = new LinkedHashMap<>();
+		
 		flightValidation.validateRoundTripPricing(flightPriceModel);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", FlightConstant.EMAILID);
-		headers.add("password", FlightConstant.PASSWORD);
-		headers.add("apikey", FlightConstant.APIKEY);
+		headers.add("emailId", emailId);
+		headers.add("password", password);
+		headers.add("apikey", apiKey);
 
 		String tenantName = flightPriceModel.getTenantName();
 		String searchId = flightPriceModel.getSearchId();
@@ -392,12 +482,14 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			logger.info("fetchMultiCityPricing -- START");
 		}
 
+		Map<String, Exception> exceptions = new LinkedHashMap<>();
+		
 		flightValidation.validateMultiCityPricing(flightPriceModel);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", FlightConstant.EMAILID);
-		headers.add("password", FlightConstant.PASSWORD);
-		headers.add("apikey", FlightConstant.APIKEY);
+		headers.add("emailId", emailId);
+		headers.add("password", password);
+		headers.add("apikey", apiKey);
 
 		String tenantName = flightPriceModel.getTenantName();
 		String searchId = flightPriceModel.getSearchId();

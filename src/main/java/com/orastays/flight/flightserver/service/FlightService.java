@@ -11,15 +11,15 @@ public interface FlightService {
 
 	String fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException;
 
-	String fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions;
+	String fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException;
 
-	String fetchMultiCityFlights(FlightSearchModel flightSearchModel) throws FormExceptions;
+	String fetchMultiCityFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException;
 
-	String fetchOneWayPricing(FlightPriceModel flightPriceModel) throws FormExceptions;
+	String fetchOneWayPricing(FlightPriceModel flightPriceModel) throws FormExceptions, JSONException;
 
-	String fetchRoundTripPricing(FlightPriceModel flightPriceModel) throws FormExceptions;
+	String fetchRoundTripPricing(FlightPriceModel flightPriceModel) throws FormExceptions, JSONException;
 
-	String fetchMultiCityPricing(FlightPriceModel flightPriceModel) throws FormExceptions;
+	String fetchMultiCityPricing(FlightPriceModel flightPriceModel) throws FormExceptions, JSONException;
 
 	void saveReviewDetails(FlightBookingModel flightBookingModel) throws FormExceptions;
 }

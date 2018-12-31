@@ -36,7 +36,7 @@ public class FlightValidation extends AuthorizeUserValidation {
 			if(StringUtils.isBlank(flightSearchModel.getTenantName())) {
 				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
 			} else {
-				if (flightSearchModel.getTenantName() != FlightConstant.DOM_TENANT_NAME || flightSearchModel.getTenantName() != FlightConstant.INT_TENANT_NAME) {
+				if (!flightSearchModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME) && !flightSearchModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME)) {
 					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
 				}
 			}
@@ -100,7 +100,7 @@ public class FlightValidation extends AuthorizeUserValidation {
 			if(StringUtils.isBlank(flightSearchModel.getTenantName())) {
 				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
 			} else {
-				if (flightSearchModel.getTenantName() != FlightConstant.DOM_TENANT_NAME || flightSearchModel.getTenantName() != FlightConstant.INT_TENANT_NAME) {
+				if (!flightSearchModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME) && !flightSearchModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME)) {
 					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
 				}
 			}
@@ -168,7 +168,7 @@ public class FlightValidation extends AuthorizeUserValidation {
 			if(StringUtils.isBlank(flightSearchModel.getTenantName())) {
 				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
 			} else {
-				if (flightSearchModel.getTenantName() != FlightConstant.DOM_TENANT_NAME || flightSearchModel.getTenantName() != FlightConstant.INT_TENANT_NAME) {
+				if (!flightSearchModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME) && !flightSearchModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME)) {
 					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
 				}
 			}
@@ -233,7 +233,7 @@ public class FlightValidation extends AuthorizeUserValidation {
 			if(StringUtils.isBlank(flightPriceModel.getTenantName())) {
 				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
 			} else {
-				if (flightPriceModel.getTenantName() != FlightConstant.DOM_TENANT_NAME || flightPriceModel.getTenantName() != FlightConstant.INT_TENANT_NAME) {
+				if (!flightPriceModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME) && !flightPriceModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME)) {
 					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
 				}
 			}
@@ -338,7 +338,7 @@ public class FlightValidation extends AuthorizeUserValidation {
 			if(StringUtils.isBlank(flightPriceModel.getTenantName())) {
 				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
 			} else {
-				if (!(flightPriceModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME)) || !(flightPriceModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME))) {
+				if (!flightPriceModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME) || !flightPriceModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME)) {
 					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
 				}
 			}
