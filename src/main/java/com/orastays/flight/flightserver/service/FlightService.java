@@ -22,4 +22,6 @@ public interface FlightService {
 	String fetchMultiCityPricing(FlightPriceModel flightPriceModel) throws FormExceptions, JSONException;
 
 	void saveReviewDetails(FlightBookingModel flightBookingModel) throws FormExceptions;
+
+	String fetchSearchDetails();
 }

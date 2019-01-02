@@ -42,6 +42,12 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	private static final Logger logger = LogManager.getLogger(FlightServiceImpl.class);
 
 	@Override
+	public String fetchSearchDetails() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+	
+	@Override
 	public String fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
 
 		if (logger.isInfoEnabled()) {
@@ -180,9 +186,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", emailId);
-		headers.add("password", password);
-		headers.add("apikey", apiKey);
+		headers.add("emailId", messageUtil.getBundle("flight.email"));
+		headers.add("password", messageUtil.getBundle("flight.password"));
+		headers.add("apikey", messageUtil.getBundle("flight.key"));
 		
 		Map<String, String> newModel = new HashMap<>();
 		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
@@ -233,9 +239,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", emailId);
-		headers.add("password", password);
-		headers.add("apikey", apiKey);
+		headers.add("emailId", messageUtil.getBundle("flight.email"));
+		headers.add("password", messageUtil.getBundle("flight.password"));
+		headers.add("apikey", messageUtil.getBundle("flight.key"));
 
 		Map<String, String> newModel = new HashMap<>();
 		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
@@ -287,9 +293,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", emailId);
-		headers.add("password", password);
-		headers.add("apikey", apiKey);
+		headers.add("emailId", messageUtil.getBundle("flight.email"));
+		headers.add("password", messageUtil.getBundle("flight.password"));
+		headers.add("apikey", messageUtil.getBundle("flight.key"));
 
 		Map<String, String> newModel = new HashMap<>();
 		int i=0;
@@ -393,9 +399,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 		
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", emailId);
-		headers.add("password", password);
-		headers.add("apikey", apiKey);
+		headers.add("emailId", messageUtil.getBundle("flight.email"));
+		headers.add("password", messageUtil.getBundle("flight.password"));
+		headers.add("apikey", messageUtil.getBundle("flight.key"));
 
 		String tenantName = flightPriceModel.getTenantName();
 		String searchId = flightPriceModel.getSearchId();
@@ -440,9 +446,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		flightValidation.validateRoundTripPricing(flightPriceModel);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", emailId);
-		headers.add("password", password);
-		headers.add("apikey", apiKey);
+		headers.add("emailId", messageUtil.getBundle("flight.email"));
+		headers.add("password", messageUtil.getBundle("flight.password"));
+		headers.add("apikey", messageUtil.getBundle("flight.key"));
 
 		String tenantName = flightPriceModel.getTenantName();
 		String searchId = flightPriceModel.getSearchId();
@@ -487,9 +493,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		flightValidation.validateMultiCityPricing(flightPriceModel);
 
 		HttpHeaders headers = new HttpHeaders();
-		headers.add("emailId", emailId);
-		headers.add("password", password);
-		headers.add("apikey", apiKey);
+		headers.add("emailId", messageUtil.getBundle("flight.email"));
+		headers.add("password", messageUtil.getBundle("flight.password"));
+		headers.add("apikey", messageUtil.getBundle("flight.key"));
 
 		String tenantName = flightPriceModel.getTenantName();
 		String searchId = flightPriceModel.getSearchId();
