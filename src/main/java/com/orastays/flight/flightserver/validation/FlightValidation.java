@@ -51,6 +51,17 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 			if(StringUtils.isBlank(flightSearchModel.getNoOfAdults())) {
 				exceptions.put(messageUtil.getBundle("adult.number.null.code"), new Exception(messageUtil.getBundle("adult.number.null.message")));
+			} else {
+				int totalTravellers = Integer.parseInt(flightSearchModel.getNoOfAdults())+Integer.parseInt(flightSearchModel.getNoOfChild());
+				if (totalTravellers>FlightConstant.MAX_TRAVELLERS) {
+					exceptions.put(messageUtil.getBundle("max.traveller.exceed.code"), new Exception(messageUtil.getBundle("max.traveller.exceed.message")));
+				}
+				//Check INF<=ADT
+				int numberOfAdult=Integer.parseInt(flightSearchModel.getNoOfAdults());
+				int numberOfInfant=Integer.parseInt(flightSearchModel.getNoOfInfants());
+				if (numberOfInfant>numberOfAdult) {
+					exceptions.put(messageUtil.getBundle("infant.invalid.code"), new Exception(messageUtil.getBundle("infant.invalid.message")));
+				}
 			}
 
 			if(StringUtils.isBlank(flightSearchModel.getClassType())) {
@@ -72,7 +83,10 @@ public class FlightValidation extends AuthorizeUserValidation {
 						exceptions.put(messageUtil.getBundle("destination.country.null.code"), new Exception(messageUtil.getBundle("destination.country.null.message")));
 					}
 					if(StringUtils.isBlank(multiCityModel.getFlightDepartDate())) {
-						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.country.null.message")));
+						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.null.message")));
+					}
+					if(StringUtils.equals(multiCityModel.getOrigin(), multiCityModel.getDestination())) {
+						exceptions.put(messageUtil.getBundle("origin.dest.same.code"), new Exception(messageUtil.getBundle("origin.dest.same.message")));
 					}
 				}
 			}
@@ -115,6 +129,17 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 			if(StringUtils.isBlank(flightSearchModel.getNoOfAdults())) {
 				exceptions.put(messageUtil.getBundle("adult.number.null.code"), new Exception(messageUtil.getBundle("adult.number.null.message")));
+			} else {
+				int totalTravellers = Integer.parseInt(flightSearchModel.getNoOfAdults())+Integer.parseInt(flightSearchModel.getNoOfChild());
+				if (totalTravellers>FlightConstant.MAX_TRAVELLERS) {
+					exceptions.put(messageUtil.getBundle("max.traveller.exceed.code"), new Exception(messageUtil.getBundle("max.traveller.exceed.message")));
+				}
+				//Check INF<=ADT
+				int numberOfAdult=Integer.parseInt(flightSearchModel.getNoOfAdults());
+				int numberOfInfant=Integer.parseInt(flightSearchModel.getNoOfInfants());
+				if (numberOfInfant>numberOfAdult) {
+					exceptions.put(messageUtil.getBundle("infant.invalid.code"), new Exception(messageUtil.getBundle("infant.invalid.message")));
+				}
 			}
 
 			if(StringUtils.isBlank(flightSearchModel.getClassType())) {
@@ -140,7 +165,10 @@ public class FlightValidation extends AuthorizeUserValidation {
 						exceptions.put(messageUtil.getBundle("destination.country.null.code"), new Exception(messageUtil.getBundle("destination.country.null.message")));
 					}
 					if(StringUtils.isBlank(multiCityModel.getFlightDepartDate())) {
-						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.country.null.message")));
+						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.null.message")));
+					}
+					if(StringUtils.equals(multiCityModel.getOrigin(), multiCityModel.getDestination())) {
+						exceptions.put(messageUtil.getBundle("origin.dest.same.code"), new Exception(messageUtil.getBundle("origin.dest.same.message")));
 					}
 				}
 			}
@@ -183,6 +211,17 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 			if(StringUtils.isBlank(flightSearchModel.getNoOfAdults())) {
 				exceptions.put(messageUtil.getBundle("adult.number.null.code"), new Exception(messageUtil.getBundle("adult.number.null.message")));
+			} else {
+				int totalTravellers = Integer.parseInt(flightSearchModel.getNoOfAdults())+Integer.parseInt(flightSearchModel.getNoOfChild());
+				if (totalTravellers>FlightConstant.MAX_TRAVELLERS) {
+					exceptions.put(messageUtil.getBundle("max.traveller.exceed.code"), new Exception(messageUtil.getBundle("max.traveller.exceed.message")));
+				}
+				//Check INF<=ADT
+				int numberOfAdult=Integer.parseInt(flightSearchModel.getNoOfAdults());
+				int numberOfInfant=Integer.parseInt(flightSearchModel.getNoOfInfants());
+				if (numberOfInfant>numberOfAdult) {
+					exceptions.put(messageUtil.getBundle("infant.invalid.code"), new Exception(messageUtil.getBundle("infant.invalid.message")));
+				}
 			}
 
 			if(StringUtils.isBlank(flightSearchModel.getClassType())) {
@@ -204,7 +243,10 @@ public class FlightValidation extends AuthorizeUserValidation {
 						exceptions.put(messageUtil.getBundle("destination.country.null.code"), new Exception(messageUtil.getBundle("destination.country.null.message")));
 					}
 					if(StringUtils.isBlank(multiCityModel.getFlightDepartDate())) {
-						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.country.null.message")));
+						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.null.message")));
+					}
+					if(StringUtils.equals(multiCityModel.getOrigin(), multiCityModel.getDestination())) {
+						exceptions.put(messageUtil.getBundle("origin.dest.same.code"), new Exception(messageUtil.getBundle("origin.dest.same.message")));
 					}
 				}
 			}
@@ -310,10 +352,10 @@ public class FlightValidation extends AuthorizeUserValidation {
 			if (StringUtils.isBlank(flightPriceModel.getSupplierCode())) {
 				exceptions.put(messageUtil.getBundle("supplier.code.null.code"), new Exception(messageUtil.getBundle("supplier.code.null.message")));
 			}	
-			
+			//flightIdCSV
 			if (StringUtils.isBlank(flightPriceModel.getFlightId())){
 				exceptions.put(messageUtil.getBundle("flight.id.null.code"), new Exception(messageUtil.getBundle("flight.id.null.message")));
-			}	
+			}
 		}	
 
 		if (exceptions.size() > 0)

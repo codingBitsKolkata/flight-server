@@ -30,7 +30,7 @@ public abstract class CommonEntity implements Serializable {
 	@JsonProperty("status")
 	private Integer status;
 
-	/*@Column(name = "created_date")
+	@Column(name = "created_date")
 	@JsonProperty("createdDate")
 	private String createdDate;
 
@@ -44,6 +44,6 @@ public abstract class CommonEntity implements Serializable {
 
 	@Column(name = "modified_by")
 	@JsonProperty("modifiedBy")
-	private Long modifiedBy;*/
+	private Long modifiedBy;
 
 }

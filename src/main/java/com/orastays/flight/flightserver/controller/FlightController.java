@@ -80,6 +80,7 @@ public class FlightController extends BaseController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
 			@ApiResponse(code=1700, message="Please select tenant!!"),
+			@ApiResponse(code=1711, message="Invalid tenant!!"),
 			@ApiResponse(code=1701, message="Please select trip type!!"),
 			@ApiResponse(code=1702, message="Please provide segments!!"),
 			@ApiResponse(code=1703, message="Please select number of adults!!"),
@@ -88,7 +89,10 @@ public class FlightController extends BaseController {
 			@ApiResponse(code=1707, message="Please select a destination!!"),
 			@ApiResponse(code=1708, message="Please select a origin country!!"),
 			@ApiResponse(code=1709, message="Please select destination country!!"),
-			@ApiResponse(code=1710, message="Please select departure date!!")})
+			@ApiResponse(code=1710, message="Please select departure date!!"),
+			@ApiResponse(code=1718, message="Origin Destination cannot be same!!"),
+			@ApiResponse(code=1719, message="Number of travellers exceeded!!"),
+			@ApiResponse(code=1720, message="Number of infants cannot be greater than number of adults!!")})
 	public ResponseEntity<ResponseModel> fetchOneWayFlights(@RequestBody FlightSearchModel flightSearchModel) {
 		
 		if (logger.isInfoEnabled()) {
@@ -139,6 +143,7 @@ public class FlightController extends BaseController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
 			@ApiResponse(code=1700, message="Please select tenant!!"),
+			@ApiResponse(code=1711, message="Invalid tenant!!"),
 			@ApiResponse(code=1701, message="Please select trip type!!"),
 			@ApiResponse(code=1702, message="Please provide segments!!"),
 			@ApiResponse(code=1703, message="Please select number of adults!!"),
@@ -148,7 +153,10 @@ public class FlightController extends BaseController {
 			@ApiResponse(code=1707, message="Please select a destination!!"),
 			@ApiResponse(code=1708, message="Please select a origin country!!"),
 			@ApiResponse(code=1709, message="Please select destination country!!"),
-			@ApiResponse(code=1710, message="Please select departure date!!")})
+			@ApiResponse(code=1710, message="Please select departure date!!"),
+			@ApiResponse(code=1718, message="Origin Destination cannot be same!!"),
+			@ApiResponse(code=1719, message="Number of travellers exceeded!!"),
+			@ApiResponse(code=1720, message="Number of infants cannot be greater than number of adults!!")})
 	public ResponseEntity<ResponseModel> fetchRoundTripFlights(@RequestBody FlightSearchModel flightSearchModel) {
 		
 		if (logger.isInfoEnabled()) {
@@ -199,6 +207,7 @@ public class FlightController extends BaseController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
 			@ApiResponse(code=1700, message="Please select tenant!!"),
+			@ApiResponse(code=1711, message="Invalid tenant!!"),
 			@ApiResponse(code=1701, message="Please select trip type!!"),
 			@ApiResponse(code=1702, message="Please provide segments!!"),
 			@ApiResponse(code=1703, message="Please select number of adults!!"),
@@ -207,7 +216,10 @@ public class FlightController extends BaseController {
 			@ApiResponse(code=1707, message="Please select a destination!!"),
 			@ApiResponse(code=1708, message="Please select a origin country!!"),
 			@ApiResponse(code=1709, message="Please select destination country!!"),
-			@ApiResponse(code=1710, message="Please select departure date!!")})
+			@ApiResponse(code=1710, message="Please select departure date!!"),
+			@ApiResponse(code=1718, message="Origin Destination cannot be same!!"),
+			@ApiResponse(code=1719, message="Number of travellers exceeded!!"),
+			@ApiResponse(code=1720, message="Number of infants cannot be greater than number of adults!!")})
 	public ResponseEntity<ResponseModel> fetchMultiCityFlights(@RequestBody FlightSearchModel flightSearchModel) {
 		
 		if (logger.isInfoEnabled()) {
@@ -258,18 +270,13 @@ public class FlightController extends BaseController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
 			@ApiResponse(code=1700, message="Please select tenant!!"),
-			@ApiResponse(code=1706, message="Please select an origin!!"),
-			@ApiResponse(code=1707, message="Please select a destination!!"),
+			@ApiResponse(code=1711, message="Invalid tenant!!"),
 			@ApiResponse(code=1712, message="Please provide search ID!!"),
 			@ApiResponse(code=1713, message="Please provide msid!!"),
 			@ApiResponse(code=1714, message="Please provide request mode!!"),
-			@ApiResponse(code=1715, message="Please provide BPC!!"),
-			@ApiResponse(code=1716, message="Please provide SR!!"),
-			@ApiResponse(code=1717, message="Please provide UNIQUE!!"),
-			@ApiResponse(code=1718, message="Please provide variation!!"),
-			@ApiResponse(code=1719, message="Please provide supplier code!!"),
-			@ApiResponse(code=1720, message="Please provide flight number!!"),
-			@ApiResponse(code=1721, message="Please provide date of travel!!") })
+			@ApiResponse(code=1715, message="Please provide supplier code!!"),
+			@ApiResponse(code=1716, message="Please provide flight ID!!"),
+			@ApiResponse(code=1717, message="Please provide flight price!!") })
 	public ResponseEntity<ResponseModel> fetchOneWayPricing(@RequestBody FlightPriceModel flightPriceModel) {
 		
 		if (logger.isInfoEnabled()) {
@@ -320,18 +327,13 @@ public class FlightController extends BaseController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
 			@ApiResponse(code=1700, message="Please select tenant!!"),
-			@ApiResponse(code=1706, message="Please select an origin!!"),
-			@ApiResponse(code=1707, message="Please select a destination!!"),
+			@ApiResponse(code=1711, message="Invalid tenant!!"),
 			@ApiResponse(code=1712, message="Please provide search ID!!"),
 			@ApiResponse(code=1713, message="Please provide msid!!"),
 			@ApiResponse(code=1714, message="Please provide request mode!!"),
-			@ApiResponse(code=1715, message="Please provide BPC!!"),
-			@ApiResponse(code=1716, message="Please provide SR!!"),
-			@ApiResponse(code=1717, message="Please provide UNIQUE!!"),
-			@ApiResponse(code=1718, message="Please provide variation!!"),
-			@ApiResponse(code=1719, message="Please provide supplier code!!"),
-			@ApiResponse(code=1720, message="Please provide flight number!!"),
-			@ApiResponse(code=1721, message="Please provide date of travel!!") })
+			@ApiResponse(code=1715, message="Please provide supplier code!!"),
+			@ApiResponse(code=1716, message="Please provide flight ID!!"),
+			@ApiResponse(code=1717, message="Please provide flight price!!") })
 	public ResponseEntity<ResponseModel> fetchRoundTripPricing(@RequestBody FlightPriceModel flightPriceModel) {
 		
 		if (logger.isInfoEnabled()) {
@@ -382,18 +384,13 @@ public class FlightController extends BaseController {
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
 			@ApiResponse(code=1700, message="Please select tenant!!"),
-			@ApiResponse(code=1706, message="Please select an origin!!"),
-			@ApiResponse(code=1707, message="Please select a destination!!"),
+			@ApiResponse(code=1711, message="Invalid tenant!!"),
 			@ApiResponse(code=1712, message="Please provide search ID!!"),
 			@ApiResponse(code=1713, message="Please provide msid!!"),
 			@ApiResponse(code=1714, message="Please provide request mode!!"),
-			@ApiResponse(code=1715, message="Please provide BPC!!"),
-			@ApiResponse(code=1716, message="Please provide SR!!"),
-			@ApiResponse(code=1717, message="Please provide UNIQUE!!"),
-			@ApiResponse(code=1718, message="Please provide variation!!"),
-			@ApiResponse(code=1719, message="Please provide supplier code!!"),
-			@ApiResponse(code=1720, message="Please provide flight number!!"),
-			@ApiResponse(code=1721, message="Please provide date of travel!!") })
+			@ApiResponse(code=1715, message="Please provide supplier code!!"),
+			@ApiResponse(code=1716, message="Please provide flight ID!!"),
+			@ApiResponse(code=1717, message="Please provide flight price!!") })
 	public ResponseEntity<ResponseModel> fetchMultiCityPricing(@RequestBody FlightPriceModel flightPriceModel) {
 		
 		if (logger.isInfoEnabled()) {
@@ -442,17 +439,7 @@ public class FlightController extends BaseController {
 	@PostMapping(value = "/save-review-details", produces = "application/json")
 	@ApiOperation(value = "Save Review-Details", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
-			@ApiResponse(code=1700, message="Please select tenant!!"),
-			@ApiResponse(code=1701, message="Please select trip type!!"),
-			@ApiResponse(code=1702, message="Please provide segments!!"),
-			@ApiResponse(code=1703, message="Please select number of adults!!"),
-			@ApiResponse(code=1704, message="Please select class!!"),
-			@ApiResponse(code=1706, message="Please select an origin!!"),
-			@ApiResponse(code=1707, message="Please select a destination!!"),
-			@ApiResponse(code=1708, message="Please select a origin country!!"),
-			@ApiResponse(code=1709, message="Please select destination country!!"),			
-			@ApiResponse(code=1710, message="Please select departure date!!")})
+			@ApiResponse(code = 201, message = "Please Try after Sometime!!!") })
 	public ResponseEntity<ResponseModel> saveReviewDetails(@RequestBody FlightBookingModel flightBookingModel) {
 		
 		if (logger.isInfoEnabled()) {

@@ -109,7 +109,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
 				} 
 			} 
-		} catch (RestClientResponseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -152,7 +152,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
 				} 
 			} 
-		} catch (RestClientResponseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -196,7 +196,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
 				} 
 			} 
-		} catch (RestClientResponseException e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 
@@ -400,7 +400,8 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				boolean shouldRetryStop=true;
 				for (int i=0;i<=2;i++) {
 					response = callOneWayPricing(flightPriceModel);
-					shouldRetryStop = jsonObj.getBoolean("shouldRetry");
+					JSONObject jsonObj1 = new JSONObject(response);
+					shouldRetryStop = jsonObj1.getBoolean("shouldRetry");
 					if (!shouldRetryStop) {
 						return response;
 					}
@@ -409,7 +410,6 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
 				}
 			}
-
 		} catch (Exception e) {
 			logger.info("Error in fetchOneWayPricing response -- END");
 			e.getStackTrace();
@@ -454,7 +454,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
 
-		} catch (RestClientResponseException e) {
+		} catch (Exception e) {
 			logger.info("Error in CallOneWayPricing response -- END");
 			e.getStackTrace();
 		}
@@ -476,7 +476,46 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
 		
 		flightValidation.validateRoundTripPricing(flightPriceModel);
+		String response = null;
+		try {
+			response = callRoundTripPricing(flightPriceModel);
+			JSONObject jsonObj = new JSONObject(response);
+			boolean shouldRetry = jsonObj.getBoolean("shouldRetry");
+			if (shouldRetry) {
+				boolean shouldRetryStop=true;
+				for (int i=0;i<=2;i++) {
+					response = callRoundTripPricing(flightPriceModel);
+					JSONObject jsonObj1 = new JSONObject(response);
+					shouldRetryStop = jsonObj1.getBoolean("shouldRetry");
+					if (!shouldRetryStop) {
+						return response;
+					}
+				}
+				if(shouldRetry) {
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+				}
+			}
+		} catch (Exception e) {
+			logger.info("Error in fetchRoundTripPricing response -- END");
+			e.getStackTrace();
+		}
 
+		if (exceptions.size() > 0)
+			throw new FormExceptions(exceptions);
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("fetchRoundTripPricing -- END");
+		}
+
+		return response;
+	}
+
+	public String callRoundTripPricing(FlightPriceModel flightPriceModel) throws FormExceptions {
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("callRoundTripPricing -- START");
+		}
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("emailId", messageUtil.getBundle("flight.email"));
 		headers.add("password", messageUtil.getBundle("flight.password"));
@@ -501,13 +540,13 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
 
-		} catch (RestClientResponseException e) {
-			logger.info("Error in RoundTripPricing response -- END");
+		} catch (Exception e) {
+			logger.info("Error in callRoundTripPricing response -- END");
 			e.getStackTrace();
 		}
 
 		if (logger.isInfoEnabled()) {
-			logger.info("fetchRoundTripPricing -- END");
+			logger.info("callRoundTripPricing -- END");
 		}
 
 		return responseEntity.getBody();
@@ -523,7 +562,46 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
 		
 		flightValidation.validateMultiCityPricing(flightPriceModel);
+		String response = null;
+		try {
+			response = callMultiCityPricing(flightPriceModel);
+			JSONObject jsonObj = new JSONObject(response);
+			boolean shouldRetry = jsonObj.getBoolean("shouldRetry");
+			if (shouldRetry) {
+				boolean shouldRetryStop=true;
+				for (int i=0;i<=2;i++) {
+					response = callMultiCityPricing(flightPriceModel);
+					JSONObject jsonObj1 = new JSONObject(response);
+					shouldRetryStop = jsonObj1.getBoolean("shouldRetry");
+					if (!shouldRetryStop) {
+						return response;
+					}
+				}
+				if(shouldRetry) {
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+				}
+			}
+		} catch (Exception e) {
+			logger.info("Error in fetchMultiCityPricing response -- END");
+			e.getStackTrace();
+		}
 
+		if (exceptions.size() > 0)
+			throw new FormExceptions(exceptions);
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("fetchMultiCityPricing -- END");
+		}
+
+		return response;
+	}
+
+	public String callMultiCityPricing(FlightPriceModel flightPriceModel) throws FormExceptions {
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("callMultiCityPricing -- START");
+		}
+		
 		HttpHeaders headers = new HttpHeaders();
 		headers.add("emailId", messageUtil.getBundle("flight.email"));
 		headers.add("password", messageUtil.getBundle("flight.password"));
@@ -548,13 +626,13 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
 
-		} catch (RestClientResponseException e) {
-			logger.info("Error in MultiCityPricing response -- END");
+		} catch (Exception e) {
+			logger.info("Error in callMultiCityPricing -- END");
 			e.getStackTrace();
 		}
 
 		if (logger.isInfoEnabled()) {
-			logger.info("fetchMultiCityPricing -- END");
+			logger.info("callMultiCityPricing -- END");
 		}
 
 		return responseEntity.getBody();

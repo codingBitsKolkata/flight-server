@@ -23,5 +23,6 @@ public final class FlightConstant {
 	public static final String BPC = "false";
 	public static final String VARIATION = "0";
 	public static final String VIEW_NAME = "normal";
+	public static final int MAX_TRAVELLERS = 9;
 	
 }

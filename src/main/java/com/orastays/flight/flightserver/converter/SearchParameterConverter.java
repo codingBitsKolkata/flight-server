@@ -30,6 +30,8 @@ public class SearchParameterConverter extends CommonConverter implements BaseCon
 		SearchParameterEntity searchParameterEntity = new SearchParameterEntity();
 		searchParameterEntity = (SearchParameterEntity) Util.transform(modelMapper, m, searchParameterEntity);
 		searchParameterEntity.setStatus(Status.INACTIVE.ordinal());
+		searchParameterEntity.setCreatedBy(Long.parseLong(String.valueOf(Status.ZERO.ordinal())));
+		searchParameterEntity.setCreatedDate(Util.getCurrentDateTime());
 		
 		if (logger.isInfoEnabled()) {
 			logger.info("modelToEntity -- END");
