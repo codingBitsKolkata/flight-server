@@ -1,11 +1,14 @@
 package com.orastays.flight.flightserver.service;
 
+import java.util.List;
+
 import org.json.JSONException;
 
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.model.FlightBookingModel;
 import com.orastays.flight.flightserver.model.FlightPriceModel;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
+import com.orastays.flight.flightserver.model.SearchParameterModel;
 
 public interface FlightService {
 
@@ -23,5 +26,5 @@ public interface FlightService {
 
 	void saveReviewDetails(FlightBookingModel flightBookingModel) throws FormExceptions;
 
-	String fetchSearchDetails();
+	List<SearchParameterModel> fetchSearchDetails() throws FormExceptions;;
 }

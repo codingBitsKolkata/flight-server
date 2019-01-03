@@ -1,8 +1,10 @@
 package com.orastays.flight.flightserver.service.impl;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -26,10 +28,13 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.helper.MessageUtil;
+import com.orastays.flight.flightserver.helper.Status;
+import com.orastays.flight.flightserver.helper.Util;
 import com.orastays.flight.flightserver.model.FlightBookingModel;
 import com.orastays.flight.flightserver.model.FlightPriceModel;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
 import com.orastays.flight.flightserver.model.MultiCityModel;
+import com.orastays.flight.flightserver.model.SearchParameterModel;
 import com.orastays.flight.flightserver.service.FlightService;
 
 @Service
@@ -42,9 +47,36 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	private static final Logger logger = LogManager.getLogger(FlightServiceImpl.class);
 
 	@Override
-	public String fetchSearchDetails() {
-		// TODO Auto-generated method stub
-		return null;
+	public List<SearchParameterModel> fetchSearchDetails() {
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("fetchSearchDetails -- START");
+		}
+		
+		List<SearchParameterModel> searchParameterModels = new ArrayList<>();
+
+		try {
+			Map<String, String> innerMap1 = new LinkedHashMap<>();
+			innerMap1.put("status", String.valueOf(Status.ACTIVE.ordinal()));
+	
+			Map<String, Map<String, String>> outerMap1 = new LinkedHashMap<>();
+			outerMap1.put("eq", innerMap1);
+	
+			Map<String, Map<String, Map<String, String>>> alliasMap = new LinkedHashMap<>();
+			alliasMap.put(entitymanagerPackagesToScan+".SearchParameterEntity", outerMap1);
+	
+			searchParameterModels = searchParameterConverter.entityListToModelList(searchParameterDAO.fetchListBySubCiteria(alliasMap));
+		} catch (Exception e) {
+			if (logger.isInfoEnabled()) {
+				logger.info("Exception in fetchSearchDetails -- "+Util.errorToString(e));
+			}
+		}
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("fetchSearchDetails -- END");
+		}
+		
+		return searchParameterModels;
 	}
 	
 	@Override

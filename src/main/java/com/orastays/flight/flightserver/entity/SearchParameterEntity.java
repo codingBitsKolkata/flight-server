@@ -20,7 +20,9 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(callSuper = false)
-public class SearchParameterEntity {
+public class SearchParameterEntity extends CommonEntity{
+
+	private static final long serialVersionUID = -8811504329554043838L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

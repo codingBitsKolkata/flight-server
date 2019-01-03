@@ -5,12 +5,15 @@ import java.util.List;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.orastays.flight.flightserver.entity.SearchParameterEntity;
+import com.orastays.flight.flightserver.helper.Status;
 import com.orastays.flight.flightserver.helper.Util;
 import com.orastays.flight.flightserver.model.SearchParameterModel;
 
+@Component
 public class SearchParameterConverter extends CommonConverter implements BaseConverter<SearchParameterEntity, SearchParameterModel> {
 
 	private static final long serialVersionUID = 353010995224080538L;
@@ -26,6 +29,7 @@ public class SearchParameterConverter extends CommonConverter implements BaseCon
 		
 		SearchParameterEntity searchParameterEntity = new SearchParameterEntity();
 		searchParameterEntity = (SearchParameterEntity) Util.transform(modelMapper, m, searchParameterEntity);
+		searchParameterEntity.setStatus(Status.INACTIVE.ordinal());
 		
 		if (logger.isInfoEnabled()) {
 			logger.info("modelToEntity -- END");

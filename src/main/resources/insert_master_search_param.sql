@@ -4823,3 +4823,5 @@ INSERT INTO `master_search_param` (`airport_code`, `airport_name`, `city_code`, 
 ('SAG', 'Shirdi', 'SAG', 'Shirdi', 'Asia', 'IN', 'India', '5.0', '2017-10-03T00:00T00:00:00', '*', 330, '*', '2017-10-03T00:00T00:00:00', 'INR'),
 ('AIP', 'AdamPur Airport', 'AIP', 'Adampur', 'Asia', 'IN', 'India', '5.0', '', '', 330, '', '', 'INR');
 COMMIT;
+
+UPDATE `master_search_param` SET `status` = '1';

@@ -23,14 +23,14 @@ import lombok.ToString;
 @ToString
 public abstract class CommonEntity implements Serializable {
 	
-
 	@Transient
 	private static final long serialVersionUID = 7691752649556520308L;
+	
 	@Column(name = "status")
 	@JsonProperty("status")
 	private Integer status;
 
-	@Column(name = "created_date")
+	/*@Column(name = "created_date")
 	@JsonProperty("createdDate")
 	private String createdDate;
 
@@ -44,6 +44,6 @@ public abstract class CommonEntity implements Serializable {
 
 	@Column(name = "modified_by")
 	@JsonProperty("modifiedBy")
-	private Long modifiedBy;
+	private Long modifiedBy;*/
 
 }

@@ -1,5 +1,6 @@
 package com.orastays.flight.flightserver.controller;
 
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
@@ -20,6 +21,7 @@ import com.orastays.flight.flightserver.model.FlightBookingModel;
 import com.orastays.flight.flightserver.model.FlightPriceModel;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
 import com.orastays.flight.flightserver.model.ResponseModel;
+import com.orastays.flight.flightserver.model.SearchParameterModel;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -37,17 +39,7 @@ public class FlightController extends BaseController {
 	@GetMapping(value = "/fetch-search-details", produces = "application/json")
 	@ApiOperation(value = "Fetch Search Details", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
-			@ApiResponse(code=1700, message="Please select tenant!!"),
-			@ApiResponse(code=1701, message="Please select trip type!!"),
-			@ApiResponse(code=1702, message="Please provide segments!!"),
-			@ApiResponse(code=1703, message="Please select number of adults!!"),
-			@ApiResponse(code=1704, message="Please select class!!"),
-			@ApiResponse(code=1706, message="Please select an origin!!"),
-			@ApiResponse(code=1707, message="Please select a destination!!"),
-			@ApiResponse(code=1708, message="Please select a origin country!!"),
-			@ApiResponse(code=1709, message="Please select destination country!!"),
-			@ApiResponse(code=1710, message="Please select departure date!!")})
+			@ApiResponse(code = 201, message = "Please Try after Sometime!!!") })
 	public ResponseEntity<ResponseModel> fetchSearchDetails() {
 		
 		if (logger.isInfoEnabled()) {
@@ -58,8 +50,8 @@ public class FlightController extends BaseController {
 		Util.printLog(null, FlightConstant.INCOMING, "Fetch Search Details", request);
 		
 		try {
-			String response = flightService.fetchSearchDetails();
-			responseModel.setResponseBody(response);
+			List<SearchParameterModel> searchParameterModels = flightService.fetchSearchDetails();
+			responseModel.setResponseBody(searchParameterModels);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
 		}  catch (Exception e) {
