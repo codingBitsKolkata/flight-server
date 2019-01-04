@@ -6,6 +6,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.orastays.flight.flightserver.helper.MessageUtil;
+import com.orastays.flight.flightserver.service.FlightBookingService;
 import com.orastays.flight.flightserver.service.FlightService;
 
 public class BaseController {
@@ -21,4 +22,7 @@ public class BaseController {
 
 	@Autowired
 	protected FlightService flightService;
+	
+	@Autowired
+	protected FlightBookingService flightBookingService;
 }

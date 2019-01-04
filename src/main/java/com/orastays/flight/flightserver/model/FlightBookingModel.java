@@ -1,5 +1,7 @@
 package com.orastays.flight.flightserver.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -14,7 +16,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class FlightBookingModel {
+public class FlightBookingModel extends CommonModel {
 	
 	@JsonProperty("pricingId")
 	private String pricingId;
@@ -22,7 +24,51 @@ public class FlightBookingModel {
 	@JsonProperty("superPnr")
 	private String superPnr;
 	
-	//@JsonProperty("reviewJsons")
-	//private List<ReviewJson> reviewJsons;
-
+	@JsonProperty("fromDate")
+	private String fromDate;
+	
+	@JsonProperty("toDate")
+	private String toDate;
+	
+	@JsonProperty("globalParams")
+	public GlobalParamsModel globalParamsModel;
+	
+	@JsonProperty("addOnParams")
+	public List<AddOnParamsModel> addOnParamsModels;
+	
+	@JsonProperty("hotelCrossSellParams")
+	public HotelCrossSellParamsModel hotelCrossSellParamsModel;
+	
+	@JsonProperty("productParams")
+	public ProductParamsModel productParamsModel;
+	
+	@JsonProperty("promoParams")
+	public PromoParamsModel promoParamsModel;
+	
+	@JsonProperty("userParams")
+	public UserParamsModel UserParamsModel;
+	
+	@JsonProperty("travellerParams")
+	public List<TravellerParamModel> travellerParamModels;
+	
+	@JsonProperty("gstDetails")
+	public GstDetailsModel gstDetailsModel;
+	
+	@JsonProperty("discountParams")
+	public DiscountParamsModel discountParamsModels;
+	
+	@JsonProperty("totalBreakup")
+	public TotalBreakupModel totalBreakupModel;
+	
+	@JsonProperty("tourCodes")
+	public List<TourCodeModel> tourCodeModels;
+	
+	@JsonProperty("advancedPricing")
+	public AdvancedPricingModel advancedPricingModel;
+	
+	@JsonProperty("upSellParam")
+	public List<UpSellParamsModel> upSellParamsModel;
+	
+	@JsonProperty("gaResponse")
+	public GaResponseModel gaResponseModel;
 }

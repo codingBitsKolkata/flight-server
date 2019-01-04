@@ -14,7 +14,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class FlightPriceModel {
+public class FlightPriceModel extends CommonModel {
 	
 	@JsonProperty("tenantName")
 	private String tenantName;
