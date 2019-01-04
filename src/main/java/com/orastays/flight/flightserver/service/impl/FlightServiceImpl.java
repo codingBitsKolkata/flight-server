@@ -30,7 +30,6 @@ import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.helper.MessageUtil;
 import com.orastays.flight.flightserver.helper.Status;
 import com.orastays.flight.flightserver.helper.Util;
-import com.orastays.flight.flightserver.model.FlightBookingModel;
 import com.orastays.flight.flightserver.model.FlightPriceModel;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
 import com.orastays.flight.flightserver.model.MultiCityModel;
@@ -636,11 +635,5 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		return responseEntity.getBody();
-	}
-
-	@Override
-	public void saveReviewDetails(FlightBookingModel flightBookingModel) throws FormExceptions {
-		// TODO Auto-generated method stub
-		
 	}
 }

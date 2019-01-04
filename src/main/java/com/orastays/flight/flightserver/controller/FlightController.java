@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.helper.Util;
-import com.orastays.flight.flightserver.model.FlightBookingModel;
 import com.orastays.flight.flightserver.model.FlightPriceModel;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
 import com.orastays.flight.flightserver.model.ResponseModel;
@@ -427,55 +426,6 @@ public class FlightController extends BaseController {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchMultiCityPricing -- END");
-		}
-
-		if (responseModel.getResponseCode().equals(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE))) {
-			return new ResponseEntity<>(responseModel, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
-		}
-	}
-	
-	@PostMapping(value = "/save-review-details", produces = "application/json")
-	@ApiOperation(value = "Save Review-Details", response = ResponseModel.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 201, message = "Please Try after Sometime!!!") })
-	public ResponseEntity<ResponseModel> saveReviewDetails(@RequestBody FlightBookingModel flightBookingModel) {
-		
-		if (logger.isInfoEnabled()) {
-			logger.info("saveReviewDetails -- START");
-		}
-		
-		ResponseModel responseModel = new ResponseModel();
-		Util.printLog(flightBookingModel, FlightConstant.INCOMING, "Save Review-Details", request);
-		
-		try {
-			flightService.saveReviewDetails(flightBookingModel);
-			responseModel.setResponseBody(response);
-			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
-			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
-		} catch (FormExceptions fe) {
-
-			for (Entry<String, Exception> entry : fe.getExceptions().entrySet()) {
-				responseModel.setResponseCode(entry.getKey());
-				responseModel.setResponseMessage(entry.getValue().getMessage());
-				if (logger.isInfoEnabled()) {
-					logger.info("FormExceptions in Save Review-Details -- "+Util.errorToString(fe));
-				}
-				break;
-			}
-		} catch (Exception e) {
-			if (logger.isInfoEnabled()) {
-				logger.info("Exception in Save Review-Details -- "+Util.errorToString(e));
-			}
-			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_ERROR_CODE));
-			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_ERROR_MESSAGE));
-		}
-		
-		Util.printLog(responseModel, FlightConstant.OUTGOING, "Save Review-Details", request);
-
-		if (logger.isInfoEnabled()) {
-			logger.info("saveReviewDetails -- END");
 		}
 
 		if (responseModel.getResponseCode().equals(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE))) {
