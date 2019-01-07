@@ -25,7 +25,6 @@ import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.google.gson.Gson;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.helper.MessageUtil;
@@ -78,7 +77,6 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 		
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
-		Gson gson = new Gson();
 
 		flightValidation.validateOneWayData(flightSearchModel);
 		String searchResponse = null;
@@ -93,7 +91,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 					JSONObject jsonObj1 = new JSONObject(searchResponse);
 					eagerFetchStop = jsonObj1.getBoolean("eagerFetch");
 					if (eagerFetchStop) {
-						return gson.toJson(searchResponse);
+						return searchResponse;
 					} 
 				} 
 				//Check response code
@@ -112,7 +110,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			logger.info("fetchOneWayFlights -- END");
 		}
 		
-		return gson.toJson(searchResponse);
+		return searchResponse;
 	}
 
 	@Override
