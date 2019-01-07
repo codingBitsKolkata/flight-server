@@ -15,6 +15,9 @@ import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.helper.Util;
 import com.orastays.flight.flightserver.model.FlightBookingModel;
+import com.orastays.flight.flightserver.model.MultiCityModel;
+import com.orastays.flight.flightserver.model.TravellerDetailsModel;
+import com.orastays.flight.flightserver.model.TravellerParamModel;
 
 @Component
 @Transactional
@@ -83,9 +86,6 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 				if (StringUtils.isBlank(flightBookingModel.getGlobalParamsModel().getChildTenant())) {
 					exceptions.put(messageUtil.getBundle("child.tenant.null.code"), new Exception(messageUtil.getBundle("child.tenant.null.message")));
 				}
-				//TODO
-				//More checks
-
 			}
 
 			//UserParams
@@ -148,7 +148,7 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 			//hotelCrosssellParams
 			if(Objects.isNull(flightBookingModel.getHotelCrossSellParamsModel())) {
 				exceptions.put(messageUtil.getBundle("hotelCross.null.code"), new Exception(messageUtil.getBundle("hotelCross.null.message")));
-			} else {}
+			}
 			//productParams
 			if(Objects.isNull(flightBookingModel.getProductParamsModel())) {
 				exceptions.put(messageUtil.getBundle("productParams.null.code"), new Exception(messageUtil.getBundle("productParams.null.message")));
@@ -167,27 +167,55 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 			//promoParams
 			if(Objects.isNull(flightBookingModel.getPromoParamsModel())) {
 				exceptions.put(messageUtil.getBundle("promoParams.null.code"), new Exception(messageUtil.getBundle("promoParams.null.message")));
-			} else {}
+			}
 			//travellerParams
 			if(Objects.isNull(flightBookingModel.getTravellerParamModels())) {
 				exceptions.put(messageUtil.getBundle("travellerParams.null.code"), new Exception(messageUtil.getBundle("travellerParams.null.message")));
+				for (TravellerParamModel travellerParamModel : flightBookingModel.getTravellerParamModels()) {
+					if (StringUtils.isBlank(travellerParamModel.getPaxID())) {
+						exceptions.put(messageUtil.getBundle("paxId.null.code"), new Exception(messageUtil.getBundle("paxId.null.message")));
+					}
+					if (Objects.isNull(travellerParamModel.getTravellerDetailsModel())) {
+						exceptions.put(messageUtil.getBundle("traveller.details.null.code"), new Exception(messageUtil.getBundle("traveller.details.null.message")));
+					} else {
+						if (StringUtils.isBlank(travellerParamModel.getTravellerDetailsModel().getId())) {
+							exceptions.put(messageUtil.getBundle("traveller.id.null.code"), new Exception(messageUtil.getBundle("traveller.id.null.message")));
+						}
+						if (StringUtils.isBlank(travellerParamModel.getTravellerDetailsModel().getTitle())) {
+							exceptions.put(messageUtil.getBundle("title.null.code"), new Exception(messageUtil.getBundle("title.null.message")));
+						}
+						if (StringUtils.isBlank(travellerParamModel.getTravellerDetailsModel().getFirstName())) {
+							exceptions.put(messageUtil.getBundle("first.name.null.code"), new Exception(messageUtil.getBundle("first.name.null.message")));
+						}
+						if (StringUtils.isBlank(travellerParamModel.getTravellerDetailsModel().getLastName())) {
+							exceptions.put(messageUtil.getBundle("last.name.null.code"), new Exception(messageUtil.getBundle("last.name.null.message")));
+						}
+						if (StringUtils.isBlank(travellerParamModel.getTravellerDetailsModel().getPaxClass())) {
+							exceptions.put(messageUtil.getBundle("pax.class.null.code"), new Exception(messageUtil.getBundle("pax.class.null.message")));
+						}
+						if (StringUtils.isBlank(travellerParamModel.getTravellerDetailsModel().getPassengerClass())) {
+							exceptions.put(messageUtil.getBundle("passenger.class.null.code"), new Exception(messageUtil.getBundle("passenger.class.null.message")));
+						}
+					}
+				}
+				
 			} else {}
 			//gstDetails
 			if(Objects.isNull(flightBookingModel.getGstDetailsModel())) {
 				exceptions.put(messageUtil.getBundle("gstDetails.null.code"), new Exception(messageUtil.getBundle("gstDetails.null.message")));
-			} else {}
+			}
 			//totalBreakup
 			if(Objects.isNull(flightBookingModel.getTotalBreakupModel())) {
 				exceptions.put(messageUtil.getBundle("total.breakup.null.code"), new Exception(messageUtil.getBundle("total.breakup.null.message")));
-			} else {}
+			}
 			//totalBreakup
 			if(Objects.isNull(flightBookingModel.getTourCodeModels())) {
 				exceptions.put(messageUtil.getBundle("tour.code.null.code"), new Exception(messageUtil.getBundle("tour.code.null.message")));
-			} else {}
+			}
 			//gaResponse
 			if(Objects.isNull(flightBookingModel.getGaResponseModel())) {
 				exceptions.put(messageUtil.getBundle("ga.response.null.code"), new Exception(messageUtil.getBundle("ga.response.null.message")));
-			} else {}
+			} 
 		}
 
 		if (exceptions.size() > 0)
