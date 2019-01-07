@@ -28,7 +28,6 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.helper.MessageUtil;
-import com.orastays.flight.flightserver.helper.Status;
 import com.orastays.flight.flightserver.helper.Util;
 import com.orastays.flight.flightserver.model.FlightPriceModel;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
@@ -46,33 +45,25 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	private static final Logger logger = LogManager.getLogger(FlightServiceImpl.class);
 
 	@Override
-	public List<SearchParameterModel> fetchSearchDetails() {
+	public List<SearchParameterModel> searchAirportDetails(String keyword) {
 		
 		if (logger.isInfoEnabled()) {
-			logger.info("fetchSearchDetails -- START");
+			logger.info("searchAirportDetails -- START");
 		}
 		
 		List<SearchParameterModel> searchParameterModels = new ArrayList<>();
 
 		try {
-			Map<String, String> innerMap1 = new LinkedHashMap<>();
-			innerMap1.put("status", String.valueOf(Status.ACTIVE.ordinal()));
 	
-			Map<String, Map<String, String>> outerMap1 = new LinkedHashMap<>();
-			outerMap1.put("eq", innerMap1);
-	
-			Map<String, Map<String, Map<String, String>>> alliasMap = new LinkedHashMap<>();
-			alliasMap.put(entitymanagerPackagesToScan+".SearchParameterEntity", outerMap1);
-	
-			searchParameterModels = searchParameterConverter.entityListToModelList(searchParameterDAO.fetchListBySubCiteria(alliasMap));
+			searchParameterModels = searchParameterConverter.entityListToModelList(searchParameterDAO.fetchSearchDetails(keyword));
 		} catch (Exception e) {
 			if (logger.isInfoEnabled()) {
-				logger.info("Exception in fetchSearchDetails -- "+Util.errorToString(e));
+				logger.info("Exception in searchAirportDetails -- "+Util.errorToString(e));
 			}
 		}
 		
 		if (logger.isInfoEnabled()) {
-			logger.info("fetchSearchDetails -- END");
+			logger.info("searchAirportDetails -- END");
 		}
 		
 		return searchParameterModels;

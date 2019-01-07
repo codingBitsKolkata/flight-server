@@ -1,5 +1,6 @@
 package com.orastays.flight.flightserver.service.impl;
 
+import java.net.URI;
 import java.util.List;
 
 import javax.transaction.Transactional;
@@ -9,8 +10,12 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.RequestEntity;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.util.UriComponentsBuilder;
 
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
@@ -40,26 +45,20 @@ public class BaggageServiceImpl extends BaseServiceImpl implements BaggageServic
 		}
 
 		baggageValidation.validateBaggageInfo(baggageModel);
-		List<BaggageModel> baggageModels = null;
-		HttpEntity<BaggageModel> request = null;
+		ResponseEntity<String> responseEntity = null;
 		try {
 			HttpHeaders headers = new HttpHeaders();
 			headers.add("emailId", messageUtil.getBundle("flight.email"));
 			headers.add("password", messageUtil.getBundle("flight.password"));
 			headers.add("apikey", messageUtil.getBundle("flight.key"));
-
-
-			String url = messageUtil.getBundle("flight.booking.server.url");
-			request = new HttpEntity<BaggageModel>(baggageModel, headers);
-			ResponseModel responseModel = restTemplate.postForObject(url, request, ResponseModel.class);
-			//ResponseModel responseModel = restTemplate.postForObject(url, flightBookingModel, ResponseModel.class);
-			Gson gson = new Gson();
-			String jsonString = gson.toJson(responseModel.getResponseBody());
-			//To store the whole list because list contains object as well as array
-			//baggageModels = gson.fromJson(jsonString,new TypeToken<List<BaggageModel>>(){}.getType());
-			baggageModels = gson.fromJson(jsonString,new TypeToken<List<BaggageModel>>(){
-				private static final long serialVersionUID = 2091852737977171051L;}.getType());
-
+			
+			String createUrl = messageUtil.getBundle("flight.search.server.url")+baggageModel.getTenantName()+"/getbaggageinfo?searchId="+baggageModel.getSearchId()+
+					"&sc="+baggageModel.getSc()+"&flightIdCSV="+baggageModel.getFlightIdCSV();
+			
+			RestTemplate restTemplate = new RestTemplate();
+			URI uri = UriComponentsBuilder.fromUriString(createUrl).build().encode().toUri();
+			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
+			responseEntity = restTemplate.exchange(requestEntity, String.class);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -68,6 +67,7 @@ public class BaggageServiceImpl extends BaseServiceImpl implements BaggageServic
 			logger.info("baggageInfo -- END");
 		}
 		
-		return baggageModels;
+		//return responseEntity.getBody();
+		return null;
 	}
 }

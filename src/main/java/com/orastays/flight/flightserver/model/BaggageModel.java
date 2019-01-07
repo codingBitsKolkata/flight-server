@@ -1,8 +1,8 @@
 package com.orastays.flight.flightserver.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,10 +16,16 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class BaggageModel extends CommonModel {
 
-	@JsonProperty("amount")
-    public String amount;
+	@JsonProperty("tenantName")
+	private String tenantName;
 	
-	@JsonProperty("label")
-    public String label;
+	@JsonProperty("searchId")
+	private String searchId;
+	
+	@JsonProperty("flightIdCSV")
+    public String flightIdCSV;
+	
+	@JsonProperty("sc")
+    public String sc;
 
 }

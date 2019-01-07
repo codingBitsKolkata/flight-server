@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
@@ -35,36 +36,36 @@ public class FlightController extends BaseController {
 	
 	private static final Logger logger = LogManager.getLogger(FlightController.class);
 
-	@GetMapping(value = "/fetch-search-details", produces = "application/json")
-	@ApiOperation(value = "Fetch Search Details", response = ResponseModel.class)
+	@GetMapping(value = "/search-airport-details", produces = "application/json")
+	@ApiOperation(value = "Search Airport Details", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!") })
-	public ResponseEntity<ResponseModel> fetchSearchDetails() {
+	public ResponseEntity<ResponseModel> searchAirportDetails(@RequestParam(value = "keyword", required = true) String keyword) {
 		
 		if (logger.isInfoEnabled()) {
-			logger.info("fetchSearchDetails -- START");
+			logger.info("searchAirportDetails -- START");
 		}
 		
 		ResponseModel responseModel = new ResponseModel();
-		Util.printLog(null, FlightConstant.INCOMING, "Fetch Search Details", request);
+		Util.printLog(null, FlightConstant.INCOMING, "Search Airport Details", request);
 		
 		try {
-			List<SearchParameterModel> searchParameterModels = flightService.fetchSearchDetails();
+			List<SearchParameterModel> searchParameterModels = flightService.searchAirportDetails(keyword);
 			responseModel.setResponseBody(searchParameterModels);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
 		}  catch (Exception e) {
 			if (logger.isInfoEnabled()) {
-				logger.info("Exception in Fetch Search Details -- "+Util.errorToString(e));
+				logger.info("Exception in Search Airport Details -- "+Util.errorToString(e));
 			}
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_ERROR_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_ERROR_MESSAGE));
 		}
 		
-		Util.printLog(responseModel, FlightConstant.OUTGOING, "Fetch Search Details", request);
+		Util.printLog(responseModel, FlightConstant.OUTGOING, "Search Airport Details", request);
 
 		if (logger.isInfoEnabled()) {
-			logger.info("fetchSearchDetails -- END");
+			logger.info("searchAirportDetails -- END");
 		}
 
 		if (responseModel.getResponseCode().equals(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE))) {
