@@ -1242,7 +1242,7 @@ public class Util {
 	public static void main(String[] args) {
 
 		try {
-			System.out.println(checkEmail("avirup.pal"));
+			System.out.println(phoneValidator("avirup.pal"));
 		} catch (Exception e) {
 
 		}

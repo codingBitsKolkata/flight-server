@@ -1,5 +1,6 @@
 package com.orastays.flight.flightserver.controller;
 
+import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
@@ -30,6 +31,57 @@ import io.swagger.annotations.ApiResponses;
 public class FlightBookingController extends BaseController {
 	
 	private static final Logger logger = LogManager.getLogger(FlightBookingController.class);	
+	
+	@PostMapping(value = "/book-flights", produces = "application/json")
+	@ApiOperation(value = "Book Flights", response = ResponseModel.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
+			@ApiResponse(code = 1721, message = "Please provide pricing Id!!"),
+			@ApiResponse(code = 1722, message = "Please provide superPnr!!") })
+	public ResponseEntity<ResponseModel> bookFlights(@RequestBody FlightBookingModel flightBookingModel) {
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("bookFlights -- START");
+		}
+		
+		ResponseModel responseModel = new ResponseModel();
+		Util.printLog(flightBookingModel, FlightConstant.INCOMING, "Book Flights", request);
+
+		try {
+			List<FlightBookingModel> flightBookingModels= flightBookingService.bookFlights(flightBookingModel);
+			responseModel.setResponseBody(flightBookingModels);
+			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
+			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
+		} catch (FormExceptions fe) {
+
+			for (Entry<String, Exception> entry : fe.getExceptions().entrySet()) {
+				responseModel.setResponseCode(entry.getKey());
+				responseModel.setResponseMessage(entry.getValue().getMessage());
+				if (logger.isInfoEnabled()) {
+					logger.info("FormExceptions in Book Flights -- "+Util.errorToString(fe));
+				}
+				break;
+			}
+		} catch (Exception e) {
+			if (logger.isInfoEnabled()) {
+				logger.info("Exception in Book Flights -- "+Util.errorToString(e));
+			}
+			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_ERROR_CODE));
+			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_ERROR_MESSAGE));
+		}
+		
+		Util.printLog(responseModel, FlightConstant.OUTGOING, "Book Flights", request);
+
+		if (logger.isInfoEnabled()) {
+			logger.info("bookFlights -- END");
+		}
+
+		if (responseModel.getResponseCode().equals(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE))) {
+			return new ResponseEntity<>(responseModel, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+		}
+	}
 	
 	@PostMapping(value = "/view-booking-list", produces = "application/json")
 	@ApiOperation(value = "View Booking List", response = ResponseModel.class)
@@ -79,55 +131,4 @@ public class FlightBookingController extends BaseController {
 			return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
 		}
 	}	
-	
-	@PostMapping(value = "/save-review-details", produces = "application/json")
-	@ApiOperation(value = "Save Review-Details", response = ResponseModel.class)
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
-			@ApiResponse(code = 1721, message = "Please provide pricing Id!!"),
-			@ApiResponse(code = 1722, message = "Please provide superPnr!!") })
-	public ResponseEntity<ResponseModel> saveReviewDetails(@RequestBody FlightBookingModel flightBookingModel) {
-		
-		if (logger.isInfoEnabled()) {
-			logger.info("saveReviewDetails -- START");
-		}
-		
-		ResponseModel responseModel = new ResponseModel();
-		Util.printLog(flightBookingModel, FlightConstant.INCOMING, "Save Review-Details", request);
-		
-		try {
-			flightBookingService.saveReviewDetails(flightBookingModel);
-			responseModel.setResponseBody(response);
-			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
-			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
-		} catch (FormExceptions fe) {
-
-			for (Entry<String, Exception> entry : fe.getExceptions().entrySet()) {
-				responseModel.setResponseCode(entry.getKey());
-				responseModel.setResponseMessage(entry.getValue().getMessage());
-				if (logger.isInfoEnabled()) {
-					logger.info("FormExceptions in Save Review-Details -- "+Util.errorToString(fe));
-				}
-				break;
-			}
-		} catch (Exception e) {
-			if (logger.isInfoEnabled()) {
-				logger.info("Exception in Save Review-Details -- "+Util.errorToString(e));
-			}
-			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_ERROR_CODE));
-			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_ERROR_MESSAGE));
-		}
-		
-		Util.printLog(responseModel, FlightConstant.OUTGOING, "Save Review-Details", request);
-
-		if (logger.isInfoEnabled()) {
-			logger.info("saveReviewDetails -- END");
-		}
-
-		if (responseModel.getResponseCode().equals(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE))) {
-			return new ResponseEntity<>(responseModel, HttpStatus.OK);
-		} else {
-			return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
-		}
-	}
 }

@@ -14,6 +14,9 @@ public final class FlightConstant {
 	public static final String STATUS = "status";
 	public static final String LANGUAGEID = "languageId";
 	
+	public static final String ONEWAY = "0";
+	public static final String ROUNDTRIP = "R";
+	public static final String MULTICITY = "M";
 	//Flight Search and Pricing Details
 	public static final String BASE_URL = "http://203.189.91.50/flightsapi/air-service";
 	public static final String DOM_TENANT_NAME = "b2bdomapi";
