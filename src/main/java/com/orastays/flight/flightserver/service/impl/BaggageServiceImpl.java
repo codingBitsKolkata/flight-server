@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
@@ -17,12 +16,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.MessageUtil;
 import com.orastays.flight.flightserver.model.BaggageModel;
-import com.orastays.flight.flightserver.model.ResponseModel;
 import com.orastays.flight.flightserver.service.BaggageService;
 
 @Service
