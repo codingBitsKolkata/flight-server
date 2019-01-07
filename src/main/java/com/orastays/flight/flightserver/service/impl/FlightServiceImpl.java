@@ -71,7 +71,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	}
 	
 	@Override
-	public Object fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
+	public String fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchOneWayFlights -- START");

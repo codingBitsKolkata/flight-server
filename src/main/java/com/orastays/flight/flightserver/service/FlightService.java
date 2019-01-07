@@ -11,7 +11,7 @@ import com.orastays.flight.flightserver.model.SearchParameterModel;
 
 public interface FlightService {
 
-	Object fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException;
+	String fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException;
 
 	String fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException;
 

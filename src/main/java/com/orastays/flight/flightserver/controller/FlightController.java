@@ -103,7 +103,7 @@ public class FlightController extends BaseController {
 		Util.printLog(flightSearchModel, FlightConstant.INCOMING, "Fetch OneWay flights", request);
 		
 		try {
-			Object response = flightService.fetchOneWayFlights(flightSearchModel);
+			String response = flightService.fetchOneWayFlights(flightSearchModel);
 			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
