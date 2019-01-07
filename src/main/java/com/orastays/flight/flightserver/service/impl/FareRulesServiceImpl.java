@@ -88,42 +88,4 @@ public class FareRulesServiceImpl extends BaseServiceImpl implements FareRulesSe
 		
 		return fareRulesModels;
 	}
-
-	@Override
-	public List<FareRulesModel> baggageInfo(FareRulesModel fareRulesModel) throws FormExceptions {
-
-		if (logger.isInfoEnabled()) {
-			logger.info("baggageInfo -- START");
-		}
-
-		fareRulesValidation.validateBaggageInfo(fareRulesModel);
-		List<FareRulesModel> fareRulesModels = null;
-		HttpEntity<FareRulesModel> request = null;
-		try {
-			HttpHeaders headers = new HttpHeaders();
-			headers.add("emailId", messageUtil.getBundle("flight.email"));
-			headers.add("password", messageUtil.getBundle("flight.password"));
-			headers.add("apikey", messageUtil.getBundle("flight.key"));
-
-
-			String url = messageUtil.getBundle("flight.booking.server.url");
-			request = new HttpEntity<FareRulesModel>(fareRulesModel, headers);
-			ResponseModel responseModel = restTemplate.postForObject(url, request, ResponseModel.class);
-			//ResponseModel responseModel = restTemplate.postForObject(url, flightBookingModel, ResponseModel.class);
-			Gson gson = new Gson();
-			String jsonString = gson.toJson(responseModel.getResponseBody());
-			//To store the whole list because list contains object as well as array
-			fareRulesModels = gson.fromJson(jsonString,new TypeToken<List<FlightBookingModel>>(){
-			private static final long serialVersionUID = 6432872879861274827L;}.getType());
-
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-
-		if (logger.isInfoEnabled()) {
-			logger.info("baggageInfo -- END");
-		}
-		
-		return fareRulesModels;
-	}
 }

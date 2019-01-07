@@ -239,7 +239,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String INF = flightSearchModel.getNoOfInfants();
 		String classType = flightSearchModel.getClassType();
 
-		String createUrl = FlightConstant.BASE_URL+"/"+tenantName+"/search?"+"type="+tripType+"&viewName="+viewName+"&noOfSegments="+noOfSegments+
+		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/search?"+"type="+tripType+"&viewName="+viewName+"&noOfSegments="+noOfSegments+
 				"&origin="+newModel.get("origin")+"&originCountry="+newModel.get("originCountry")+"&destination="+newModel.get("destination")+
 				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&ADT="+ADT+
 				"&CHD="+CHD+"&INF="+INF+"&class="+classType;
@@ -293,7 +293,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String INF = flightSearchModel.getNoOfInfants();
 		String classType = flightSearchModel.getClassType();
 
-		String createUrl = FlightConstant.BASE_URL+"/"+tenantName+"/search?"+"type="+tripType+"&viewName="+viewName+"&noOfSegments="+noOfSegments+
+		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/search?"+"type="+tripType+"&viewName="+viewName+"&noOfSegments="+noOfSegments+
 				"&origin="+newModel.get("origin")+"&originCountry="+newModel.get("originCountry")+"&destination="+newModel.get("destination")+
 				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&arrivalDate="+arrivalDate+
 				"&ADT="+ADT+"&CHD="+CHD+"&INF="+INF+"&class="+classType;
@@ -349,7 +349,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String noOfSegments = flightSearchModel.getNoOfSegments();
 
 		UriBuilder builder = UriBuilder
-				.fromPath(FlightConstant.BASE_URL+"/"+tenantName+"/search")
+				.fromPath(messageUtil.getBundle("flight.search.server.url")+tenantName+"/search")
 				.queryParam("viewName", viewName)
 				.queryParam("type", tripType)
 				.queryParam("ADT", ADT)
@@ -442,7 +442,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String flightPrice = flightPriceModel.getFlightPrice();
 		String supplierCode = flightPriceModel.getSupplierCode();
 
-		String createUrl = FlightConstant.BASE_URL+"/"+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+mode+
+		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+mode+
 				"&bpc="+FlightConstant.BPC+"&isSR="+FlightConstant.ISSR+"&unique="+FlightConstant.UNIQUE+"&variation="+FlightConstant.VARIATION+
 				"&flightIdCSV="+flightId+"&flightPrice="+flightPrice+"&sc="+supplierCode;
 
@@ -528,7 +528,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String flightPrice = flightPriceModel.getFlightPrice();
 		String supplierCode = flightPriceModel.getSupplierCode();
 
-		String createUrl = FlightConstant.BASE_URL+"/"+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+mode+
+		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+mode+
 				"&bpc="+FlightConstant.BPC+"&isSR="+FlightConstant.ISSR+"&unique="+FlightConstant.UNIQUE+"&variation="+FlightConstant.VARIATION+
 				"&flightIdCSV="+flightId+"&flightPrice="+flightPrice+"&sc="+supplierCode;
 
@@ -614,7 +614,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String flightPrice = flightPriceModel.getFlightPrice();
 		String supplierCode = flightPriceModel.getSupplierCode();
 
-		String createUrl = FlightConstant.BASE_URL+"/"+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+mode+
+		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+mode+
 				"&bpc="+FlightConstant.BPC+"&isSR="+FlightConstant.ISSR+"&unique="+FlightConstant.UNIQUE+"&variation="+FlightConstant.VARIATION+
 				"&flightIdCSV="+flightId+"&flightPrice="+flightPrice+"&sc="+supplierCode;
 

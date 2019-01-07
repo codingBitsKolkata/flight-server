@@ -10,6 +10,4 @@ public interface FareRulesService {
 	List<FareRulesModel> fareRulesDom(FareRulesModel fareRulesModel) throws FormExceptions;
 
 	List<FareRulesModel> fareRulesInt(FareRulesModel fareRulesModel) throws FormExceptions;
-
-	List<FareRulesModel> baggageInfo(FareRulesModel fareRulesModel) throws FormExceptions;
 }

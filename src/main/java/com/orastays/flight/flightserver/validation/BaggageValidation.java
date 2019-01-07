@@ -30,7 +30,7 @@ public class BaggageValidation extends AuthorizeUserValidation {
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
 
-		if(Objects.nonNull(baggageModel)) {
+		/*if(Objects.nonNull(baggageModel)) {
 
 			if(StringUtils.isBlank(baggageModel.getTenantName())) {
 				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
@@ -39,7 +39,7 @@ public class BaggageValidation extends AuthorizeUserValidation {
 					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
 				}
 			}
-		}
+		}*/
 
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);

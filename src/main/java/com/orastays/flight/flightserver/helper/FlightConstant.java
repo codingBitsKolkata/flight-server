@@ -18,7 +18,6 @@ public final class FlightConstant {
 	public static final String ROUNDTRIP = "R";
 	public static final String MULTICITY = "M";
 	//Flight Search and Pricing Details
-	public static final String BASE_URL = "http://203.189.91.50/flightsapi/air-service";
 	public static final String DOM_TENANT_NAME = "b2bdomapi";
 	public static final String INT_TENANT_NAME = "b2bintapi";
 	public static final String UNIQUE = "1536664674033";
@@ -27,8 +26,4 @@ public final class FlightConstant {
 	public static final String VARIATION = "0";
 	public static final String VIEW_NAME = "normal";
 	public static final int MAX_TRAVELLERS = 9;
-	
-	//Flight Booking Details
-	public static final String BOOKING_BASE_URL = "http://203.189.91.50/flightsapi/";
-	
 }
