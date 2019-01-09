@@ -2,8 +2,6 @@ package com.orastays.flight.flightserver.service;
 
 import java.util.List;
 
-import org.json.JSONException;
-
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.model.FlightPriceModel;
 import com.orastays.flight.flightserver.model.FlightSearchModel;
@@ -13,15 +11,15 @@ public interface FlightService {
 
 	List<SearchParameterModel> searchAirportDetails(String keyword) throws FormExceptions;
 	
-	String fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException;
+	String fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions;
 
-	String fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException;
+	String fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions;
 
-	String fetchMultiCityFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException;
+	String fetchMultiCityFlights(FlightSearchModel flightSearchModel) throws FormExceptions;
 
-	String fetchOneWayPricing(FlightPriceModel flightPriceModel) throws FormExceptions, JSONException;
+	String fetchOneWayPricing(FlightPriceModel flightPriceModel) throws FormExceptions;
 
-	String fetchRoundTripPricing(FlightPriceModel flightPriceModel) throws FormExceptions, JSONException;
+	String fetchRoundTripPricing(FlightPriceModel flightPriceModel) throws FormExceptions;
 
-	String fetchMultiCityPricing(FlightPriceModel flightPriceModel) throws FormExceptions, JSONException;
+	String fetchMultiCityPricing(FlightPriceModel flightPriceModel) throws FormExceptions;
 }

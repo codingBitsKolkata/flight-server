@@ -8,7 +8,6 @@ import javax.transaction.Transactional;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
@@ -75,7 +74,7 @@ public class FlightBookingServiceImpl extends BaseServiceImpl implements FlightB
 	}
 	
 	@Override
-	public String fetchBookingList(FlightBookingModel flightBookingModel) throws FormExceptions, JSONException {
+	public String fetchBookingList(FlightBookingModel flightBookingModel) throws FormExceptions {
 
 
 		if (logger.isInfoEnabled()) {

@@ -13,7 +13,6 @@ import javax.ws.rs.core.UriBuilder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
-import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -70,7 +69,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	}
 	
 	@Override
-	public String fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
+	public String fetchOneWayFlights(FlightSearchModel flightSearchModel) throws FormExceptions {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchOneWayFlights -- START");
@@ -114,7 +113,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	}
 
 	@Override
-	public String fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
+	public String fetchRoundTripFlights(FlightSearchModel flightSearchModel) throws FormExceptions {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchRoundTripFlights -- START");
@@ -158,7 +157,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 	}
 
 	@Override
-	public String fetchMultiCityFlights(FlightSearchModel flightSearchModel) throws FormExceptions, JSONException {
+	public String fetchMultiCityFlights(FlightSearchModel flightSearchModel) throws FormExceptions {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchMultiCityFlights -- START");
