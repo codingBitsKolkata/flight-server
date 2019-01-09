@@ -18,8 +18,8 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class SearchParameterModel extends CommonModel {
 
-	@JsonProperty("rowKey")
-	private Long rowKey;
+	@JsonProperty("searchParamId")
+	private String searchParamId;
 
 	@JsonProperty("airportCode")
 	private String airportCode;

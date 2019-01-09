@@ -14,9 +14,14 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class FareRulesModel extends CommonModel {
+public class PaymentModel {
 	
-	@JsonProperty("tenantName")
-	private String tenantName;
+	@JsonProperty("status")
+	private String status;
 	
+	@JsonProperty("paymentLink")
+	private String paymentLink;
+	
+	@JsonProperty("reason")
+	private String reason;
 }

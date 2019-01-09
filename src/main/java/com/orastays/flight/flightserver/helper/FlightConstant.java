@@ -13,7 +13,7 @@ public final class FlightConstant {
 	public static final String FOR_ROW = "for ROW";
 	public static final String STATUS = "status";
 	public static final String LANGUAGEID = "languageId";
-	
+
 	public static final String ONEWAY = "0";
 	public static final String ROUNDTRIP = "R";
 	public static final String MULTICITY = "M";
@@ -26,4 +26,11 @@ public final class FlightConstant {
 	public static final String VARIATION = "0";
 	public static final String VIEW_NAME = "normal";
 	public static final int MAX_TRAVELLERS = 9;
+
+	// cashfreeapi status
+	public static final String CASHFREE_OK = "OK";
+	public static final String CASHFREE_ERROR = "ERROR";
+
+	// Payment Mode
+	public static final String MODE_CASHLESS = "cashfree";
 }

@@ -1,4 +1,4 @@
-package com.orastays.flight.flightserver.model;
+package com.orastays.flight.flightserver.model.cashfree;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -14,9 +14,14 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class FareRulesModel extends CommonModel {
-	
-	@JsonProperty("tenantName")
-	private String tenantName;
-	
+public class RefundModel {
+
+	@JsonProperty("message")
+	private String message;
+
+	@JsonProperty("refundId")
+	private String refundId;
+
+	@JsonProperty("status")
+	private String status;
 }

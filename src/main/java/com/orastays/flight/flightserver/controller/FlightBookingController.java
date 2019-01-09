@@ -16,7 +16,9 @@ import org.springframework.web.bind.annotation.RestController;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.helper.Util;
+import com.orastays.flight.flightserver.model.BookingModel;
 import com.orastays.flight.flightserver.model.FlightBookingModel;
+import com.orastays.flight.flightserver.model.PaymentModel;
 import com.orastays.flight.flightserver.model.ResponseModel;
 
 import io.swagger.annotations.Api;
@@ -74,6 +76,53 @@ public class FlightBookingController extends BaseController {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("bookFlights -- END");
+		}
+
+		if (responseModel.getResponseCode().equals(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE))) {
+			return new ResponseEntity<>(responseModel, HttpStatus.OK);
+		} else {
+			return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);
+		}
+	}
+	
+	@PostMapping(value = "/add-booking", produces = "application/json")
+	@ApiOperation(value = "Add Booking", response = ResponseModel.class)
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
+			@ApiResponse(code = 201, message = "Please Try after Sometime!!!") })
+
+	public ResponseEntity<ResponseModel> addBooking(@RequestBody BookingModel bookingModel) {
+		if (logger.isInfoEnabled()) {
+			logger.info("addBooking -- START");
+		}
+
+		ResponseModel responseModel = new ResponseModel();
+		Util.printLog(bookingModel, FlightConstant.INCOMING, "add-booking", request);
+		try {
+			PaymentModel paymentModel = bookingService.addBooking(bookingModel);
+			responseModel.setResponseBody(paymentModel);
+			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
+			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
+		} catch (FormExceptions fe) {
+			for (Entry<String, Exception> entry : fe.getExceptions().entrySet()) {
+				responseModel.setResponseCode(entry.getKey());
+				responseModel.setResponseMessage(entry.getValue().getMessage());
+				if (logger.isInfoEnabled()) {
+					logger.info("FormExceptions in add-booking -- " + Util.errorToString(fe));
+				}
+				break;
+			}
+		} catch (Exception e) {
+			if (logger.isInfoEnabled()) {
+				logger.info("Exception in Add Booking -- " + Util.errorToString(e));
+			}
+			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_ERROR_CODE));
+			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_ERROR_MESSAGE));
+		}
+
+		Util.printLog(responseModel, FlightConstant.OUTGOING, "add-booking", request);
+
+		if (logger.isInfoEnabled()) {
+			logger.info("addBooking -- END");
 		}
 
 		if (responseModel.getResponseCode().equals(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE))) {

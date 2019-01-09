@@ -26,9 +26,9 @@ public class SearchParameterEntity extends CommonEntity{
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@Column(name = "row_key")
-	@JsonProperty("rowKey")
-	private Long rowKey;
+	@Column(name = "search_param_id")
+	@JsonProperty("searchParamId")
+	private Long searchParamId;
 
 	@Column(name = "airport_code")
 	@JsonProperty("airportCode")
@@ -88,7 +88,7 @@ public class SearchParameterEntity extends CommonEntity{
 	
 	@Override
 	public String toString() {
-		return Long.toString(rowKey);
+		return Long.toString(searchParamId);
 
 	}
 }
