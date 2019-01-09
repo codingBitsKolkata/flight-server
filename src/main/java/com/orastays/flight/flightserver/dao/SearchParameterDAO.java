@@ -26,9 +26,10 @@ public class SearchParameterDAO extends GenericDAO<SearchParameterEntity, Long> 
 			logger.info("fetchSearchDetails -- START");
 		}
 		
-		Query query = sessionFactory.getCurrentSession().createQuery("From SearchParameterEntity as se where se.airportCode  like ?");
+		String hql="FROM SearchParameterEntity as se WHERE CONCAT(se.airportCode, se.airportName, se.cityCode, se.cityName) LIKE ? ORDER BY se.searchParamId ASC";
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
 		query.setString(0, "%"+searchField+"%");
-		List results = query.list();
+		List<SearchParameterEntity> results = query.list();
 		
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchSearchDetails -- START");
@@ -37,9 +38,3 @@ public class SearchParameterDAO extends GenericDAO<SearchParameterEntity, Long> 
 	}
 
 }
-
-/*SELECT * 
-FROM master_search_param 
-WHERE 
-    CONCAT(`airport_code`,`airport_name`,`city_code`,`city_name`) LIKE '%kold%' 
-ORDER BY search_param_id ASC;*/
