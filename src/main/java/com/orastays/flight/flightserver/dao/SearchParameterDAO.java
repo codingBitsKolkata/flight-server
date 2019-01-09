@@ -37,3 +37,9 @@ public class SearchParameterDAO extends GenericDAO<SearchParameterEntity, Long> 
 	}
 
 }
+
+/*SELECT * 
+FROM master_search_param 
+WHERE 
+    CONCAT(`airport_code`,`airport_name`,`city_code`,`city_name`) LIKE '%kold%' 
+ORDER BY search_param_id ASC;*/
