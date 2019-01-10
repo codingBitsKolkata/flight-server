@@ -79,8 +79,6 @@ public class FlightController extends BaseController {
 	@ApiOperation(value = "Fetch OneWay flights", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
-			@ApiResponse(code=1700, message="Please select tenant!!"),
-			@ApiResponse(code=1711, message="Invalid tenant!!"),
 			@ApiResponse(code=1701, message="Please select trip type!!"),
 			@ApiResponse(code=1702, message="Please provide segments!!"),
 			@ApiResponse(code=1703, message="Please select number of adults!!"),
@@ -142,8 +140,6 @@ public class FlightController extends BaseController {
 	@ApiOperation(value = "Fetch RoundTrip flights", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
-			@ApiResponse(code=1700, message="Please select tenant!!"),
-			@ApiResponse(code=1711, message="Invalid tenant!!"),
 			@ApiResponse(code=1701, message="Please select trip type!!"),
 			@ApiResponse(code=1702, message="Please provide segments!!"),
 			@ApiResponse(code=1703, message="Please select number of adults!!"),
@@ -206,8 +202,6 @@ public class FlightController extends BaseController {
 	@ApiOperation(value = "Fetch MultiCity flights", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
-			@ApiResponse(code=1700, message="Please select tenant!!"),
-			@ApiResponse(code=1711, message="Invalid tenant!!"),
 			@ApiResponse(code=1701, message="Please select trip type!!"),
 			@ApiResponse(code=1702, message="Please provide segments!!"),
 			@ApiResponse(code=1703, message="Please select number of adults!!"),

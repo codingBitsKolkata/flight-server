@@ -33,14 +33,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 		if(Objects.nonNull(flightSearchModel)) {
 
-			if(StringUtils.isBlank(flightSearchModel.getTenantName())) {
-				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
-			} else {
-				if (!flightSearchModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME) && !flightSearchModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME)) {
-					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
-				}
-			}
-
 			if(StringUtils.isBlank(flightSearchModel.getTripType())) {
 				exceptions.put(messageUtil.getBundle("trip.type.null.code"), new Exception(messageUtil.getBundle("trip.type.null.message")));
 			}
@@ -110,14 +102,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
 
 		if(Objects.nonNull(flightSearchModel)) {
-
-			if(StringUtils.isBlank(flightSearchModel.getTenantName())) {
-				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
-			} else {
-				if (!flightSearchModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME) && !flightSearchModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME)) {
-					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
-				}
-			}
 
 			if(StringUtils.isBlank(flightSearchModel.getTripType())) {
 				exceptions.put(messageUtil.getBundle("trip.type.null.code"), new Exception(messageUtil.getBundle("trip.type.null.message")));
@@ -193,14 +177,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 		if(Objects.nonNull(flightSearchModel)) {
 
-			if(StringUtils.isBlank(flightSearchModel.getTenantName())) {
-				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
-			} else {
-				if (!flightSearchModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME) && !flightSearchModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME)) {
-					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
-				}
-			}
-
 			if(StringUtils.isBlank(flightSearchModel.getTripType())) {
 				exceptions.put(messageUtil.getBundle("trip.type.null.code"), new Exception(messageUtil.getBundle("trip.type.null.message")));
 			}
@@ -270,7 +246,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
 
 		if(Objects.nonNull(flightPriceModel)) {
-
 
 			if(StringUtils.isBlank(flightPriceModel.getTenantName())) {
 				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));

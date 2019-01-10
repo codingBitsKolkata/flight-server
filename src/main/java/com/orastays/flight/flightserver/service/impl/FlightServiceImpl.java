@@ -221,7 +221,14 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			newModel.put("flight_depart_date", multiCityModel.getFlightDepartDate());
 		}
 
-		String tenantName = flightSearchModel.getTenantName();
+		String tenantName = null;
+		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
+			if (multiCityModel.getOriginCountry().equals(multiCityModel.getDestinationCountry())) {
+				tenantName = FlightConstant.DOM_TENANT_NAME;
+			} else {
+				tenantName = FlightConstant.INT_TENANT_NAME;
+			}
+		}
 		String tripType = flightSearchModel.getTripType();
 		String viewName = FlightConstant.VIEW_NAME;
 		String noOfSegments = flightSearchModel.getNoOfSegments();
@@ -274,7 +281,14 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			newModel.put("flight_depart_date", multiCityModel.getFlightDepartDate());
 		}
 
-		String tenantName = flightSearchModel.getTenantName();
+		String tenantName = null;
+		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
+			if (multiCityModel.getOriginCountry().equals(multiCityModel.getDestinationCountry())) {
+				tenantName = FlightConstant.DOM_TENANT_NAME;
+			} else {
+				tenantName = FlightConstant.INT_TENANT_NAME;
+			}
+		}
 		String tripType = flightSearchModel.getTripType();
 		String viewName = FlightConstant.VIEW_NAME;
 		String noOfSegments = flightSearchModel.getNoOfSegments();
@@ -330,7 +344,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			i++;
 		}
 
-		String tenantName = flightSearchModel.getTenantName();
+		String tenantName = FlightConstant.DOM_TENANT_NAME;
 		String viewName = FlightConstant.VIEW_NAME;
 		String tripType = flightSearchModel.getTripType();
 		String ADT = flightSearchModel.getNoOfAdults();
