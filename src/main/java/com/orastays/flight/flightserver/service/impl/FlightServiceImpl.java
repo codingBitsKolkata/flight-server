@@ -430,7 +430,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		try {
 			response = callOneWayPricing(flightPriceModel);
 			JSONObject jsonObj = new JSONObject(response);
-			boolean shouldRetry = jsonObj.getBoolean("shouldRetry");
+			/*boolean shouldRetry = jsonObj.getBoolean("shouldRetry");
 			if (shouldRetry) {
 				boolean shouldRetryStop=true;
 				for (int i=0;i<=2;i++) {
@@ -444,7 +444,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				if(shouldRetry) {
 					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
 				}
-			}
+			}*/
 		} catch (Exception e) {
 			logger.info("Error in fetchOneWayPricing response -- END");
 			e.getStackTrace();
@@ -490,12 +490,14 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				"&bpc="+FlightConstant.BPC+"&isSR="+FlightConstant.ISSR+"&unique="+FlightConstant.UNIQUE+"&variation="+FlightConstant.VARIATION+
 				"&flightIdCSV="+flightId+"&flightPrice="+flightPrice+"&sc="+supplierCode;
 
+		System.out.println("createUrl::"+createUrl);
 		ResponseEntity<String> responseEntity = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
 			URI uri = UriComponentsBuilder.fromUriString(createUrl).build().encode().toUri();
 			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
+			System.out.println("responseEntity::"+responseEntity.getBody());
 
 		} catch (Exception e) {
 			logger.info("Error in CallOneWayPricing response -- END");
@@ -522,7 +524,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String response = null;
 		try {
 			response = callRoundTripPricing(flightPriceModel);
-			JSONObject jsonObj = new JSONObject(response);
+			/*JSONObject jsonObj = new JSONObject(response);
 			boolean shouldRetry = jsonObj.getBoolean("shouldRetry");
 			if (shouldRetry) {
 				boolean shouldRetryStop=true;
@@ -537,7 +539,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				if(shouldRetry) {
 					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
 				}
-			}
+			}*/
 		} catch (Exception e) {
 			logger.info("Error in fetchRoundTripPricing response -- END");
 			e.getStackTrace();

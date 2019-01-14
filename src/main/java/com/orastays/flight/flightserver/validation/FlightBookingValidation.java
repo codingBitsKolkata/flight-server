@@ -42,7 +42,7 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 			//ReviewJson
 			if (Objects.isNull(flightBookingModel.getReviewJsonModel())) {
 				exceptions.put(messageUtil.getBundle("reviewJson.null.code"), new Exception(messageUtil.getBundle("reviewJson.null.message")));
-			} else {
+			} else {/*
 				//GlobalParams
 				if(Objects.isNull(flightBookingModel.getReviewJsonModel().getGlobalParamsModel())) {
 					exceptions.put(messageUtil.getBundle("globalParams.null.code"), new Exception(messageUtil.getBundle("globalParams.null.message")));
@@ -78,7 +78,7 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 				}
 
 				//UserParams should be handled from backend
-				/*if(Objects.isNull(flightBookingModel.getReviewJsonModel().getUserParamsModel())) {
+				if(Objects.isNull(flightBookingModel.getReviewJsonModel().getUserParamsModel())) {
 					exceptions.put(messageUtil.getBundle("userParams.null.code"), new Exception(messageUtil.getBundle("userParams.null.message")));
 				} else {
 					if (Objects.isNull(flightBookingModel.getReviewJsonModel().getUserParamsModel().getAdditionalContactModel())) {
@@ -133,7 +133,7 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 							}
 						}
 					} 
-				}*/
+				}
 				//travellerParams
 				if(Objects.isNull(flightBookingModel.getReviewJsonModel().getTravellerParamModels())) {
 					exceptions.put(messageUtil.getBundle("travellerParams.null.code"), new Exception(messageUtil.getBundle("travellerParams.null.message")));
@@ -166,7 +166,7 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 						}
 					}
 				}
-			}
+			*/}
 		}
 
 		if (exceptions.size() > 0)
