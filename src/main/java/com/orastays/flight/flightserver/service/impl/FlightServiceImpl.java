@@ -1,15 +1,14 @@
 package com.orastays.flight.flightserver.service.impl;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 
 import javax.transaction.Transactional;
-import javax.ws.rs.core.UriBuilder;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -244,7 +243,6 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&ADT="+ADT+
 				"&CHD="+CHD+"&INF="+INF+"&class="+classType;
 
-		System.out.println("createUrl::"+createUrl);
 		ResponseEntity<String> responseEntity = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -307,7 +305,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				"&origin="+newModel.get("origin")+"&originCountry="+newModel.get("originCountry")+"&destination="+newModel.get("destination")+
 				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&arrivalDate="+arrivalDate+
 				"&ADT="+ADT+"&CHD="+CHD+"&INF="+INF+"&class="+classType;
-		System.out.println("createUrl::"+createUrl);
+		
 		ResponseEntity<String> responseEntity = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -327,7 +325,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		return responseEntity.getBody();
 	}
 
-	public String multiCityFetch(FlightSearchModel flightSearchModel) {
+	public String multiCityFetch(FlightSearchModel flightSearchModel) throws UnsupportedEncodingException {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("multiCityFetch -- START");
@@ -338,27 +336,36 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		headers.add("password", messageUtil.getBundle("flight.password"));
 		headers.add("apikey", messageUtil.getBundle("flight.key"));
 
-		Map<String, String> newModel = new HashMap<>();
+		LinkedHashMap<String, String> newModel = new LinkedHashMap<>();
+		ArrayList<String> originCountryCode = new ArrayList<String>();
+		ArrayList<String> destCountryCode = new ArrayList<String>(); 
 		int i=0;
 		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
-			newModel.put("origin_"+i, multiCityModel.getOrigin());
-			newModel.put("originCountry_"+i, multiCityModel.getOriginCountry());
-			newModel.put("destination_"+i, multiCityModel.getDestination());
-			newModel.put("destinationCountry_"+i, multiCityModel.getDestinationCountry());
 			newModel.put("flight_depart_date_"+i, multiCityModel.getFlightDepartDate());
+			newModel.put("origin_"+i, multiCityModel.getOrigin());
+			//Get the origin country code fromDB
+			String originCode = searchParameterDAO.fetchCountryCode(multiCityModel.getOrigin());
+			originCountryCode.add(originCode);
+			newModel.put("originCountry_"+i, originCode);
+			//Get the destination country code fromDB
+			String destCode = searchParameterDAO.fetchCountryCode(multiCityModel.getDestination());
+			destCountryCode.add(destCode);
+			newModel.put("destination_"+i, multiCityModel.getDestination());
+			newModel.put("destinationCountry_"+i, destCode);
 			i++;
 		}
-
+		
 		String tenantName = null;
-		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
-			String originCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getOrigin());
-			String destCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getDestination());
-			if (originCountryCode.equals(destCountryCode)) {
-				tenantName = FlightConstant.DOM_TENANT_NAME;
-			} else {
-				tenantName = FlightConstant.INT_TENANT_NAME;
-			}
+		//Storing the comparison output in ArrayList<String>
+        ArrayList<String> compareLists= new ArrayList<String>();
+        for (String temp : originCountryCode)
+        	compareLists.add(destCountryCode.contains(temp) ? "Yes" : "No");
+        if(compareLists.contains("YES")) {
+        	tenantName = FlightConstant.INT_TENANT_NAME;
+        } else {
+        	tenantName = FlightConstant.DOM_TENANT_NAME;
 		}
+        
 		String viewName = FlightConstant.VIEW_NAME;
 		String tripType = FlightConstant.MULTICITY;
 		String ADT = flightSearchModel.getNoOfAdults();
@@ -366,32 +373,35 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String INF = flightSearchModel.getNoOfInfants();
 		String classType = flightSearchModel.getClassType();
 		String noOfSegments = FlightConstant.SEGMENTS_MULTICITY;
-
-		UriBuilder builder = UriBuilder
-				.fromPath(messageUtil.getBundle("flight.search.server.url")+tenantName+"/search")
-				.queryParam("viewName", viewName)
-				.queryParam("type", tripType)
-				.queryParam("ADT", ADT)
-				.queryParam("CHD", CHD)
-				.queryParam("INF", INF)
-				.queryParam("class", classType)
-				.queryParam("noOfSegments", noOfSegments);
-
-		for (Entry<String, String> entry : newModel.entrySet()) {
-			builder.queryParam(entry.getKey(), entry.getValue());
-		}
-
-		URI uri = builder.build();
+		
+		StringBuilder result = new StringBuilder();
+		
+		for (Map.Entry<String, String> entry : newModel.entrySet()) {
+	          result.append(entry.getKey());
+	          result.append("=");
+	          result.append(entry.getValue());
+	          result.append("&");
+	        }
+		String resultString = result.toString();
+		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/search?viewName="+viewName
+				+"&type="+tripType+"&ADT="+ADT+"&CHD="+CHD+"&INF="+INF+"&class="+classType+"&noOfSegments="+noOfSegments
+				+"&"+resultString;
+		
+		String callUrl = removeLastCharater(createUrl);
+		System.out.println("callUrl::"+callUrl);
+		
 		ResponseEntity<String> responseEntity = null;
 		try {
-			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 			RestTemplate restTemplate = new RestTemplate();
+			URI uri = UriComponentsBuilder.fromUriString(callUrl).build().encode().toUri();
+			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
 
 		} catch (Exception e) {
 			logger.info("Error in multiCityFetch response");
 			e.getStackTrace();
-		}		
+		}
+		
 		if (logger.isInfoEnabled()) {
 			logger.info("multiCityFetch -- END");
 		}
@@ -399,6 +409,13 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		return responseEntity.getBody();
 	}
 
+	public String removeLastCharater(String createUrl) {
+	    if (createUrl != null && createUrl.length() > 0 && createUrl.charAt(createUrl.length() - 1) == '&') {
+	    	createUrl = createUrl.substring(0, createUrl.length() - 1);
+	    }
+	    return createUrl;
+	}
+	
 	@Override
 	public String fetchOneWayPricing(FlightPriceModel flightPriceModel) throws FormExceptions {
 		
@@ -453,7 +470,15 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		headers.add("password", messageUtil.getBundle("flight.password"));
 		headers.add("apikey", messageUtil.getBundle("flight.key"));
 
-		String tenantName = flightPriceModel.getTenantName();
+		String tenantName = null;
+		String originCountryCode = searchParameterDAO.fetchCountryCode(flightPriceModel.getOrigin());
+		String destCountryCode = searchParameterDAO.fetchCountryCode(flightPriceModel.getDestination());
+		if (originCountryCode.equals(destCountryCode)) {
+			tenantName = FlightConstant.DOM_TENANT_NAME;
+		} else {
+			tenantName = FlightConstant.INT_TENANT_NAME;
+		}
+		
 		String searchId = flightPriceModel.getSearchId();
 		String msid = flightPriceModel.getMsid();
 		String requestMode = FlightConstant.REQUEST_MODE; 
@@ -539,7 +564,15 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		headers.add("password", messageUtil.getBundle("flight.password"));
 		headers.add("apikey", messageUtil.getBundle("flight.key"));
 
-		String tenantName = flightPriceModel.getTenantName();
+		String tenantName = null;
+		String originCountryCode = searchParameterDAO.fetchCountryCode(flightPriceModel.getOrigin());
+		String destCountryCode = searchParameterDAO.fetchCountryCode(flightPriceModel.getDestination());
+		if (originCountryCode.equals(destCountryCode)) {
+			tenantName = FlightConstant.DOM_TENANT_NAME;
+		} else {
+			tenantName = FlightConstant.INT_TENANT_NAME;
+		}
+		
 		String searchId = flightPriceModel.getSearchId();
 		String msid = flightPriceModel.getMsid();
 		String requestMode = FlightConstant.REQUEST_MODE; 

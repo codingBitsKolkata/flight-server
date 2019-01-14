@@ -36,4 +36,10 @@ public class FlightPriceModel extends CommonModel {
 	
 	@JsonProperty("flightPrice")
 	private String flightPrice;
+	
+	@JsonProperty("origin")
+	private String origin;
+	
+	@JsonProperty("destination")
+	private String destination;
 }
