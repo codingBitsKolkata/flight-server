@@ -2,7 +2,6 @@ package com.orastays.flight.flightserver.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,30 +15,13 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class GstDetailsModel extends CommonModel {
 
-	@JsonProperty("gstState")
-    public String gstState;
-	
-	@JsonProperty("gstMobileIsd")
-    public String gstMobileIsd;
-	
-	@JsonProperty("gstNumber")
-    public String gstNumber;
-	
-	@JsonProperty("gstCompanyName")
-    public String gstCompanyName;
-	
-	@JsonProperty("gstCompanyAddress")
-    public String gstCompanyAddress;
-	
-	@JsonProperty("gstCity")
-    public String gstCity;
-	
-	@JsonProperty("gstPinCode")
-    public String gstPinCode;
-	
-	@JsonProperty("gstEmailId")
-    public String gstEmailId;
-	
-	@JsonProperty("gstMobileNo")
-    public String gstMobileNo;
+	public String gstState;
+	public String gstMobileIsd;
+	public String gstNumber;
+	public String gstCompanyName;
+	public String gstCompanyAddress;
+	public String gstCity;
+	public String gstPinCode;
+	public String gstEmailId;
+	public String gstMobileNo;
 }

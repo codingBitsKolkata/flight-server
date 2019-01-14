@@ -2,7 +2,6 @@ package com.orastays.flight.flightserver.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,33 +15,14 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class TravellerDetailsModel extends CommonModel {
 
-	@JsonProperty("id")
-    public String id;
-	
-	@JsonProperty("title")
-    public String title;
-	
-	@JsonProperty("firstName")
-    public String firstName;
-	
-	@JsonProperty("middleName")
-    public String middleName;
-	
-	@JsonProperty("lastName")
-    public String lastName;
-	
-	@JsonProperty("paxClass")
-    public String paxClass;
-	
-	@JsonProperty("passengerClass")
-    public String passengerClass;
-	
-	@JsonProperty("dateOfBirth")
-    public String dateOfBirth;
-	
-	@JsonProperty("passport")
+	public Integer id;
+	public String title;
+	public String firstName;
+	public String middleName;
+	public String lastName;
+	public String paxClass;
+	public String passengerClass;
+	public String dateOfBirth;
     public PassportModel passportModel;
-	
-	@JsonProperty("frequentFlyer")
     public FrequentFlyerModel frequentFlyerModel;
 }

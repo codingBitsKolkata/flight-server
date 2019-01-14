@@ -29,4 +29,5 @@ public class SsrDetailsModel extends CommonModel {
 	
 	@JsonProperty("ssrOtherDetails")
     public List<SsrOtherDetailsModel> ssrOtherDetailsModels;
+	
 }

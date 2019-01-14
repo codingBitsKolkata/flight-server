@@ -2,7 +2,6 @@ package com.orastays.flight.flightserver.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,9 +15,6 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class BeingHumanModel extends CommonModel {
 
-	@JsonProperty("amount")
-    public String amount;
-	
-	@JsonProperty("label")
-    public String label;
+	public Integer amount;
+	public String label;
 }

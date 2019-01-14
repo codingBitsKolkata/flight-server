@@ -1,6 +1,5 @@
 package com.orastays.flight.flightserver.controller;
 
-import java.util.List;
 import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
@@ -50,7 +49,8 @@ public class FlightBookingController extends BaseController {
 		Util.printLog(flightBookingModel, FlightConstant.INCOMING, "Book Flights", request);
 
 		try {
-			List<FlightBookingModel> flightBookingModels= flightBookingService.bookFlights(flightBookingModel);
+			//List<FlightBookingModel> flightBookingModels= flightBookingService.bookFlights(flightBookingModel);
+			String flightBookingModels= flightBookingService.bookFlights(flightBookingModel);
 			responseModel.setResponseBody(flightBookingModels);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));

@@ -48,13 +48,13 @@ public class BaggageServiceImpl extends BaseServiceImpl implements BaggageServic
 			headers.add("password", messageUtil.getBundle("flight.password"));
 			headers.add("apikey", messageUtil.getBundle("flight.key"));
 			
-			String createUrl = messageUtil.getBundle("flight.search.server.url")+baggageModel.getTenantName()+"/getbaggageinfo?searchId="+baggageModel.getSearchId()+
+			/*String createUrl = messageUtil.getBundle("flight.search.server.url")+baggageModel.getTenantName()+"/getbaggageinfo?searchId="+baggageModel.getSearchId()+
 					"&sc="+baggageModel.getSc()+"&flightIdCSV="+baggageModel.getFlightIdCSV();
 			
 			RestTemplate restTemplate = new RestTemplate();
 			URI uri = UriComponentsBuilder.fromUriString(createUrl).build().encode().toUri();
 			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
-			responseEntity = restTemplate.exchange(requestEntity, String.class);
+			responseEntity = restTemplate.exchange(requestEntity, String.class);*/
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

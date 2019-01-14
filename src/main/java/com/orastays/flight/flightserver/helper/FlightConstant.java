@@ -23,7 +23,7 @@ public final class FlightConstant {
 	public static final String UNIQUE = "1536664674033";
 	public static final String ISSR = "false";
 	public static final String BPC = "false";
-	public static final String VARIATION = "0";
+	public static final int VARIATION = 0;
 	public static final String VIEW_NAME = "normal";
 	public static final int MAX_TRAVELLERS = 9;
 	public static final String SEGMENTS_ONE_WAY = "1";
@@ -34,7 +34,7 @@ public final class FlightConstant {
 	//Booking
 	public static final String CHANNEL = "b2b";
 	public static final String PRODUCT = "flight";
-	public static final String IS_PARTIAL = "false";
+	public static final boolean IS_PARTIAL = false;
 	public static final String EBS_ACCOUNTID = "1026";
 	public static final String MO_PROFILE_TYPE = "CASH";
 	//Booking UserParams

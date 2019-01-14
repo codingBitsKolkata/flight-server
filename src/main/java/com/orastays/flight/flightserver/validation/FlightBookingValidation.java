@@ -12,9 +12,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
-import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.model.FlightBookingModel;
-import com.orastays.flight.flightserver.model.TravellerParamModel;
 
 @Component
 @Transactional
@@ -40,7 +38,7 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 				exceptions.put(messageUtil.getBundle("superPnr.null.code"), new Exception(messageUtil.getBundle("superPnr.null.message")));
 			}
 			//ReviewJson
-			if (Objects.isNull(flightBookingModel.getReviewJsonModel())) {
+			if (Objects.isNull(flightBookingModel.getReviewJson())) {
 				exceptions.put(messageUtil.getBundle("reviewJson.null.code"), new Exception(messageUtil.getBundle("reviewJson.null.message")));
 			} else {/*
 				//GlobalParams

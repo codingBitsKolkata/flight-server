@@ -1,7 +1,6 @@
 package com.orastays.flight.flightserver.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
 import lombok.EqualsAndHashCode;
@@ -16,10 +15,7 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class MarkupModel extends CommonModel {
 
-	@JsonProperty("amount")
-    public String amount;
-	
-	@JsonProperty("label")
-    public String label;
+	public Integer amount;
+	public String label;
 
 }

@@ -22,6 +22,5 @@ public class FlightBookingModel extends CommonModel {
 	@JsonProperty("superPnr")
 	private String superPnr;
 	
-	@JsonProperty("reviewJson")
-	public ReviewJsonModel reviewJsonModel;
+	public ReviewJsonModel reviewJson;
 }

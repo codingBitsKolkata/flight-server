@@ -2,7 +2,6 @@ package com.orastays.flight.flightserver.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,21 +15,10 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class DataModel extends CommonModel {
 
-	@JsonProperty("id")
-    public String id;
-	
-	@JsonProperty("name")
-    public String name;
-	
-	@JsonProperty("category")
-    public String category;
-	
-	@JsonProperty("brand")
-    public String brand;
-	
-	@JsonProperty("variant")
-    public String variant;
-	
-	@JsonProperty("price")
-    public String price;
+	public String id;
+	public String name;
+	public String category;
+	public String brand;
+	public String variant;
+	public String price;
 }

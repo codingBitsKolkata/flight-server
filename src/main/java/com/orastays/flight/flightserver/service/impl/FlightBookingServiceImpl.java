@@ -12,16 +12,17 @@ import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import com.google.common.reflect.TypeToken;
-import com.google.gson.Gson;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.helper.MessageUtil;
 import com.orastays.flight.flightserver.model.FlightBookingModel;
-import com.orastays.flight.flightserver.model.ResponseModel;
 import com.orastays.flight.flightserver.service.FlightBookingService;
 
 @Service
@@ -37,7 +38,7 @@ public class FlightBookingServiceImpl extends BaseServiceImpl implements FlightB
 	private static final Logger logger = LogManager.getLogger(FlightBookingServiceImpl.class);
 
 	@Override
-	public List<FlightBookingModel> bookFlights(FlightBookingModel flightBookingModel) throws FormExceptions {
+	public String bookFlights(FlightBookingModel flightBookingModel) throws FormExceptions {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("bookFlights -- START");
@@ -46,55 +47,58 @@ public class FlightBookingServiceImpl extends BaseServiceImpl implements FlightB
 		flightBookingValidation.validateBookingDetails(flightBookingModel);
 		List<FlightBookingModel> flightBookingModels = null;
 		HttpEntity<FlightBookingModel> request = null;
+		ResponseEntity<String> response= null;
 		try {
 			HttpHeaders headers = new HttpHeaders();
+			headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
 			headers.add("emailId", messageUtil.getBundle("flight.email"));
 			headers.add("password", messageUtil.getBundle("flight.password"));
 			headers.add("apikey", messageUtil.getBundle("flight.key"));
 
 			//Constants START
-			flightBookingModel.getReviewJsonModel().getGlobalParamsModel().setPrq("");
-			flightBookingModel.getReviewJsonModel().getGlobalParamsModel().setADTcreator("");
-			flightBookingModel.getReviewJsonModel().getGlobalParamsModel().setEbsSessionId("d99291547dc2c56cf2ddbdab43acdfd7");
-			flightBookingModel.getReviewJsonModel().getHotelCrossSellParamsModel().setIsHotelCrosssellBooking("false");
-			flightBookingModel.getReviewJsonModel().getHotelCrossSellParamsModel().setHotelBookingRequestJSON("");
+			flightBookingModel.getReviewJson().getGlobalParamsModel().setPrq("");
+			flightBookingModel.getReviewJson().getGlobalParamsModel().setADTcreator("");
+			flightBookingModel.getReviewJson().getGlobalParamsModel().setEbsSessionId("d99291547dc2c56cf2ddbdab43acdfd7");
+			flightBookingModel.getReviewJson().getHotelCrossSellParamsModel().setIsHotelCrosssellBooking(false);
+			flightBookingModel.getReviewJson().getHotelCrossSellParamsModel().setHotelBookingRequestJSON("");
 			
 			//Constants END
-			flightBookingModel.reviewJsonModel.globalParamsModel.setChannel(FlightConstant.CHANNEL);
-			flightBookingModel.reviewJsonModel.globalParamsModel.setProduct(FlightConstant.PRODUCT);
-			flightBookingModel.reviewJsonModel.globalParamsModel.setIsPartial(FlightConstant.IS_PARTIAL);
-			flightBookingModel.reviewJsonModel.globalParamsModel.setEbsAccountId(FlightConstant.EBS_ACCOUNTID);
-			flightBookingModel.reviewJsonModel.globalParamsModel.setMoProfileType(FlightConstant.MO_PROFILE_TYPE);
+			flightBookingModel.reviewJson.globalParamsModel.setChannel(FlightConstant.CHANNEL);
+			flightBookingModel.reviewJson.globalParamsModel.setProduct(FlightConstant.PRODUCT);
+			flightBookingModel.reviewJson.globalParamsModel.setIsPartial(FlightConstant.IS_PARTIAL);
+			flightBookingModel.reviewJson.globalParamsModel.setEbsAccountId(FlightConstant.EBS_ACCOUNTID);
+			flightBookingModel.reviewJson.globalParamsModel.setMoProfileType(FlightConstant.MO_PROFILE_TYPE);
 			
-			String originCountryCode = searchParameterDAO.fetchCountryCode(flightBookingModel.getReviewJsonModel().getGlobalParamsModel().getOrg());
-			String destCountryCode = searchParameterDAO.fetchCountryCode(flightBookingModel.getReviewJsonModel().getGlobalParamsModel().getDest());
+			String originCountryCode = searchParameterDAO.fetchCountryCode(flightBookingModel.getReviewJson().getGlobalParamsModel().getOrg());
+			String destCountryCode = searchParameterDAO.fetchCountryCode(flightBookingModel.getReviewJson().getGlobalParamsModel().getDest());
 			if (originCountryCode.equals(destCountryCode)) {
-				flightBookingModel.reviewJsonModel.globalParamsModel.setChildTenant(FlightConstant.DOM_TENANT_NAME);
+				flightBookingModel.reviewJson.globalParamsModel.setChildTenant(FlightConstant.DOM_TENANT_NAME);
 			} else {
-				flightBookingModel.reviewJsonModel.globalParamsModel.setChildTenant(FlightConstant.INT_TENANT_NAME);
+				flightBookingModel.reviewJson.globalParamsModel.setChildTenant(FlightConstant.INT_TENANT_NAME);
 			}
-			flightBookingModel.reviewJsonModel.globalParamsModel.setVariation(FlightConstant.VARIATION);
+			flightBookingModel.reviewJson.globalParamsModel.setVariation(FlightConstant.VARIATION);
 			
-			flightBookingModel.getReviewJsonModel().getUserParamsModel().getAdditionalContactModel().setEmail(FlightConstant.ADTL_EMAIL);
-			flightBookingModel.getReviewJsonModel().getUserParamsModel().getAdditionalContactModel().setMobile(FlightConstant.ADTL_MOBILE);
-			flightBookingModel.getReviewJsonModel().getUserParamsModel().getAdditionalContactModel().setMobileISD(FlightConstant.ADTL_MOBILE_ISD);
-			flightBookingModel.getReviewJsonModel().getUserParamsModel().setEmailId(FlightConstant.EMAIL);
-			flightBookingModel.getReviewJsonModel().getUserParamsModel().setMobileNo(FlightConstant.MOBILE);
-			flightBookingModel.getReviewJsonModel().getUserParamsModel().setUserId(FlightConstant.USER_ID);
-			flightBookingModel.getReviewJsonModel().getUserParamsModel().setFirstName(FlightConstant.FIRST_NAME);
-			flightBookingModel.getReviewJsonModel().getUserParamsModel().setLastName(FlightConstant.LAST_NAME);
-			flightBookingModel.getReviewJsonModel().getUserParamsModel().setMobileNoISD(FlightConstant.ADTL_MOBILE_ISD);
+			flightBookingModel.getReviewJson().getUserParamsModel().getAdditionalContactModel().setEmail(FlightConstant.ADTL_EMAIL);
+			flightBookingModel.getReviewJson().getUserParamsModel().getAdditionalContactModel().setMobile(FlightConstant.ADTL_MOBILE);
+			flightBookingModel.getReviewJson().getUserParamsModel().getAdditionalContactModel().setMobileISD(FlightConstant.ADTL_MOBILE_ISD);
+			flightBookingModel.getReviewJson().getUserParamsModel().setEmailId(FlightConstant.EMAIL);
+			flightBookingModel.getReviewJson().getUserParamsModel().setMobileNo(FlightConstant.MOBILE);
+			flightBookingModel.getReviewJson().getUserParamsModel().setUserId(FlightConstant.USER_ID);
+			flightBookingModel.getReviewJson().getUserParamsModel().setFirstName(FlightConstant.FIRST_NAME);
+			flightBookingModel.getReviewJson().getUserParamsModel().setLastName(FlightConstant.LAST_NAME);
+			flightBookingModel.getReviewJson().getUserParamsModel().setMobileNoISD(FlightConstant.ADTL_MOBILE_ISD);
 			
+			RestTemplate restTemplate = new RestTemplate();
 			String url = messageUtil.getBundle("flight.booking.server.url");
 			request = new HttpEntity<FlightBookingModel>(flightBookingModel, headers);
-			ResponseModel responseModel = restTemplate.postForObject(url, request, ResponseModel.class);
-			System.out.println("responseModel::"+responseModel);
-			Gson gson = new Gson();
-			String jsonString = gson.toJson(responseModel.getResponseBody());
-			//To store the whole list because list contains object as well as array
-			flightBookingModels = gson.fromJson(jsonString,new TypeToken<List<FlightBookingModel>>(){
-			private static final long serialVersionUID = 6432872879861274827L;}.getType());
-			System.out.println("flightBookingModels::"+flightBookingModels);
+			ObjectMapper objectMapper = new ObjectMapper();
+			response= 
+				    restTemplate.exchange(
+				    		url,
+				        HttpMethod.POST, 
+				        new HttpEntity(objectMapper.writeValueAsString(request), headers), 
+				        String.class);
+			System.out.println("rest::"+response);
 			
 			//STORE THE RESPONSE DATA IN DB
 
@@ -106,7 +110,7 @@ public class FlightBookingServiceImpl extends BaseServiceImpl implements FlightB
 			logger.info("bookFlights -- END");
 		}
 		
-		return flightBookingModels;
+		return response.getBody();
 	}
 	
 	@Override

@@ -2,7 +2,6 @@ package com.orastays.flight.flightserver.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -16,13 +15,8 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class TourCodeModel extends CommonModel {
 
-	@JsonProperty("tourCode")
-    public String tourCode;
-	
-	@JsonProperty("airline")
-    public String airline;
-	
-	@JsonProperty("sector")
-    public String sector;
+	public String tourCode;
+	public String airline;
+	public String sector;
 
 }
