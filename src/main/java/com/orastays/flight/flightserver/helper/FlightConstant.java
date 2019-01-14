@@ -14,10 +14,10 @@ public final class FlightConstant {
 	public static final String STATUS = "status";
 	public static final String LANGUAGEID = "languageId";
 
-	public static final String ONEWAY = "0";
+	//Flight Search and Pricing Details
+	public static final String ONEWAY = "O";
 	public static final String ROUNDTRIP = "R";
 	public static final String MULTICITY = "M";
-	//Flight Search and Pricing Details
 	public static final String DOM_TENANT_NAME = "b2bdomapi";
 	public static final String INT_TENANT_NAME = "b2bintapi";
 	public static final String UNIQUE = "1536664674033";
@@ -26,7 +26,27 @@ public final class FlightConstant {
 	public static final String VARIATION = "0";
 	public static final String VIEW_NAME = "normal";
 	public static final int MAX_TRAVELLERS = 9;
+	public static final String SEGMENTS_ONE_WAY = "1";
+	public static final String SEGMENTS_ROUND_TRIP = "2";
+	public static final String SEGMENTS_MULTICITY = "3";
+	public static final String REQUEST_MODE = "Instant";
 
+	//Booking
+	public static final String CHANNEL = "b2b";
+	public static final String PRODUCT = "flight";
+	public static final String IS_PARTIAL = "false";
+	public static final String EBS_ACCOUNTID = "1026";
+	public static final String MO_PROFILE_TYPE = "CASH";
+	//Booking UserParams
+	public static final String ADTL_EMAIL = "dipankar@orastays.com";
+	public static final String ADTL_MOBILE = "9836666918";
+	public static final String ADTL_MOBILE_ISD = "91";
+	public static final String EMAIL = "akshay@orastays.com";
+	public static final String MOBILE = "9742729028";
+	public static final String USER_ID = "21975";
+	public static final String FIRST_NAME = "Akshay";
+	public static final String LAST_NAME = "Ball";
+	
 	// cashfreeapi status
 	public static final String CASHFREE_OK = "OK";
 	public static final String CASHFREE_ERROR = "ERROR";

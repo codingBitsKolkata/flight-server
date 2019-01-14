@@ -14,7 +14,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class DatumModel extends CommonModel {
+public class DataModel extends CommonModel {
 
 	@JsonProperty("id")
     public String id;

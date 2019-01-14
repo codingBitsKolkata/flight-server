@@ -18,23 +18,40 @@ public class SearchParameterDAO extends GenericDAO<SearchParameterEntity, Long> 
 	public SearchParameterDAO() {
 		super(SearchParameterEntity.class);
 	}
-	
+
 	@SuppressWarnings("unchecked")
 	public List<SearchParameterEntity> fetchSearchDetails(String searchField) {
-		
+
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchSearchDetails -- START");
 		}
-		
-		String hql="FROM SearchParameterEntity as se WHERE CONCAT(se.airportCode, se.airportName, se.cityCode, se.cityName) LIKE ? ORDER BY se.searchParamId ASC";
+
+		String hql = "FROM SearchParameterEntity as se WHERE CONCAT(se.airportCode, se.airportName, se.cityCode, se.cityName) LIKE ? ORDER BY se.searchParamId ASC";
 		Query query = sessionFactory.getCurrentSession().createQuery(hql);
-		query.setString(0, "%"+searchField+"%");
+		query.setString(0, "%" + searchField + "%");
 		List<SearchParameterEntity> results = query.list();
-		
+
 		if (logger.isInfoEnabled()) {
 			logger.info("fetchSearchDetails -- START");
 		}
 		return results;
+	}
+
+	public String fetchCountryCode(String searchField) {
+
+		if (logger.isInfoEnabled()) {
+			logger.info("fetchCountryCode -- START");
+		}
+
+		String countryCode = (String) sessionFactory.getCurrentSession().createQuery
+				("select se.countryCode from SearchParameterEntity as se where se.airportCode = :airportCode")
+				.setString("airportCode",searchField).uniqueResult();
+		
+		if (logger.isInfoEnabled()) {
+			logger.info("fetchCountryCode -- START");
+		}
+		
+		return countryCode;
 	}
 
 }

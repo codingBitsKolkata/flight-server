@@ -18,6 +18,7 @@ import org.springframework.web.client.RestTemplate;
 import com.google.common.reflect.TypeToken;
 import com.google.gson.Gson;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
+import com.orastays.flight.flightserver.helper.FlightConstant;
 import com.orastays.flight.flightserver.helper.MessageUtil;
 import com.orastays.flight.flightserver.model.FlightBookingModel;
 import com.orastays.flight.flightserver.model.ResponseModel;
@@ -51,16 +52,43 @@ public class FlightBookingServiceImpl extends BaseServiceImpl implements FlightB
 			headers.add("password", messageUtil.getBundle("flight.password"));
 			headers.add("apikey", messageUtil.getBundle("flight.key"));
 
-
+			flightBookingModel.reviewJsonModel.globalParamsModel.setChannel(FlightConstant.CHANNEL);
+			flightBookingModel.reviewJsonModel.globalParamsModel.setProduct(FlightConstant.PRODUCT);
+			flightBookingModel.reviewJsonModel.globalParamsModel.setIsPartial(FlightConstant.IS_PARTIAL);
+			flightBookingModel.reviewJsonModel.globalParamsModel.setEbsAccountId(FlightConstant.EBS_ACCOUNTID);
+			flightBookingModel.reviewJsonModel.globalParamsModel.setMoProfileType(FlightConstant.MO_PROFILE_TYPE);
+			String orginCountryCode = searchParameterDAO.fetchCountryCode(flightBookingModel.getReviewJsonModel().getGlobalParamsModel().getOrg());
+			String destCountryCode = searchParameterDAO.fetchCountryCode(flightBookingModel.getReviewJsonModel().getGlobalParamsModel().getDest());
+			if(orginCountryCode.equals(destCountryCode)) {
+				flightBookingModel.reviewJsonModel.globalParamsModel.setChildTenant(FlightConstant.DOM_TENANT_NAME);
+			} else {
+				flightBookingModel.reviewJsonModel.globalParamsModel.setChildTenant(FlightConstant.INT_TENANT_NAME);
+			}
+			flightBookingModel.reviewJsonModel.globalParamsModel.setVariation(FlightConstant.VARIATION);
+			//flightBookingModel.reviewJsonModel.globalParamsModel.setChildTenant(FlightConstant.DOM_TENANT_NAME);
+			
+			flightBookingModel.getReviewJsonModel().getUserParamsModel().getAdditionalContactModel().setEmail(FlightConstant.ADTL_EMAIL);
+			flightBookingModel.getReviewJsonModel().getUserParamsModel().getAdditionalContactModel().setMobile(FlightConstant.ADTL_MOBILE);
+			flightBookingModel.getReviewJsonModel().getUserParamsModel().getAdditionalContactModel().setMobileISD(FlightConstant.ADTL_MOBILE_ISD);
+			flightBookingModel.getReviewJsonModel().getUserParamsModel().setEmailId(FlightConstant.EMAIL);
+			flightBookingModel.getReviewJsonModel().getUserParamsModel().setMobileNo(FlightConstant.MOBILE);
+			flightBookingModel.getReviewJsonModel().getUserParamsModel().setUserId(FlightConstant.USER_ID);
+			flightBookingModel.getReviewJsonModel().getUserParamsModel().setFirstName(FlightConstant.FIRST_NAME);
+			flightBookingModel.getReviewJsonModel().getUserParamsModel().setLastName(FlightConstant.LAST_NAME);
+			flightBookingModel.getReviewJsonModel().getUserParamsModel().setMobileNoISD(FlightConstant.ADTL_MOBILE_ISD);
+			
 			String url = messageUtil.getBundle("flight.booking.server.url");
 			request = new HttpEntity<FlightBookingModel>(flightBookingModel, headers);
 			ResponseModel responseModel = restTemplate.postForObject(url, request, ResponseModel.class);
-			//ResponseModel responseModel = restTemplate.postForObject(url, flightBookingModel, ResponseModel.class);
+			System.out.println("responseModel::"+responseModel);
 			Gson gson = new Gson();
 			String jsonString = gson.toJson(responseModel.getResponseBody());
 			//To store the whole list because list contains object as well as array
 			flightBookingModels = gson.fromJson(jsonString,new TypeToken<List<FlightBookingModel>>(){
 			private static final long serialVersionUID = 6432872879861274827L;}.getType());
+			System.out.println("flightBookingModels::"+flightBookingModels);
+			
+			//STORE THE RESPONSE DATA IN DB
 
 		} catch (Exception e) {
 			e.printStackTrace();

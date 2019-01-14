@@ -20,7 +20,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestClientResponseException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -75,9 +74,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			logger.info("fetchOneWayFlights -- START");
 		}
 		
-		Map<String, Exception> exceptions = new LinkedHashMap<>();
-
 		flightValidation.validateOneWayData(flightSearchModel);
+		
+		Map<String, Exception> exceptions = new LinkedHashMap<>();
 		String searchResponse = null;
 		try {
 			searchResponse = oneWayFetch(flightSearchModel);
@@ -220,18 +219,21 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			newModel.put("destinationCountry", multiCityModel.getDestinationCountry());
 			newModel.put("flight_depart_date", multiCityModel.getFlightDepartDate());
 		}
-
+		
 		String tenantName = null;
 		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
-			if (multiCityModel.getOriginCountry().equals(multiCityModel.getDestinationCountry())) {
+			String originCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getOrigin());
+			String destCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getDestination());
+			if (originCountryCode.equals(destCountryCode)) {
 				tenantName = FlightConstant.DOM_TENANT_NAME;
 			} else {
 				tenantName = FlightConstant.INT_TENANT_NAME;
 			}
 		}
-		String tripType = flightSearchModel.getTripType();
+		
+		String tripType = FlightConstant.ONEWAY;
 		String viewName = FlightConstant.VIEW_NAME;
-		String noOfSegments = flightSearchModel.getNoOfSegments();
+		String noOfSegments = FlightConstant.SEGMENTS_ONE_WAY;
 		String ADT = flightSearchModel.getNoOfAdults();
 		String CHD = flightSearchModel.getNoOfChild();
 		String INF = flightSearchModel.getNoOfInfants();
@@ -242,6 +244,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&ADT="+ADT+
 				"&CHD="+CHD+"&INF="+INF+"&class="+classType;
 
+		System.out.println("createUrl::"+createUrl);
 		ResponseEntity<String> responseEntity = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -249,7 +252,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
 
-		} catch (RestClientResponseException e) {
+		} catch (Exception e) {
 			logger.info("Error in oneWayFetch response");
 			e.getStackTrace();
 		}
@@ -283,15 +286,17 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 
 		String tenantName = null;
 		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
-			if (multiCityModel.getOriginCountry().equals(multiCityModel.getDestinationCountry())) {
+			String originCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getOrigin());
+			String destCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getDestination());
+			if (originCountryCode.equals(destCountryCode)) {
 				tenantName = FlightConstant.DOM_TENANT_NAME;
 			} else {
 				tenantName = FlightConstant.INT_TENANT_NAME;
 			}
 		}
-		String tripType = flightSearchModel.getTripType();
+		String tripType = FlightConstant.ROUNDTRIP;
 		String viewName = FlightConstant.VIEW_NAME;
-		String noOfSegments = flightSearchModel.getNoOfSegments();
+		String noOfSegments = FlightConstant.SEGMENTS_ROUND_TRIP;
 		String arrivalDate = flightSearchModel.getArrivalDate();
 		String ADT = flightSearchModel.getNoOfAdults();
 		String CHD = flightSearchModel.getNoOfChild();
@@ -302,7 +307,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				"&origin="+newModel.get("origin")+"&originCountry="+newModel.get("originCountry")+"&destination="+newModel.get("destination")+
 				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&arrivalDate="+arrivalDate+
 				"&ADT="+ADT+"&CHD="+CHD+"&INF="+INF+"&class="+classType;
-
+		System.out.println("createUrl::"+createUrl);
 		ResponseEntity<String> responseEntity = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -310,7 +315,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			RequestEntity<String> requestEntity = new RequestEntity<>(headers, HttpMethod.GET, uri);
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
 
-		} catch (RestClientResponseException e) {
+		} catch (Exception e) {
 			logger.info("Error in roundTripFetch response");
 			e.getStackTrace();
 		}
@@ -344,14 +349,23 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			i++;
 		}
 
-		String tenantName = FlightConstant.DOM_TENANT_NAME;
+		String tenantName = null;
+		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
+			String originCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getOrigin());
+			String destCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getDestination());
+			if (originCountryCode.equals(destCountryCode)) {
+				tenantName = FlightConstant.DOM_TENANT_NAME;
+			} else {
+				tenantName = FlightConstant.INT_TENANT_NAME;
+			}
+		}
 		String viewName = FlightConstant.VIEW_NAME;
-		String tripType = flightSearchModel.getTripType();
+		String tripType = FlightConstant.MULTICITY;
 		String ADT = flightSearchModel.getNoOfAdults();
 		String CHD = flightSearchModel.getNoOfChild();
 		String INF = flightSearchModel.getNoOfInfants();
 		String classType = flightSearchModel.getClassType();
-		String noOfSegments = flightSearchModel.getNoOfSegments();
+		String noOfSegments = FlightConstant.SEGMENTS_MULTICITY;
 
 		UriBuilder builder = UriBuilder
 				.fromPath(messageUtil.getBundle("flight.search.server.url")+tenantName+"/search")
@@ -374,7 +388,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 			RestTemplate restTemplate = new RestTemplate();
 			responseEntity = restTemplate.exchange(requestEntity, String.class);
 
-		} catch (RestClientResponseException e) {
+		} catch (Exception e) {
 			logger.info("Error in multiCityFetch response");
 			e.getStackTrace();
 		}		
@@ -442,12 +456,12 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String tenantName = flightPriceModel.getTenantName();
 		String searchId = flightPriceModel.getSearchId();
 		String msid = flightPriceModel.getMsid();
-		String mode = flightPriceModel.getRequestMode(); 
+		String requestMode = FlightConstant.REQUEST_MODE; 
 		String flightId = flightPriceModel.getFlightId();
 		String flightPrice = flightPriceModel.getFlightPrice();
 		String supplierCode = flightPriceModel.getSupplierCode();
 
-		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+mode+
+		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+requestMode+
 				"&bpc="+FlightConstant.BPC+"&isSR="+FlightConstant.ISSR+"&unique="+FlightConstant.UNIQUE+"&variation="+FlightConstant.VARIATION+
 				"&flightIdCSV="+flightId+"&flightPrice="+flightPrice+"&sc="+supplierCode;
 
@@ -528,12 +542,12 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String tenantName = flightPriceModel.getTenantName();
 		String searchId = flightPriceModel.getSearchId();
 		String msid = flightPriceModel.getMsid();
-		String mode = flightPriceModel.getRequestMode(); 
+		String requestMode = FlightConstant.REQUEST_MODE; 
 		String flightId = flightPriceModel.getFlightId();
 		String flightPrice = flightPriceModel.getFlightPrice();
 		String supplierCode = flightPriceModel.getSupplierCode();
 
-		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+mode+
+		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+requestMode+
 				"&bpc="+FlightConstant.BPC+"&isSR="+FlightConstant.ISSR+"&unique="+FlightConstant.UNIQUE+"&variation="+FlightConstant.VARIATION+
 				"&flightIdCSV="+flightId+"&flightPrice="+flightPrice+"&sc="+supplierCode;
 
@@ -614,12 +628,12 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String tenantName = flightPriceModel.getTenantName();
 		String searchId = flightPriceModel.getSearchId();
 		String msid = flightPriceModel.getMsid();
-		String mode = flightPriceModel.getRequestMode(); 
+		String requestMode = FlightConstant.REQUEST_MODE; 
 		String flightId = flightPriceModel.getFlightId();
 		String flightPrice = flightPriceModel.getFlightPrice();
 		String supplierCode = flightPriceModel.getSupplierCode();
 
-		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+mode+
+		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+requestMode+
 				"&bpc="+FlightConstant.BPC+"&isSR="+FlightConstant.ISSR+"&unique="+FlightConstant.UNIQUE+"&variation="+FlightConstant.VARIATION+
 				"&flightIdCSV="+flightId+"&flightPrice="+flightPrice+"&sc="+supplierCode;
 

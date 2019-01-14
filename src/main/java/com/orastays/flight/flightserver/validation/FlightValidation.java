@@ -33,14 +33,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 		if(Objects.nonNull(flightSearchModel)) {
 
-			if(StringUtils.isBlank(flightSearchModel.getTripType())) {
-				exceptions.put(messageUtil.getBundle("trip.type.null.code"), new Exception(messageUtil.getBundle("trip.type.null.message")));
-			}
-
-			if(StringUtils.isBlank(flightSearchModel.getNoOfSegments())) {
-				exceptions.put(messageUtil.getBundle("segments.null.code"), new Exception(messageUtil.getBundle("segments.null.message")));
-			}
-
 			if(StringUtils.isBlank(flightSearchModel.getNoOfAdults())) {
 				exceptions.put(messageUtil.getBundle("adult.number.null.code"), new Exception(messageUtil.getBundle("adult.number.null.message")));
 			} else {
@@ -67,12 +59,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 					}
 					if(StringUtils.isBlank(multiCityModel.getDestination())) {
 						exceptions.put(messageUtil.getBundle("destination.null.code"), new Exception(messageUtil.getBundle("destination.null.message")));
-					}
-					if(StringUtils.isBlank(multiCityModel.getOriginCountry())) {
-						exceptions.put(messageUtil.getBundle("origin.country.null.code"), new Exception(messageUtil.getBundle("origin.country.null.message")));
-					}
-					if(StringUtils.isBlank(multiCityModel.getDestinationCountry())) {
-						exceptions.put(messageUtil.getBundle("destination.country.null.code"), new Exception(messageUtil.getBundle("destination.country.null.message")));
 					}
 					if(StringUtils.isBlank(multiCityModel.getFlightDepartDate())) {
 						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.null.message")));
@@ -102,14 +88,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
 
 		if(Objects.nonNull(flightSearchModel)) {
-
-			if(StringUtils.isBlank(flightSearchModel.getTripType())) {
-				exceptions.put(messageUtil.getBundle("trip.type.null.code"), new Exception(messageUtil.getBundle("trip.type.null.message")));
-			}
-
-			if(StringUtils.isBlank(flightSearchModel.getNoOfSegments())) {
-				exceptions.put(messageUtil.getBundle("segments.null.code"), new Exception(messageUtil.getBundle("segments.null.message")));
-			}
 
 			if(StringUtils.isBlank(flightSearchModel.getNoOfAdults())) {
 				exceptions.put(messageUtil.getBundle("adult.number.null.code"), new Exception(messageUtil.getBundle("adult.number.null.message")));
@@ -142,12 +120,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 					if(StringUtils.isBlank(multiCityModel.getDestination())) {
 						exceptions.put(messageUtil.getBundle("destination.null.code"), new Exception(messageUtil.getBundle("destination.null.message")));
 					}
-					if(StringUtils.isBlank(multiCityModel.getOriginCountry())) {
-						exceptions.put(messageUtil.getBundle("origin.country.null.code"), new Exception(messageUtil.getBundle("origin.country.null.message")));
-					}
-					if(StringUtils.isBlank(multiCityModel.getDestinationCountry())) {
-						exceptions.put(messageUtil.getBundle("destination.country.null.code"), new Exception(messageUtil.getBundle("destination.country.null.message")));
-					}
 					if(StringUtils.isBlank(multiCityModel.getFlightDepartDate())) {
 						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.null.message")));
 					}
@@ -177,14 +149,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 		if(Objects.nonNull(flightSearchModel)) {
 
-			if(StringUtils.isBlank(flightSearchModel.getTripType())) {
-				exceptions.put(messageUtil.getBundle("trip.type.null.code"), new Exception(messageUtil.getBundle("trip.type.null.message")));
-			}
-
-			if(StringUtils.isBlank(flightSearchModel.getNoOfSegments())) {
-				exceptions.put(messageUtil.getBundle("segments.null.code"), new Exception(messageUtil.getBundle("segments.null.message")));
-			}
-
 			if(StringUtils.isBlank(flightSearchModel.getNoOfAdults())) {
 				exceptions.put(messageUtil.getBundle("adult.number.null.code"), new Exception(messageUtil.getBundle("adult.number.null.message")));
 			} else {
@@ -211,12 +175,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 					}
 					if(StringUtils.isBlank(multiCityModel.getDestination())) {
 						exceptions.put(messageUtil.getBundle("destination.null.code"), new Exception(messageUtil.getBundle("destination.null.message")));
-					}
-					if(StringUtils.isBlank(multiCityModel.getOriginCountry())) {
-						exceptions.put(messageUtil.getBundle("origin.country.null.code"), new Exception(messageUtil.getBundle("origin.country.null.message")));
-					}
-					if(StringUtils.isBlank(multiCityModel.getDestinationCountry())) {
-						exceptions.put(messageUtil.getBundle("destination.country.null.code"), new Exception(messageUtil.getBundle("destination.country.null.message")));
 					}
 					if(StringUtils.isBlank(multiCityModel.getFlightDepartDate())) {
 						exceptions.put(messageUtil.getBundle("depart.date.null.code"), new Exception(messageUtil.getBundle("depart.date.null.message")));
@@ -247,24 +205,12 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 		if(Objects.nonNull(flightPriceModel)) {
 
-			if(StringUtils.isBlank(flightPriceModel.getTenantName())) {
-				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
-			} else {
-				if (!flightPriceModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME) && !flightPriceModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME)) {
-					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
-				}
-			}
-
 			if(StringUtils.isBlank(flightPriceModel.getSearchId())) {
 				exceptions.put(messageUtil.getBundle("search.id.null.code"), new Exception(messageUtil.getBundle("search.id.null.message")));
 			}
 
 			if(StringUtils.isBlank(flightPriceModel.getMsid())) {
 				exceptions.put(messageUtil.getBundle("msid.null.code"), new Exception(messageUtil.getBundle("msid.null.message")));
-			}
-
-			if(StringUtils.isBlank(flightPriceModel.getRequestMode())) {
-				exceptions.put(messageUtil.getBundle("mode.null.code"), new Exception(messageUtil.getBundle("mode.null.message")));
 			}
 
 			if(StringUtils.isBlank(flightPriceModel.getFlightPrice())) {
@@ -299,25 +245,12 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 		if(Objects.nonNull(flightPriceModel)) {
 
-
-			if(StringUtils.isBlank(flightPriceModel.getTenantName())) {
-				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
-			} else {
-				if (flightPriceModel.getTenantName() != FlightConstant.DOM_TENANT_NAME || flightPriceModel.getTenantName() != FlightConstant.INT_TENANT_NAME) {
-					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
-				}
-			}
-
 			if(StringUtils.isBlank(flightPriceModel.getSearchId())) {
 				exceptions.put(messageUtil.getBundle("search.id.null.code"), new Exception(messageUtil.getBundle("search.id.null.message")));
 			}
 
 			if(StringUtils.isBlank(flightPriceModel.getMsid())) {
 				exceptions.put(messageUtil.getBundle("msid.null.code"), new Exception(messageUtil.getBundle("msid.null.message")));
-			}
-
-			if(StringUtils.isBlank(flightPriceModel.getRequestMode())) {
-				exceptions.put(messageUtil.getBundle("mode.null.code"), new Exception(messageUtil.getBundle("mode.null.message")));
 			}
 
 			if(StringUtils.isBlank(flightPriceModel.getFlightPrice())) {
@@ -352,24 +285,12 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 		if(Objects.nonNull(flightPriceModel)) {
 
-			if(StringUtils.isBlank(flightPriceModel.getTenantName())) {
-				exceptions.put(messageUtil.getBundle("tenant.null.code"), new Exception(messageUtil.getBundle("tenant.null.message")));
-			} else {
-				if (!flightPriceModel.getTenantName().equals(FlightConstant.DOM_TENANT_NAME) || !flightPriceModel.getTenantName().equals(FlightConstant.INT_TENANT_NAME)) {
-					exceptions.put(messageUtil.getBundle("tenant.invalid.code"), new Exception(messageUtil.getBundle("tenant.invalid.message")));
-				}
-			}
-
 			if(StringUtils.isBlank(flightPriceModel.getSearchId())) {
 				exceptions.put(messageUtil.getBundle("search.id.null.code"), new Exception(messageUtil.getBundle("search.id.null.message")));
 			}
 
 			if(StringUtils.isBlank(flightPriceModel.getMsid())) {
 				exceptions.put(messageUtil.getBundle("msid.null.code"), new Exception(messageUtil.getBundle("msid.null.message")));
-			}
-
-			if(StringUtils.isBlank(flightPriceModel.getRequestMode())) {
-				exceptions.put(messageUtil.getBundle("mode.null.code"), new Exception(messageUtil.getBundle("mode.null.message")));
 			}
 
 			if(StringUtils.isBlank(flightPriceModel.getFlightPrice())) {

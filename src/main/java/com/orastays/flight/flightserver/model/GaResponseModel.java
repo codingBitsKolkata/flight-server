@@ -18,8 +18,8 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class GaResponseModel extends CommonModel {
 
-	@JsonProperty("datums")
-    public List<DatumModel> datumModels;
+	@JsonProperty("datas")
+    public List<DataModel> dataModels;
 	
 	@JsonProperty("action")
     public String action;

@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.web.client.RestTemplate;
 
 import com.google.gson.Gson;
+import com.orastays.flight.flightserver.dao.SearchParameterDAO;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.MessageUtil;
 import com.orastays.flight.flightserver.model.CommonModel;
@@ -37,6 +38,9 @@ public class AuthorizeUserValidation {
 	
 	@Autowired
 	protected HttpServletRequest request;
+	
+	@Autowired
+	protected SearchParameterDAO searchParameterDAO;
 	
 	public UserModel getUserDetails(String userToken) throws FormExceptions {
 
