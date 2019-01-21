@@ -24,8 +24,8 @@ public class FlightSearchModel extends CommonModel {
 	@JsonProperty("tripType")
 	private String tripType;
 	
-	@JsonProperty("noOfSegments")
-	private String noOfSegments;
+	/*@JsonProperty("noOfSegments")
+	private String noOfSegments;*/
 	
 	@JsonProperty("arrival_date")
 	private String arrivalDate;
@@ -42,11 +42,11 @@ public class FlightSearchModel extends CommonModel {
 	@JsonProperty("classType")
 	private String classType;
 	
-	@JsonProperty("viewName")
+	/*@JsonProperty("viewName")
 	private String viewName;
 	
 	@JsonProperty("flexi")
-	private String flexi;
+	private String flexi;*/
 
 	@JsonProperty("multiCities")
 	List<MultiCityModel> multiCityModels;

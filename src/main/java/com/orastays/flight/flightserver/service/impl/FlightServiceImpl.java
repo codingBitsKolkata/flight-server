@@ -1,6 +1,5 @@
 package com.orastays.flight.flightserver.service.impl;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -325,7 +324,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		return responseEntity.getBody();
 	}
 
-	public String multiCityFetch(FlightSearchModel flightSearchModel) throws UnsupportedEncodingException {
+	public String multiCityFetch(FlightSearchModel flightSearchModel) {
 
 		if (logger.isInfoEnabled()) {
 			logger.info("multiCityFetch -- START");

@@ -37,8 +37,13 @@ public class FlightBookingController extends BaseController {
 	@ApiOperation(value = "Book Flights", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
 			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
-			@ApiResponse(code = 1721, message = "Please provide pricing Id!!"),
-			@ApiResponse(code = 1722, message = "Please provide superPnr!!") })
+			@ApiResponse(code = 1721, message = "Please provide input parameters!!"),
+			@ApiResponse(code = 1722, message = "Please provide pricing Id!!"),
+			@ApiResponse(code = 1723, message = "Please provide superPnr!!"),
+			@ApiResponse(code = 1724, message = "Please provide review json details!!"),
+			@ApiResponse(code = 1725, message = "Please provide parameters for reviewJson!!"),
+			@ApiResponse(code = 1726, message = "Please provide search Id!!"),
+			@ApiResponse(code = 1727, message = "Please provide traveller details!!") })
 	public ResponseEntity<ResponseModel> bookFlights(@RequestBody FlightBookingModel flightBookingModel) {
 		
 		if (logger.isInfoEnabled()) {

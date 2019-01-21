@@ -98,6 +98,9 @@ public class FlightController extends BaseController {
 		
 		try {
 			String response = flightService.fetchOneWayFlights(flightSearchModel);
+			if (response == null) {
+				throw new Exception();
+			}
 			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
@@ -156,6 +159,9 @@ public class FlightController extends BaseController {
 		
 		try {
 			String response = flightService.fetchRoundTripFlights(flightSearchModel);
+			if (response == null) {
+				throw new Exception();
+			}
 			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
@@ -213,6 +219,9 @@ public class FlightController extends BaseController {
 		
 		try {
 			String response = flightService.fetchMultiCityFlights(flightSearchModel);
+			if (response == null) {
+				throw new Exception();
+			}
 			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
@@ -269,6 +278,9 @@ public class FlightController extends BaseController {
 		
 		try {
 			String response = flightService.fetchOneWayPricing(flightPriceModel);
+			if (response == null) {
+				throw new Exception();
+			}
 			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
@@ -326,6 +338,9 @@ public class FlightController extends BaseController {
 		
 		try {
 			String response = flightService.fetchRoundTripPricing(flightPriceModel);
+			if (response == null) {
+				throw new Exception();
+			}
 			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
@@ -383,6 +398,9 @@ public class FlightController extends BaseController {
 		
 		try {
 			String response = flightService.fetchMultiCityPricing(flightPriceModel);
+			if (response == null) {
+				throw new Exception();
+			}
 			responseModel.setResponseBody(response);
 			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
 			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
