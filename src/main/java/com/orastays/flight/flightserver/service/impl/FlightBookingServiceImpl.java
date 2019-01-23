@@ -1,7 +1,6 @@
 package com.orastays.flight.flightserver.service.impl;
 
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.transaction.Transactional;
@@ -45,7 +44,6 @@ public class FlightBookingServiceImpl extends BaseServiceImpl implements FlightB
 		}
 
 		flightBookingValidation.validateBookingDetails(flightBookingModel);
-		List<FlightBookingModel> flightBookingModels = null;
 		HttpEntity<FlightBookingModel> request = null;
 		ResponseEntity<String> response= null;
 		try {

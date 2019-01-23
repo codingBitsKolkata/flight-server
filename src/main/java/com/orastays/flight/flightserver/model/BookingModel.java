@@ -20,22 +20,31 @@ public class BookingModel extends CommonModel {
 
 	@JsonProperty("bookingId")
 	private String bookingId;
-
+	
 	@JsonProperty("orabookingId")
 	private String orabookingId;
 
 	@JsonProperty("userId")
 	private String userId;
 
-	@JsonProperty("totalPaybleWithoutGST")
-	private String totalPaybleWithoutGST;
+	@JsonProperty("commision")
+	private String commision;
 
-	@JsonProperty("totalPaybleWithGST")
-	private String totalPaybleWithGST;
+	@JsonProperty("tds")
+	private String tds;
 
-	@JsonProperty("grandTotal")
-	private String grandTotal;
+	@JsonProperty("totalAmount")
+	private String totalAmount;
 
+	@JsonProperty("emailId")
+	private String emailId;
+	
+	@JsonProperty("mobileNumber")
+	private String mobileNumber;
+	
+	@JsonProperty("masterPassenger")
+	private String masterPassenger;
+	
 	@JsonProperty("conveniences")
 	private ConvenienceModel convenienceModel;
 	

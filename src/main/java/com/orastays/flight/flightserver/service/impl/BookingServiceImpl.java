@@ -26,6 +26,7 @@ import com.orastays.flight.flightserver.model.BookingModel;
 import com.orastays.flight.flightserver.model.PaymentModel;
 import com.orastays.flight.flightserver.service.BookingService;
 import com.orastays.flight.flightserver.service.ConvenienceService;
+import com.orastays.flight.flightserver.validation.FlightBookingValidation;
 
 @Service
 @Transactional
@@ -44,6 +45,9 @@ public class BookingServiceImpl implements BookingService {
 
 	@Autowired
 	protected BookingInfoConverter bookingInfoConverter;
+	
+	@Autowired
+	protected FlightBookingValidation flightBookingValidation;
 
 	@Autowired
 	protected BookingInfoDAO bookingInfoDAO;
@@ -56,12 +60,14 @@ public class BookingServiceImpl implements BookingService {
 
 	@Override
 	public PaymentModel addBooking(BookingModel bookingModel) throws FormExceptions {
+		
 		if (logger.isInfoEnabled()) {
 			logger.info("addBooking -- START");
 		}
 
-		//bookingValidation.validateBookingBeforePayment(bookingModel);
+		flightBookingValidation.validateBookingBeforePayment(bookingModel);
 		PaymentModel paymentModel = populateBookingEntityForPayment(bookingModel);
+		
 		if (logger.isInfoEnabled()) {
 			logger.info("addBooking -- END");
 		}

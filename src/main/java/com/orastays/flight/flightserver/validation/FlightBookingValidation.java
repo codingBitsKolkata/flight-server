@@ -1,8 +1,10 @@
 package com.orastays.flight.flightserver.validation;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 import javax.transaction.Transactional;
 
@@ -12,8 +14,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
+import com.orastays.flight.flightserver.model.BookingModel;
 import com.orastays.flight.flightserver.model.FlightBookingModel;
-import com.orastays.flight.flightserver.model.TravellerParamModel;
 
 @Component
 @Transactional
@@ -121,5 +123,19 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 			logger.debug("validateBookingList -- End");
 		}	
 		return flightBookingModel;
+	}
+	
+	public void validateBookingBeforePayment(BookingModel bookingModel) throws FormExceptions {
+		if (logger.isDebugEnabled()) {
+			logger.debug("validateBookingBeforePayment -- Start");
+		}
+
+		Map<String, Exception> exceptions = new LinkedHashMap<>();
+
+		CopyOnWriteArrayList<BookingModel> booked = new CopyOnWriteArrayList<>();
+
+		if (logger.isDebugEnabled()) {
+			logger.debug("validateBookingBeforePayment -- End");
+		}
 	}
 }

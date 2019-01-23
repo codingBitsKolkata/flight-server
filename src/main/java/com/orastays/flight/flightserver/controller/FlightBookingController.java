@@ -4,6 +4,7 @@ import java.util.Map.Entry;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -19,6 +20,7 @@ import com.orastays.flight.flightserver.model.BookingModel;
 import com.orastays.flight.flightserver.model.FlightBookingModel;
 import com.orastays.flight.flightserver.model.PaymentModel;
 import com.orastays.flight.flightserver.model.ResponseModel;
+import com.orastays.flight.flightserver.service.BookingService;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -32,6 +34,9 @@ import io.swagger.annotations.ApiResponses;
 public class FlightBookingController extends BaseController {
 	
 	private static final Logger logger = LogManager.getLogger(FlightBookingController.class);	
+	
+	@Autowired
+	protected BookingService bookingService;
 	
 	@PostMapping(value = "/book-flights", produces = "application/json")
 	@ApiOperation(value = "Book Flights", response = ResponseModel.class)
@@ -93,7 +98,14 @@ public class FlightBookingController extends BaseController {
 	@PostMapping(value = "/add-booking", produces = "application/json")
 	@ApiOperation(value = "Add Booking", response = ResponseModel.class)
 	@ApiResponses(value = { @ApiResponse(code = 200, message = "OK"),
-			@ApiResponse(code = 201, message = "Please Try after Sometime!!!") })
+			@ApiResponse(code = 201, message = "Please Try after Sometime!!!"),
+			@ApiResponse(code = 1721, message = "Please provide input parameters!!"),
+			@ApiResponse(code = 1722, message = "Please provide pricing Id!!"),
+			@ApiResponse(code = 1723, message = "Please provide superPnr!!"),
+			@ApiResponse(code = 1724, message = "Please provide review json details!!"),
+			@ApiResponse(code = 1725, message = "Please provide parameters for reviewJson!!"),
+			@ApiResponse(code = 1712, message = "Please provide search Id!!"),
+			@ApiResponse(code = 1727, message = "Please provide traveller details!!") })
 
 	public ResponseEntity<ResponseModel> addBooking(@RequestBody BookingModel bookingModel) {
 		if (logger.isInfoEnabled()) {

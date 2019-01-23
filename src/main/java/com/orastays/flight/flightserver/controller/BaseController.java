@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import com.orastays.flight.flightserver.helper.MessageUtil;
 import com.orastays.flight.flightserver.service.BaggageService;
-import com.orastays.flight.flightserver.service.BookingService;
 import com.orastays.flight.flightserver.service.FareRulesService;
 import com.orastays.flight.flightserver.service.FlightBookingService;
 import com.orastays.flight.flightserver.service.FlightService;
@@ -36,5 +35,5 @@ public class BaseController {
 	protected BaggageService baggageService;
 	
 	@Autowired
-	protected BookingService bookingService;
+	protected FlightBookingService bookingService;
 }
