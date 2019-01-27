@@ -40,8 +40,8 @@ public class SynchronizedRoomBooking {
 
 	public PaymentModel bookRoomForCashLessPayments(BookingModel bm, BookingEntity be) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("bookRoomForCashLessPayments -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("bookRoomForCashLessPayments -- Start");
 		}
 		BookingVsPaymentEntity bookingVsPaymentEntity = new BookingVsPaymentEntity();
 		bookingVsPaymentEntity.setBookingEntity(be);
@@ -56,8 +56,8 @@ public class SynchronizedRoomBooking {
 		bookingVsPaymentEntity.setStatus(PaymentStatus.ACTIVE.ordinal());
 
 		PaymentModel paymentModel = cashFreeApi.getPaymentLink(bm, be, bookingVsPaymentEntity);
-		if (logger.isDebugEnabled()) {
-			logger.debug("bookRoomForCashLessPayments -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("bookRoomForCashLessPayments -- End");
 		}
 		return paymentModel;
 	}

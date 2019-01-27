@@ -61,8 +61,8 @@ public class CashFreeApi {
 
 	public PaymentModel getPaymentLink(BookingModel bm, BookingEntity be, BookingVsPaymentEntity bookingVsPaymentEntity)
 			throws FormExceptions {
-		if (logger.isDebugEnabled()) {
-			logger.debug("getPaymentLink -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("getPaymentLink -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -111,8 +111,8 @@ public class CashFreeApi {
 			throw new FormExceptions(exceptions);
 		}
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("getPaymentLink -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("getPaymentLink -- End");
 		}
 
 		return null;
@@ -127,8 +127,8 @@ public class CashFreeApi {
 	*/
 	public RefundModel initiateRefund(BookingEntity be, BookingVsPaymentEntity bookingVsPaymentEntity, String refundAmount, String refundNote)
 			throws FormExceptions {
-		if (logger.isDebugEnabled()) {
-			logger.debug("initiateRefund -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("initiateRefund -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -175,8 +175,8 @@ public class CashFreeApi {
 			throw new FormExceptions(exceptions);
 		}
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("initiateRefund -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("initiateRefund -- End");
 		}
 
 		return null;

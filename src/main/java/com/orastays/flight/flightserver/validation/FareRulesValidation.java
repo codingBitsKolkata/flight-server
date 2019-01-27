@@ -23,8 +23,8 @@ public class FareRulesValidation extends AuthorizeUserValidation {
 
 	public FareRulesModel validateFareRulesDom(FareRulesModel fareRulesModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateFareRulesDom -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateFareRulesDom -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -43,16 +43,16 @@ public class FareRulesValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateFareRulesDom -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateFareRulesDom -- End");
 		}	
 		return fareRulesModel;
 	}
 	
 	public FareRulesModel validateFareRulesInt(FareRulesModel fareRulesModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateFareRulesInt -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateFareRulesInt -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -71,16 +71,16 @@ public class FareRulesValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateFareRulesInt -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateFareRulesInt -- End");
 		}	
 		return fareRulesModel;
 	}
 	
 	public FareRulesModel validateBaggageInfo(FareRulesModel fareRulesModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateFareRulesInt -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateFareRulesInt -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -99,8 +99,8 @@ public class FareRulesValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateFareRulesInt -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateFareRulesInt -- End");
 		}	
 		return fareRulesModel;
 	}

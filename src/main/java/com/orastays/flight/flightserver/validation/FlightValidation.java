@@ -25,8 +25,8 @@ public class FlightValidation extends AuthorizeUserValidation {
 
 	public FlightSearchModel validateOneWayData(FlightSearchModel flightSearchModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateOneWayData -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateOneWayData -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -73,16 +73,16 @@ public class FlightValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateOneWayData -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateOneWayData -- End");
 		}	
 		return flightSearchModel;
 	}
 
 	public FlightSearchModel validateRoundTripData(FlightSearchModel flightSearchModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateRoundTripData -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateRoundTripData -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -133,16 +133,16 @@ public class FlightValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateRoundTripData -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateRoundTripData -- End");
 		}	
 		return flightSearchModel;
 	}
 
 	public FlightSearchModel validateMulticityData(FlightSearchModel flightSearchModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateMulticityData -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateMulticityData -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -189,16 +189,16 @@ public class FlightValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateMulticityData -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateMulticityData -- End");
 		}	
 		return flightSearchModel;
 	}
 
 	public FlightPriceModel validateOneWayPricing(FlightPriceModel flightPriceModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateOneWayPricing -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateOneWayPricing -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -229,16 +229,16 @@ public class FlightValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateOneWayPricing -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateOneWayPricing -- End");
 		}	
 		return flightPriceModel;
 	}
 
 	public FlightPriceModel validateRoundTripPricing(FlightPriceModel flightPriceModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateRoundTripPricing -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateRoundTripPricing -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -269,16 +269,16 @@ public class FlightValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateRoundTripPricing -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateRoundTripPricing -- End");
 		}	
 		return flightPriceModel;
 	}
 	
 	public FlightPriceModel validateMultiCityPricing(FlightPriceModel flightPriceModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateMultiCityPricing -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateMultiCityPricing -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -309,8 +309,8 @@ public class FlightValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateMultiCityPricing -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateMultiCityPricing -- End");
 		}	
 		
 		return flightPriceModel;

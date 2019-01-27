@@ -24,8 +24,8 @@ public class BaggageValidation extends AuthorizeUserValidation {
 
 	public BaggageModel validateBaggageInfo(BaggageModel baggageModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateBaggageInfo -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateBaggageInfo -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -44,8 +44,8 @@ public class BaggageValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateBaggageInfo -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateBaggageInfo -- End");
 		}	
 		return baggageModel;
 	}

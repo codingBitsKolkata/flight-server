@@ -25,8 +25,8 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 
 	public void validateBookingDetails(FlightBookingModel flightBookingModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateBookingDetails -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateBookingDetails -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -103,15 +103,15 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateBookingDetails -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateBookingDetails -- End");
 		}	
 	}
 
 	public FlightBookingModel validateBookingList(FlightBookingModel flightBookingModel) throws FormExceptions {
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateBookingList -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateBookingList -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -119,23 +119,23 @@ public class FlightBookingValidation extends AuthorizeUserValidation {
 		if (exceptions.size() > 0)
 			throw new FormExceptions(exceptions);
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateBookingList -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateBookingList -- End");
 		}	
 		return flightBookingModel;
 	}
 	
 	public void validateBookingBeforePayment(BookingModel bookingModel) throws FormExceptions {
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateBookingBeforePayment -- Start");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateBookingBeforePayment -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
 
 		CopyOnWriteArrayList<BookingModel> booked = new CopyOnWriteArrayList<>();
 
-		if (logger.isDebugEnabled()) {
-			logger.debug("validateBookingBeforePayment -- End");
+		if (logger.isInfoEnabled()) {
+			logger.info("validateBookingBeforePayment -- End");
 		}
 	}
 }
