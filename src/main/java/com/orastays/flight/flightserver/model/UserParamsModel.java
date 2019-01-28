@@ -16,6 +16,9 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class UserParamsModel extends CommonModel {
 
+	@JsonProperty("userParamsId")
+    public String userParamsId;
+	
 	@JsonProperty("additionalContact")
     public AdditionalContactModel additionalContactModel;
 	

@@ -1,5 +1,5 @@
 /**
- * @author SUDEEP
+ * @author Ora Dev
  */
 package com.orastays.flight.flightserver.entity;
 
@@ -46,6 +46,18 @@ public class BookingEntity extends CommonEntity {
 	@Column(name = "user_id")
 	@JsonProperty("userId")
 	private Long userId;
+	
+	@Column(name = "pricing_id")
+	@JsonProperty("pricingId")
+	private String pricingId;
+	
+	@Column(name = "super_pnr")
+	@JsonProperty("superPnr")
+	private String superPnr;
+	
+	@Column(name = "reviewJson")
+	@JsonProperty("reviewJson")
+	public ReviewJsonEntity reviewJsonEntity;
 	
 	@Column(name = "booking_approval")
 	@JsonProperty("bookingApproval")

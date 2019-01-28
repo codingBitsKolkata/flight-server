@@ -2,6 +2,11 @@ package com.orastays.flight.flightserver.model;
 
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -18,6 +23,9 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class ReviewJsonModel extends CommonModel {
 
+	@JsonProperty("rvJsonId")
+	private String rvJsonId;
+	
 	@JsonProperty("globalParams")
 	public GlobalParamsModel globalParamsModel;
 	

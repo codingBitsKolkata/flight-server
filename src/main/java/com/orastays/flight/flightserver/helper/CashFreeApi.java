@@ -76,7 +76,7 @@ public class CashFreeApi {
 		map.add("secretKey", secretKey);
 		map.add("orderId", bookingVsPaymentEntity.getOrderId());
 		map.add("orderAmount", bookingVsPaymentEntity.getOrderAmount());
-		map.add("orderCurrency", bm.getFormOfPayment().getCurrency());
+		//map.add("orderCurrency", bm.getFormOfPayment().getCurrency());
 		map.add("customerEmail", bm.getUserInfo().getCustomerEmail());
 		map.add("customerName", bm.getUserInfo().getCustomerName());
 		map.add("customerPhone", bm.getUserInfo().getCustomerPhone());

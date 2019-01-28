@@ -26,6 +26,15 @@ public class BookingModel extends CommonModel {
 
 	@JsonProperty("userId")
 	private String userId;
+	
+	@JsonProperty("pricingId")
+	private String pricingId;
+	
+	@JsonProperty("superPnr")
+	private String superPnr;
+	
+	@JsonProperty("reviewJson")
+	public ReviewJsonModel reviewJsonModel;
 
 	@JsonProperty("commision")
 	private String commision;
@@ -51,17 +60,11 @@ public class BookingModel extends CommonModel {
 	@JsonProperty("bookingInfos")
 	private BookingInfoModel bookingInfoModel;
 
-	@JsonProperty("bookingApproval")
-	private String bookingApproval;
-	
 	@JsonProperty("convenienceAmtWgst")
 	private String convenienceAmtWgst;
 	
 	@JsonProperty("bookingVsPayments")
 	private List<BookingVsPaymentModel> bookingVsPaymentModels;
-	
-	@JsonProperty("formOfPayment")
-	private FormOfPayment formOfPayment;
 	
 	@JsonProperty("userInfo")
 	private UserInfo userInfo;

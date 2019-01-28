@@ -15,20 +15,21 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class GlobalParamsModel extends CommonModel {
 
-	public String prq;
-	public String aDTcreator;
-	public String pricingId;
-	public String searchId;
-	public String superPnr;
-	public String channel;
-	public String product;
-	public String ftype;
-	public String org;
-	public String dest;
-	public Boolean isPartial;
-	public String ebsAccountId;
-	public String ebsSessionId;
-	public String moProfileType;
-	public String childTenant;
-	public Integer variation;
+	private String globalParamsId;
+	private String prq;
+	private String aDTcreator;
+	private String pricingId;
+	private String searchId;
+	private String superPnr;
+	private String channel;
+	private String product;
+	private String ftype;
+	private String org;
+	private String dest;
+	private Boolean isPartial;
+	private String ebsAccountId;
+	private String ebsSessionId;
+	private String moProfileType;
+	private String childTenant;
+	private Integer variation;
 }
