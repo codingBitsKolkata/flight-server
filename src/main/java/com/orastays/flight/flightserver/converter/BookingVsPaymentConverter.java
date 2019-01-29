@@ -1,4 +1,4 @@
-package com.orastays.flight.flightserver.entity;
+package com.orastays.flight.flightserver.converter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -8,8 +8,7 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.orastays.flight.flightserver.converter.BaseConverter;
-import com.orastays.flight.flightserver.converter.CommonConverter;
+import com.orastays.flight.flightserver.entity.BookingVsPaymentEntity;
 import com.orastays.flight.flightserver.helper.Util;
 import com.orastays.flight.flightserver.model.BookingVsPaymentModel;
 

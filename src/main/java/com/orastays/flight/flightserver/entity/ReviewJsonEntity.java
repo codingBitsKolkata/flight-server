@@ -15,13 +15,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.orastays.flight.flightserver.model.AdvancedPricingModel;
-import com.orastays.flight.flightserver.model.DiscountParamsModel;
-import com.orastays.flight.flightserver.model.GaResponseModel;
-import com.orastays.flight.flightserver.model.GstDetailsModel;
-import com.orastays.flight.flightserver.model.TotalBreakupModel;
-import com.orastays.flight.flightserver.model.TourCodeModel;
-import com.orastays.flight.flightserver.model.UpSellParamsModel;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -76,4 +69,9 @@ public class ReviewJsonEntity extends CommonEntity {
 	
 	@JsonProperty("gaResponse")
 	public GaResponseModel gaResponseModel;*/
+	
+	@Override
+	public String toString() {
+		return Long.toString(rvJsonId);
+	}
 }

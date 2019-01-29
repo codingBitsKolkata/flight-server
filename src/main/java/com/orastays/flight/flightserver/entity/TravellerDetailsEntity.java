@@ -70,4 +70,9 @@ public class TravellerDetailsEntity extends CommonEntity {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "travellerDetailsEntity", cascade = { CascadeType.ALL })
 	@JsonProperty("travellerParams")
 	private TravellerParamEntity travellerParamEntity;
+	
+	@Override
+	public String toString() {
+		return Long.toString(id);
+	}
 }

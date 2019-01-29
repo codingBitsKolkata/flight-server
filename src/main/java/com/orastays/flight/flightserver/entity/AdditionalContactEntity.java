@@ -44,4 +44,9 @@ public class AdditionalContactEntity {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "additionalContactEntity", cascade = { CascadeType.ALL })
 	@JsonProperty("userParams")
 	private UserParamsEntity userParamsEntity;
+	
+	@Override
+	public String toString() {
+		return Long.toString(addtlContactId);
+	}
 }

@@ -11,10 +11,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
 import com.orastays.flight.flightserver.converter.BookingConverter;
+import com.orastays.flight.flightserver.converter.BookingInfoConverter;
 import com.orastays.flight.flightserver.dao.BookingDAO;
 import com.orastays.flight.flightserver.dao.BookingInfoDAO;
 import com.orastays.flight.flightserver.entity.BookingEntity;
-import com.orastays.flight.flightserver.entity.BookingInfoConverter;
 import com.orastays.flight.flightserver.entity.BookingInfoEntity;
 import com.orastays.flight.flightserver.entity.ConvenienceEntity;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;

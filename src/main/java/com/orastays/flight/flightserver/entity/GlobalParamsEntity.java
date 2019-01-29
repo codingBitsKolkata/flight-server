@@ -55,4 +55,9 @@ public class GlobalParamsEntity extends CommonEntity {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "globalParamsEntity", cascade = { CascadeType.ALL })
 	@JsonProperty("reviewJson")
 	private ReviewJsonEntity reviewJsonEntity;
+	
+	@Override
+	public String toString() {
+		return Long.toString(globalParamsId);
+	}
 }

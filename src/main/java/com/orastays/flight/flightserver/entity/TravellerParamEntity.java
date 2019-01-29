@@ -13,7 +13,6 @@ import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.orastays.flight.flightserver.model.SsrDetailsModel;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -47,4 +46,9 @@ public class TravellerParamEntity extends CommonEntity {
 	@ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
 	@JoinColumn(name = "rvJson_id", nullable = false)
 	private ReviewJsonEntity reviewJsonEntity;
+	
+	@Override
+	public String toString() {
+		return Long.toString(paxID);
+	}
 }

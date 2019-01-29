@@ -61,4 +61,9 @@ public class UserParamsEntity extends CommonEntity {
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "userParamsEntity", cascade = { CascadeType.ALL })
 	@JsonProperty("reviewJson")
 	private ReviewJsonEntity reviewJsonEntity;
+	
+	@Override
+	public String toString() {
+		return Long.toString(userParamsId);
+	}
 }

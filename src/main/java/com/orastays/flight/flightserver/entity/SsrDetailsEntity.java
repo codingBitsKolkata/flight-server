@@ -47,4 +47,9 @@ public class SsrDetailsEntity extends CommonEntity {
 	@JsonProperty("travellerParams")
 	private TravellerParamEntity travellerParamEntity;
 	
+	@Override
+	public String toString() {
+		return Long.toString(ssrDetailsId);
+	}
+	
 }

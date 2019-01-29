@@ -11,8 +11,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.orastays.flight.flightserver.converter.ConvenienceConverter;
 import com.orastays.flight.flightserver.dao.ConvenienceDAO;
-import com.orastays.flight.flightserver.entity.ConvenienceConverter;
 import com.orastays.flight.flightserver.entity.ConvenienceEntity;
 import com.orastays.flight.flightserver.helper.Status;
 import com.orastays.flight.flightserver.helper.Util;

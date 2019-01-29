@@ -10,9 +10,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
 import com.orastays.flight.flightserver.entity.BookingEntity;
-import com.orastays.flight.flightserver.entity.BookingInfoConverter;
-import com.orastays.flight.flightserver.entity.BookingVsPaymentConverter;
-import com.orastays.flight.flightserver.entity.ConvenienceConverter;
 import com.orastays.flight.flightserver.helper.Util;
 import com.orastays.flight.flightserver.model.BookingModel;
 
