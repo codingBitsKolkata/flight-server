@@ -11,9 +11,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 
+import com.orastays.flight.flightserver.constants.Status;
 import com.orastays.flight.flightserver.dao.GatewayDAO;
 import com.orastays.flight.flightserver.entity.GatewayEntity;
-import com.orastays.flight.flightserver.helper.Status;
 import com.orastays.flight.flightserver.helper.Util;
 import com.orastays.flight.flightserver.service.GatewayService;
 

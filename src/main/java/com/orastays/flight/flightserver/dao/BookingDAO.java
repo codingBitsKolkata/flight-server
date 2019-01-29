@@ -7,8 +7,8 @@ import java.util.Objects;
 import org.hibernate.Query;
 import org.springframework.stereotype.Repository;
 
+import com.orastays.flight.flightserver.constants.BookingStatus;
 import com.orastays.flight.flightserver.entity.BookingEntity;
-import com.orastays.flight.flightserver.helper.BookingStatus;
 
 @Repository
 public class BookingDAO extends GenericDAO<BookingEntity, Long> {
@@ -62,7 +62,7 @@ public class BookingDAO extends GenericDAO<BookingEntity, Long> {
 		try {
 			Long count = ((BigInteger) query.uniqueResult()).longValue();
 			return count != 0;
-		}catch(Exception e) {
+		} catch (Exception e) {
 			e.printStackTrace();
 		}
 		return true;

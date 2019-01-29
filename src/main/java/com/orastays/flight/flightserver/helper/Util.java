@@ -170,9 +170,9 @@ public class Util {
 
 	public static void saveHttpRequestDataInLogFile(HttpServletRequest request) {
 
-		if (logger.isInfoEnabled()) {
+		if (logger.isDebugEnabled()) {
 
-			logger.info("saveHttpRequestDataInLogFile ::  " + request);
+			logger.debug("saveHttpRequestDataInLogFile ::  " + request);
 
 		}
 
@@ -195,23 +195,23 @@ public class Util {
 				remoteUser = request.getRemoteUser();
 				requestUrl = request.getRequestURL().toString();
 
-				if (logger.isInfoEnabled()) {
+				if (logger.isDebugEnabled()) {
 
-					logger.info("Request Data Follows -------> ");
-					logger.info("Time Of API Hit :: " + milliseconds);
-					logger.info("Remote Address :: " + remoteAddress);
-					logger.info("Remote Host :: " + remoteHost);
-					logger.info("Remote Port :: " + remotePort);
-					logger.info("Remote User :: " + remoteUser);
-					logger.info("Request URL ::  " + requestUrl);
+					logger.debug("Request Data Follows -------> ");
+					logger.debug("Time Of API Hit :: " + milliseconds);
+					logger.debug("Remote Address :: " + remoteAddress);
+					logger.debug("Remote Host :: " + remoteHost);
+					logger.debug("Remote Port :: " + remotePort);
+					logger.debug("Remote User :: " + remoteUser);
+					logger.debug("Request URL ::  " + requestUrl);
 
 				}
 
 			} catch (Exception e) {
 
-				if (logger.isInfoEnabled()) {
+				if (logger.isDebugEnabled()) {
 
-					logger.info("Exception In Receiving Request Data, Exception Message is :: " + e.getMessage());
+					logger.debug("Exception In Receiving Request Data, Exception Message is :: " + e.getMessage());
 
 				}
 
@@ -219,9 +219,9 @@ public class Util {
 
 		} catch (Exception e) {
 
-			if (logger.isInfoEnabled()) {
+			if (logger.isDebugEnabled()) {
 
-				logger.info("Exception In Receiving Request Data, Exception Message is :: " + e.getMessage());
+				logger.debug("Exception In Receiving Request Data, Exception Message is :: " + e.getMessage());
 
 			}
 		}
@@ -1202,8 +1202,8 @@ public class Util {
 		
 		try {
 			
-			if (logger.isInfoEnabled()) {
-				logger.info(type+" -- " + apiName +  " -- " + request.getRemoteAddr() + " -- " 
+			if (logger.isDebugEnabled()) {
+				logger.debug(type+" -- " + apiName +  " -- " + request.getRemoteAddr() + " -- " 
 				+ new ObjectMapper().writeValueAsString(model) );
 			}
 			System.out.println(type+" -- " + apiName +  " -- " + request.getRemoteAddr() + " -- " 
@@ -1240,10 +1240,16 @@ public class Util {
 		return m.find();
 	}
 	
-	public static String roundTo2Places(Double number) {
-		DecimalFormat df = new DecimalFormat("0.00");
-		String num = df.format(number);
-		return num;
+	public static Date getDateFromString(String date) {
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+		Date d = null;
+		try {
+			d = sdf.parse(date);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return d;
 	}
 	
 	public static Double calculateGstPayableAmount(Double amount, Double percentage) {
@@ -1251,11 +1257,16 @@ public class Util {
 		return calculatedAmount;
 		
 	}
-
+	
+	public static String roundTo2Places(Double number) {
+		DecimalFormat df = new DecimalFormat("0.00");
+		String num = df.format(number);
+		return num;
+	}
 	public static void main(String[] args) {
 
 		try {
-			System.out.println(phoneValidator("avirup.pal"));
+			System.out.println(getDateFromString("2019-01-01"));
 		} catch (Exception e) {
 
 		}

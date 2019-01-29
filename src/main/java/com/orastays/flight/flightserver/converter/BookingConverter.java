@@ -20,22 +20,25 @@ public class BookingConverter extends CommonConverter implements BaseConverter<B
 	private static final Logger logger = LogManager.getLogger(BookingConverter.class);
 
 	@Autowired
-	protected ConvenienceConverter convenienceConverter;
-
-	@Autowired
 	protected BookingInfoConverter bookingInfoConverter;
+
+	/*@Autowired
+	protected BookingVsRoomConverter bookingVsRoomConverter;*/
 
 	@Autowired
 	protected BookingVsPaymentConverter bookingVsPaymentConverter;
+
+	@Autowired
+	protected CancellationConverter cancellationConverter;
 
 	@Override
 	public BookingEntity modelToEntity(BookingModel m) {
 		if (logger.isInfoEnabled()) {
 			logger.info("modelToEntity -- START");
 		}
-		
+
 		BookingEntity bookingEntity = new BookingEntity();
-		
+
 		bookingEntity = (BookingEntity) Util.transform(modelMapper, m, bookingEntity);
 		if (logger.isInfoEnabled()) {
 			logger.info("modelToEntity -- END");
@@ -52,10 +55,13 @@ public class BookingConverter extends CommonConverter implements BaseConverter<B
 
 		BookingModel bookingModel = new BookingModel();
 		bookingModel = (BookingModel) Util.transform(modelMapper, e, bookingModel);
+		/*bookingModel.setBookingVsRoomModels(bookingVsRoomConverter.entityListToModelList(e.getBookingVsRoomEntities()));
 		bookingModel.setBookingVsPaymentModels(
 				bookingVsPaymentConverter.entityListToModelList(e.getBookingVsPaymentEntities()));
-		bookingModel.setConvenienceModel(convenienceConverter.entityToModel(e.getConvenienceEntity()));
+		// bookingModel.setConvenienceModel(convenienceConverter.entityToModel(e.getConvenienceEntity()));
 		bookingModel.setBookingInfoModel(bookingInfoConverter.entityToModel(e.getBookingInfoEntity()));
+		if (e.getCancellationEntity() != null)
+			bookingModel.setCancellationModel(cancellationConverter.entityToModel(e.getCancellationEntity()));*/
 		if (logger.isInfoEnabled()) {
 			logger.info("entityToModel -- END");
 		}

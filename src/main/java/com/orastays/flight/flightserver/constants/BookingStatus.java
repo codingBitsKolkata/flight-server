@@ -1,4 +1,4 @@
-package com.orastays.flight.flightserver.helper;
+package com.orastays.flight.flightserver.constants;
 
 public enum BookingStatus {
 

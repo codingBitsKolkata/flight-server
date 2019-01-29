@@ -47,10 +47,37 @@ public final class FlightConstant {
 	public static final String FIRST_NAME = "Akshay";
 	public static final String LAST_NAME = "Ball";
 	
+	// cashfree constants
+	public static final String appId = "appId";
+	public static final String secretKey = "secretKey";
+	public static final String orderId = "orderId";
+	public static final String orderAmount = "orderAmount";
+	public static final String orderCurrency = "orderCurrency";
+	public static final String customerEmail = "customerEmail";
+	public static final String customerName = "customerName";
+	public static final String customerPhone = "customerPhone";
+	public static final String returnUrl = "returnUrl";
+	public static final String notifyUrl = "notifyUrl";
+	
+	public static final String txStatus = "txStatus";
+	public static final String referenceId = "referenceId";
+	public static final String paymentMode = "paymentMode";
+	public static final String txTime = "txTime";
+	public static final String txMsg = "txMsg";
+	public static final String signature = "signature";
+	
 	// cashfreeapi status
+	public static final String MODE_CASHLESS = "cashless";
 	public static final String CASHFREE_OK = "OK";
 	public static final String CASHFREE_ERROR = "ERROR";
 
-	// Payment Mode
-	public static final String MODE_CASHLESS = "cashfree";
+	// gateways
+	public static final String CASHFREE = "cashfree";
+
+	//payment status cashfree
+	public static final String SUCCESS = "SUCCESS";
+	public static final String FLAGGED = "FLAGGED";
+	public static final String PENDING = "PENDING";
+	public static final String FAILED = "FAILED";
+	public static final String CANCELLED = "CANCELLED";
 }

@@ -108,41 +108,38 @@ public class FlightBookingController extends BaseController {
 			@ApiResponse(code = 1727, message = "Please provide traveller details!!") })
 
 	public ResponseEntity<ResponseModel> addBooking(@RequestBody BookingModel bookingModel) {
-		if (logger.isInfoEnabled()) {
-			logger.info("addBooking -- START");
-		}
+
+		logger.info("addBooking -- START");
 
 		ResponseModel responseModel = new ResponseModel();
 		Util.printLog(bookingModel, FlightConstant.INCOMING, "add-booking", request);
 		try {
 			PaymentModel paymentModel = bookingService.addBooking(bookingModel);
 			responseModel.setResponseBody(paymentModel);
-			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE));
-			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_MESSAGE));
+			responseModel.setResponseCode(commonSuccessCode);
+			responseModel.setResponseMessage(commonSuccessMessage);
 		} catch (FormExceptions fe) {
 			for (Entry<String, Exception> entry : fe.getExceptions().entrySet()) {
 				responseModel.setResponseCode(entry.getKey());
 				responseModel.setResponseMessage(entry.getValue().getMessage());
 				if (logger.isInfoEnabled()) {
-					logger.info("FormExceptions in add-booking -- " + Util.errorToString(fe));
+					logger.info("FormExceptions in add-booking -- {}", Util.errorToString(fe));
 				}
 				break;
 			}
 		} catch (Exception e) {
 			if (logger.isInfoEnabled()) {
-				logger.info("Exception in Add Booking -- " + Util.errorToString(e));
+				logger.info("Exception in Add Booking -- {}", Util.errorToString(e));
 			}
-			responseModel.setResponseCode(messageUtil.getBundle(FlightConstant.COMMON_ERROR_CODE));
-			responseModel.setResponseMessage(messageUtil.getBundle(FlightConstant.COMMON_ERROR_MESSAGE));
+			responseModel.setResponseCode(commonErrorCode);
+			responseModel.setResponseMessage(commonErrorMessage);
 		}
 
 		Util.printLog(responseModel, FlightConstant.OUTGOING, "add-booking", request);
 
-		if (logger.isInfoEnabled()) {
-			logger.info("addBooking -- END");
-		}
+		logger.info("addBooking -- END");
 
-		if (responseModel.getResponseCode().equals(messageUtil.getBundle(FlightConstant.COMMON_SUCCESS_CODE))) {
+		if (responseModel.getResponseCode().equals(commonSuccessCode)) {
 			return new ResponseEntity<>(responseModel, HttpStatus.OK);
 		} else {
 			return new ResponseEntity<>(responseModel, HttpStatus.BAD_REQUEST);

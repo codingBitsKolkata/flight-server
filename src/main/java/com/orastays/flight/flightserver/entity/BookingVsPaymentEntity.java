@@ -27,7 +27,7 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false)
 public class BookingVsPaymentEntity extends CommonEntity {
 
-	private static final long serialVersionUID = -3411930437094752976L;
+	private static final long serialVersionUID = 3118571215335093261L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

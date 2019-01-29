@@ -8,8 +8,8 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
+import com.orastays.flight.flightserver.constants.Status;
 import com.orastays.flight.flightserver.entity.SearchParameterEntity;
-import com.orastays.flight.flightserver.helper.Status;
 import com.orastays.flight.flightserver.helper.Util;
 import com.orastays.flight.flightserver.model.SearchParameterModel;
 

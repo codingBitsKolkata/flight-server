@@ -249,6 +249,10 @@ public abstract class GenericDAO<E, PK extends Serializable> implements Serializ
 										criteria.addOrder(Order.asc((innerMapKey)));
 									} else if (outerMapKey.equals("desc")) {
 										criteria.addOrder(Order.desc((innerMapKey)));
+									} else if (outerMapKey.equals("ge")) {
+										criteria.add(Restrictions.ge(innerMapKey, innerMapValue));
+									} else if (outerMapKey.equals("le")) {
+										criteria.add(Restrictions.ge(innerMapKey, innerMapValue));
 									}
 
 								}
@@ -454,6 +458,12 @@ public abstract class GenericDAO<E, PK extends Serializable> implements Serializ
 									} else if (outerMapKey.equals("desc")) {
 										criteria.createAlias(alliasMapKey, alliasName)
 												.addOrder(Order.desc(alliasName + "." + innerMapKey));
+									} else if (outerMapKey.equals("ge")) {
+										criteria.createAlias(alliasMapKey, alliasName)
+												.add(Restrictions.ge(alliasName + "." + innerMapKey, innerMapValue));
+									} else if (outerMapKey.equals("le")) {
+										criteria.createAlias(alliasMapKey, alliasName)
+												.add(Restrictions.le(alliasName + "." + innerMapKey, innerMapValue));
 									}
 
 								}
