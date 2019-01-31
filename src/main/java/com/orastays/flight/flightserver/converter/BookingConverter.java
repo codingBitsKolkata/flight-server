@@ -12,11 +12,13 @@ import org.springframework.util.CollectionUtils;
 import com.orastays.flight.flightserver.entity.BookingEntity;
 import com.orastays.flight.flightserver.helper.Util;
 import com.orastays.flight.flightserver.model.BookingModel;
+import com.orastays.flight.flightserver.converter.BookingInfoConverter;
 
 @Component
 public class BookingConverter extends CommonConverter implements BaseConverter<BookingEntity, BookingModel> {
 
 	private static final long serialVersionUID = 754163973023221139L;
+	
 	private static final Logger logger = LogManager.getLogger(BookingConverter.class);
 
 	@Autowired

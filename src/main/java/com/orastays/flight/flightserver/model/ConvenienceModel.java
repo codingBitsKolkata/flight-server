@@ -1,5 +1,7 @@
 package com.orastays.flight.flightserver.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
@@ -14,15 +16,17 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class TravellerParamModel /*extends CommonModel*/ {
+public class ConvenienceModel extends CommonModel {
 
-	@JsonProperty("paxID")
-	public Integer paxID;
-	
-	@JsonProperty("travellerDetails")
-    public TravellerDetailsModel travellerDetailsModel;
-	
-	@JsonProperty("ssrDetails")
-    public SsrDetailsModel ssrDetailsModel;
+	@JsonProperty("convenienceId")
+	private Long convenienceId;
 
+	@JsonProperty("amount")
+	private String amount;
+	
+	@JsonProperty("gstPercentage")
+	private String gstPercentage;
+
+	@JsonProperty("bookings")
+	private List<BookingModel> bookingModels;
 }

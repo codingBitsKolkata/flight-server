@@ -13,7 +13,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class ProductParamsModel extends CommonModel {
+public class ProductParamsModel /*extends CommonModel*/ {
 
 	public String tripType;
 	public String amountDisp;

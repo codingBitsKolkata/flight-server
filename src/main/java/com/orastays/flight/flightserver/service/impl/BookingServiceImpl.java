@@ -25,7 +25,7 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 		
 		PaymentModel paymentModel = null;
 		//proceed with online payment
-		paymentModel = bookingUtil.bookRoomForCashLessPayments(bookingModel, bookingEntity);
+		paymentModel = bookingUtil.bookFlightForCashLessPayments(bookingModel, bookingEntity);
 		
 		logger.info("addBooking -- END");
 		return paymentModel;

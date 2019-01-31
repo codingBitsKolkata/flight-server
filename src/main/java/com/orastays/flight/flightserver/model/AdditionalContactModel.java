@@ -13,7 +13,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class AdditionalContactModel extends CommonModel {
+public class AdditionalContactModel /*extends CommonModel*/ {
 
 	public String email;
 	public String mobile;

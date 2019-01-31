@@ -90,9 +90,10 @@ public class CashFreeApi {
 		map.add(FlightConstant.orderId, bookingVsPaymentEntity.getOrderId());
 		map.add(FlightConstant.orderAmount, bookingVsPaymentEntity.getOrderAmount());
 		//map.add(FlightConstant.orderCurrency, bm.getFormOfPayment().getCurrency());
-		//map.add(FlightConstant.customerEmail, bm.getBookingInfoModel().getEmail());
-		//map.add(FlightConstant.customerName, bm.getBookingInfoModel().getName());
-		//map.add(FlightConstant.customerPhone, bm.getBookingInfoModel().getMobile());
+		map.add(FlightConstant.customerEmail, bm.getReviewJsonModel().getUserParamsModel().getEmailId());
+		map.add(FlightConstant.customerName, bm.getReviewJsonModel().getUserParamsModel().getFirstName()+ " "+
+				bm.getReviewJsonModel().getUserParamsModel().getLastName());
+		map.add(FlightConstant.customerPhone, bm.getReviewJsonModel().getUserParamsModel().getMobileNo());
 		map.add(FlightConstant.returnUrl, returnUrl);
 		map.add(FlightConstant.notifyUrl, notifyUrl);
 

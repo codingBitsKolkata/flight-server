@@ -30,6 +30,9 @@ public class BookingModel extends CommonModel {
 	@JsonProperty("userId")
 	private String userId;
 	
+	@JsonProperty("progress")
+	private String progress;
+	
 	@JsonProperty("pricingId")
 	private String pricingId;
 	

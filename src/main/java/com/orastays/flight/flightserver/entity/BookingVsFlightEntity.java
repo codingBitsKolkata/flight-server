@@ -30,7 +30,7 @@ public class BookingVsFlightEntity extends CommonEntity {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "booking_vs_flight_id")
 	@JsonProperty("bookingVsFlightId")
-	private String bookingVsFlightId;
+	private Long bookingVsFlightId;
 
 	@Column(name = "pnr_number")
 	@JsonProperty("pnrNumber")

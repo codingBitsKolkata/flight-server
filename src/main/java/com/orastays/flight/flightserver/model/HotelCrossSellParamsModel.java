@@ -13,7 +13,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class HotelCrossSellParamsModel extends CommonModel {
+public class HotelCrossSellParamsModel /*extends CommonModel*/ {
 
 	public Boolean isHotelCrosssellBooking;
 	public String hotelBookingRequestJSON;

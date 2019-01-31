@@ -16,7 +16,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class SsrDetailsModel extends CommonModel {
+public class SsrDetailsModel /*extends CommonModel*/ {
 
 	@JsonProperty("ssrMealDetails")
     public List<SsrMealDetailsModel> ssrMealDetailsModels;

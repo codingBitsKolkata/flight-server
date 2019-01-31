@@ -80,4 +80,11 @@ public final class FlightConstant {
 	public static final String PENDING = "PENDING";
 	public static final String FAILED = "FAILED";
 	public static final String CANCELLED = "CANCELLED";
+	
+	//Booking Status Constants
+	public static final String BEFORE_PAYMENT = "BEFORE_PAYMENT";
+	public static final String PAYMENT_CALLED = "PAYMENT_CALLED";
+	public static final String PAYMENT_SUCCESS = "PAYMENT_SUCCESS";
+	public static final String BOOKING_CALLED = "BOOKING_CALLED";
+	public static final String BOOKING_SUCCESS = "BOOKING_SUCCESS";
 }

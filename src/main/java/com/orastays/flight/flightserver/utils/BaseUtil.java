@@ -8,6 +8,7 @@ import com.orastays.flight.flightserver.converter.BookingInfoConverter;
 import com.orastays.flight.flightserver.dao.BookingDAO;
 import com.orastays.flight.flightserver.dao.BookingInfoDAO;
 import com.orastays.flight.flightserver.helper.CashFreeApi;
+import com.orastays.flight.flightserver.service.ConvenienceService;
 import com.orastays.flight.flightserver.service.GatewayService;
 
 public class BaseUtil {
@@ -22,6 +23,9 @@ public class BaseUtil {
 	
 	@Autowired
 	protected BookingInfoDAO bookingInfoDAO;
+	
+	@Autowired
+	protected ConvenienceService convenienceService;
 	
 	@Value("${generic.error.code}")
 	protected String genericErrorCode;

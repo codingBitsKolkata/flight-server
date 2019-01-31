@@ -1,9 +1,7 @@
 package com.orastays.flight.flightserver.utils;
 
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.LinkedHashMap;
-import java.util.List;
 import java.util.Map;
 
 import org.apache.logging.log4j.LogManager;
@@ -14,9 +12,8 @@ import com.orastays.flight.flightserver.constants.BookingStatus;
 import com.orastays.flight.flightserver.constants.PaymentStatus;
 import com.orastays.flight.flightserver.constants.Status;
 import com.orastays.flight.flightserver.entity.BookingEntity;
-import com.orastays.flight.flightserver.entity.BookingInfoEntity;
-import com.orastays.flight.flightserver.entity.BookingVsFlightEntity;
 import com.orastays.flight.flightserver.entity.BookingVsPaymentEntity;
+import com.orastays.flight.flightserver.entity.ConvenienceEntity;
 import com.orastays.flight.flightserver.entity.GatewayEntity;
 import com.orastays.flight.flightserver.exceptions.FormExceptions;
 import com.orastays.flight.flightserver.helper.FlightConstant;
@@ -37,13 +34,14 @@ public class BookingUtil extends BaseUtil {
 			bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
 			bookingEntity.setCreatedDate(Util.getCurrentDateTime());
 			bookingEntity.setStatus(BookingStatus.INACTIVE.ordinal());
+			bookingEntity.setProgress(FlightConstant.BEFORE_PAYMENT);
 
 			Long bookingId = (Long) bookingDAO.save(bookingEntity);
-			BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
+			//BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
 
-			List<BookingVsFlightEntity> bookingVsRoomEntities = new ArrayList<>();
-
-			bookingModel.getBookingVsRoomModels().forEach(room -> {
+			//List<BookingVsFlightEntity> bookingVsFlightEntities = new ArrayList<>();
+			
+			/*bookingModel.getBookingVsRoomModels().forEach(room -> {
 				BookingVsRoomEntity bookingVsRoomEntity = bookingVsRoomConverter.modelToEntity(room);
 
 				bookingVsRoomEntity.setStatus(RoomStatus.INACTIVE.ordinal());
@@ -67,7 +65,20 @@ public class BookingUtil extends BaseUtil {
 
 			bookingEntity2.setBookingInfoEntity(bookingInfoEntity);
 			bookingEntity2.setBookingVsRoomEntities(bookingVsRoomEntities);
-			return bookingEntity2;
+			return bookingEntity2;*/
+			
+			 ConvenienceEntity convenienceEntity = convenienceService.getActiveConvenienceEntity();
+             bookingEntity.setConvenienceEntity(convenienceEntity);
+             Double convenienceAmountWithGst = Double.parseDouble(convenienceEntity.getAmount());
+             convenienceAmountWithGst = Util.calculateGstPayableAmount(convenienceAmountWithGst,
+                             Double.parseDouble(convenienceEntity.getGstPercentage()));
+
+             bookingEntity.setConvenienceAmtWgst(Util.roundTo2Places((convenienceAmountWithGst)));
+
+             Double totalPayableWithoutGst = 0.0;
+             Double totalPayableWithGst = 0.0;
+			
+			return bookingEntity;
 		} catch (Exception e) {
 			// throw new FormExceptions(exceptions)
 			e.printStackTrace();
@@ -76,9 +87,9 @@ public class BookingUtil extends BaseUtil {
 		}
 	}
 
-	public PaymentModel bookRoomForCashLessPayments(BookingModel bm, BookingEntity be) throws FormExceptions {
+	public PaymentModel bookFlightForCashLessPayments(BookingModel bm, BookingEntity be) throws FormExceptions {
 
-		logger.debug("bookRoomForCashLessPayments -- Start");
+		logger.debug("bookFlightForCashLessPayments -- Start");
 
 		BookingVsPaymentEntity bookingVsPaymentEntity = new BookingVsPaymentEntity();
 		bookingVsPaymentEntity.setBookingEntity(be);
@@ -94,7 +105,7 @@ public class BookingUtil extends BaseUtil {
 
 		PaymentModel paymentModel = cashFreeApi.getPaymentLink(bm, be, bookingVsPaymentEntity);
 
-		logger.debug("bookRoomForCashLessPayments -- End");
+		logger.debug("bookFlightForCashLessPayments -- End");
 		return paymentModel;
 	}
 }

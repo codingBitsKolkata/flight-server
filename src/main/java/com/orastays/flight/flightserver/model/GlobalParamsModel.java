@@ -13,7 +13,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class GlobalParamsModel extends CommonModel {
+public class GlobalParamsModel /*extends CommonModel*/ {
 
 	private String globalParamsId;
 	private String prq;
