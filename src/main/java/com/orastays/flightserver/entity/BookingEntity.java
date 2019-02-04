@@ -91,6 +91,19 @@ public class BookingEntity extends CommonEntity {
 	@JsonProperty("totalPrice")
 	private String totalPrice;
 	
+	//Convenience fee add
+	@Column(name = "total_payble_without_GST")
+    @JsonProperty("totalPaybleWithoutGST")
+    private String totalPaybleWithoutGST;
+
+	@Column(name = "grand_total")
+    @JsonProperty("grandTotal")
+    private String grandTotal;
+
+	@Column(name = "total_payble_with_GST")
+    @JsonProperty("totalPaybleWithGST")
+    private String totalPaybleWithGST;
+	
 	@Column(name = "convenience_amt_wgst")
 	@JsonProperty("convenienceAmtWgst")
 	private String convenienceAmtWgst;

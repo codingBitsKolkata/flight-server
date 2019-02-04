@@ -60,6 +60,16 @@ public class BookingModel extends CommonModel {
 	@JsonProperty("totalPrice")
 	private String totalPrice;
 
+	//Convenience fee add
+    @JsonProperty("totalPaybleWithoutGST")
+    private String totalPaybleWithoutGST;
+
+    @JsonProperty("grandTotal")
+    private String grandTotal;
+
+    @JsonProperty("totalPaybleWithGST")
+    private String totalPaybleWithGST;
+
 	@JsonProperty("convenienceAmtWgst")
 	private String convenienceAmtWgst;
 	
@@ -68,6 +78,9 @@ public class BookingModel extends CommonModel {
 
 	@JsonProperty("bookingVsPayments")
 	private List<BookingVsPaymentModel> bookingVsPaymentModels;
+	
+	@JsonProperty("conveniences")
+    private ConvenienceModel convenienceModel;
 
 	@JsonProperty("cancellations")
 	private CancellationModel cancellationModel;
