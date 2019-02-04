@@ -12,6 +12,7 @@ import com.orastays.flightserver.constants.BookingStatus;
 import com.orastays.flightserver.constants.PaymentStatus;
 import com.orastays.flightserver.constants.Status;
 import com.orastays.flightserver.entity.BookingEntity;
+import com.orastays.flightserver.entity.BookingInfoEntity;
 import com.orastays.flightserver.entity.BookingVsPaymentEntity;
 import com.orastays.flightserver.entity.ConvenienceEntity;
 import com.orastays.flightserver.entity.GatewayEntity;
@@ -77,8 +78,29 @@ public class BookingUtil extends BaseUtil {
 
              Double totalPayableWithoutGst = 0.0;
              Double totalPayableWithGst = 0.0;
+             
+             BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
+
+             BookingInfoEntity bookingInfoEntity = bookingInfoConverter.modelToEntity(bookingModel.getBookingInfoModel());
+             // set booking vs info
+             if(bookingInfoEntity == null) {
+                     bookingInfoEntity = new BookingInfoEntity();
+             }
+             bookingInfoEntity.setCreatedDate(Util.getCurrentDateTime());
+             bookingInfoEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
+             bookingInfoEntity.setStatus(Status.ACTIVE.ordinal());
+             bookingInfoEntity.setBookingEntity(bookingEntity2);
+
+             bookingInfoDAO.save(bookingInfoEntity);
+
+             //update booking entity
+             bookingEntity2.setTotalPaybleWithoutGST(Util.roundTo2Places(totalPayableWithoutGst));
+             bookingEntity2.setTotalPaybleWithGST(Util.roundTo2Places(totalPayableWithGst));
+             bookingEntity2.setGrandTotal(Util.roundTo2Places(totalPayableWithGst + convenienceAmountWithGst));
+
+             bookingDAO.update(bookingEntity2);
 			
-			return bookingEntity;
+			return bookingEntity2;
 		} catch (Exception e) {
 			// throw new FormExceptions(exceptions)
 			e.printStackTrace();

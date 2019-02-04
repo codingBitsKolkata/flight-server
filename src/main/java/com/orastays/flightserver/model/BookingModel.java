@@ -4,9 +4,6 @@ import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.orastays.flightserver.entity.BookingInfoEntity;
-import com.orastays.flightserver.entity.BookingVsPaymentEntity;
-import com.orastays.flightserver.entity.CancellationEntity;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
@@ -42,24 +39,6 @@ public class BookingModel extends CommonModel {
 	@JsonProperty("reviewJson")
 	public ReviewJsonModel reviewJsonModel;
 
-	/*@JsonProperty("commision")
-	private String commision;
-
-	@JsonProperty("tds")
-	private String tds;
-
-	@JsonProperty("totalAmount")
-	private String totalAmount;
-
-	@JsonProperty("emailId")
-	private String emailId;
-	
-	@JsonProperty("mobileNumber")
-	private String mobileNumber;
-	
-	@JsonProperty("masterPassenger")
-	private String masterPassenger;*/
-	
 	@JsonProperty("userFinalPrice")
 	private String userFinalPrice;
 
@@ -85,13 +64,13 @@ public class BookingModel extends CommonModel {
 	private String convenienceAmtWgst;
 	
 	@JsonProperty("bookingInfos")
-	private BookingInfoEntity bookingInfoEntity;
+	private BookingInfoModel bookingInfoModel;
 
 	@JsonProperty("bookingVsPayments")
-	private List<BookingVsPaymentEntity> bookingVsPaymentEntities;
+	private List<BookingVsPaymentModel> bookingVsPaymentModels;
 
 	@JsonProperty("cancellations")
-	private CancellationEntity cancellationEntity;
+	private CancellationModel cancellationModel;
 
 	@JsonProperty("failureURL")
 	private String failureURL;
