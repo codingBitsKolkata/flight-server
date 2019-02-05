@@ -219,9 +219,11 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 		
 		String tenantName = null;
+		String originCountryCode = null;
+		String destCountryCode = null;
 		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
-			String originCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getOrigin());
-			String destCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getDestination());
+			originCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getOrigin());
+			destCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getDestination());
 			if (originCountryCode.equals(destCountryCode)) {
 				tenantName = FlightConstant.DOM_TENANT_NAME;
 			} else {
@@ -238,10 +240,10 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String classType = flightSearchModel.getClassType();
 
 		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/search?"+"type="+tripType+"&viewName="+viewName+"&noOfSegments="+noOfSegments+
-				"&origin="+newModel.get("origin")+"&originCountry="+newModel.get("originCountry")+"&destination="+newModel.get("destination")+
-				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&ADT="+ADT+
+				"&origin="+newModel.get("origin")+"&originCountry="+originCountryCode+"&destination="+newModel.get("destination")+
+				"&destinationCountry="+destCountryCode+"&flight_depart_date="+newModel.get("flight_depart_date")+"&ADT="+ADT+
 				"&CHD="+CHD+"&INF="+INF+"&class="+classType;
-
+		
 		ResponseEntity<String> responseEntity = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -282,9 +284,11 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		String tenantName = null;
+		String originCountryCode = null;
+		String destCountryCode = null;
 		for(MultiCityModel multiCityModel:flightSearchModel.getMultiCityModels()) {
-			String originCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getOrigin());
-			String destCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getDestination());
+			originCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getOrigin());
+			destCountryCode = searchParameterDAO.fetchCountryCode(multiCityModel.getDestination());
 			if (originCountryCode.equals(destCountryCode)) {
 				tenantName = FlightConstant.DOM_TENANT_NAME;
 			} else {
@@ -301,8 +305,8 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String classType = flightSearchModel.getClassType();
 
 		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/search?"+"type="+tripType+"&viewName="+viewName+"&noOfSegments="+noOfSegments+
-				"&origin="+newModel.get("origin")+"&originCountry="+newModel.get("originCountry")+"&destination="+newModel.get("destination")+
-				"&destinationCountry="+newModel.get("destinationCountry")+"&flight_depart_date="+newModel.get("flight_depart_date")+"&arrivalDate="+arrivalDate+
+				"&origin="+newModel.get("origin")+"&originCountry="+originCountryCode+"&destination="+newModel.get("destination")+
+				"&destinationCountry="+destCountryCode+"&flight_depart_date="+newModel.get("flight_depart_date")+"&arrivalDate="+arrivalDate+
 				"&ADT="+ADT+"&CHD="+CHD+"&INF="+INF+"&class="+classType;
 		
 		ResponseEntity<String> responseEntity = null;
