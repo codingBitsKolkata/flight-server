@@ -260,7 +260,6 @@ public class FlightValidation extends AuthorizeUserValidation {
 			if (StringUtils.isBlank(flightPriceModel.getSupplierCode())) {
 				exceptions.put(messageUtil.getBundle("supplier.code.null.code"), new Exception(messageUtil.getBundle("supplier.code.null.message")));
 			}	
-			//flightIdCSV
 			if (StringUtils.isBlank(flightPriceModel.getFlightId())){
 				exceptions.put(messageUtil.getBundle("flight.id.null.code"), new Exception(messageUtil.getBundle("flight.id.null.message")));
 			}

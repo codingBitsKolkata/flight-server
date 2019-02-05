@@ -2,6 +2,7 @@ package com.orastays.flightserver.service.impl;
 
 import java.net.URI;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -92,7 +93,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				} 
 				//Check response code
 				if (!eagerFetchStop){
-					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error.message")));
 				} 
 			} 
 		} catch (Exception e) {
@@ -136,7 +137,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				} 
 				//Check response code
 				if (!eagerFetchStop){
-					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error.message")));
 				} 
 			} 
 		} catch (Exception e) {
@@ -180,7 +181,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				} 
 				//Check response code
 				if (!eagerFetchStop){
-					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error.message")));
 				} 
 			} 
 		} catch (Exception e) {
@@ -433,7 +434,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		try {
 			response = callOneWayPricing(flightPriceModel);
 			JSONObject jsonObj = new JSONObject(response);
-			/*boolean shouldRetry = jsonObj.getBoolean("shouldRetry");
+			boolean shouldRetry = jsonObj.getBoolean("shouldRetry");
 			if (shouldRetry) {
 				boolean shouldRetryStop=true;
 				for (int i=0;i<=2;i++) {
@@ -445,9 +446,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 					}
 				}
 				if(shouldRetry) {
-					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error.message")));
 				}
-			}*/
+			}
 		} catch (Exception e) {
 			logger.info("Error in fetchOneWayPricing response -- END");
 			e.getStackTrace();
@@ -493,7 +494,6 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 				"&bpc="+FlightConstant.BPC+"&isSR="+FlightConstant.ISSR+"&unique="+FlightConstant.UNIQUE+"&variation="+FlightConstant.VARIATION+
 				"&flightIdCSV="+flightId+"&flightPrice="+flightPrice+"&sc="+supplierCode;
 
-		System.out.println("createUrl::"+createUrl);
 		ResponseEntity<String> responseEntity = null;
 		try {
 			RestTemplate restTemplate = new RestTemplate();
@@ -522,12 +522,13 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
-		
+		System.out.println("flightPriceModel1=="+flightPriceModel);
 		flightValidation.validateRoundTripPricing(flightPriceModel);
+		System.out.println("flightPriceModel2=="+flightPriceModel);
 		String response = null;
 		try {
 			response = callRoundTripPricing(flightPriceModel);
-			/*JSONObject jsonObj = new JSONObject(response);
+			JSONObject jsonObj = new JSONObject(response);
 			boolean shouldRetry = jsonObj.getBoolean("shouldRetry");
 			if (shouldRetry) {
 				boolean shouldRetryStop=true;
@@ -540,9 +541,9 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 					}
 				}
 				if(shouldRetry) {
-					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error.message")));
 				}
-			}*/
+			}
 		} catch (Exception e) {
 			logger.info("Error in fetchRoundTripPricing response -- END");
 			e.getStackTrace();
@@ -582,12 +583,18 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String msid = flightPriceModel.getMsid();
 		String requestMode = FlightConstant.REQUEST_MODE; 
 		String flightId = flightPriceModel.getFlightId();
+		//Get the comma separated prices and add them
 		String flightPrice = flightPriceModel.getFlightPrice();
+		List<String> priceList = Arrays.asList(flightPrice.split(","));
+		Double priceToAdd=0.0;
+		for (String price : priceList) {
+			priceToAdd=priceToAdd+Double.valueOf(price);
+		}
 		String supplierCode = flightPriceModel.getSupplierCode();
 
 		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+requestMode+
 				"&bpc="+FlightConstant.BPC+"&isSR="+FlightConstant.ISSR+"&unique="+FlightConstant.UNIQUE+"&variation="+FlightConstant.VARIATION+
-				"&flightIdCSV="+flightId+"&flightPrice="+flightPrice+"&sc="+supplierCode;
+				"&flightIdCSV="+flightId+"&flightPrice="+priceToAdd+"&sc="+supplierCode;
 
 		ResponseEntity<String> responseEntity = null;
 		try {
@@ -634,7 +641,7 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 					}
 				}
 				if(shouldRetry) {
-					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error..message")));
+					exceptions.put(messageUtil.getBundle("common.error.code"), new Exception(messageUtil.getBundle("common.error.message")));
 				}
 			}
 		} catch (Exception e) {
@@ -668,12 +675,18 @@ public class FlightServiceImpl extends BaseServiceImpl implements FlightService 
 		String msid = flightPriceModel.getMsid();
 		String requestMode = FlightConstant.REQUEST_MODE; 
 		String flightId = flightPriceModel.getFlightId();
+		//Get the comma separated prices and add them
 		String flightPrice = flightPriceModel.getFlightPrice();
+		List<String> priceList = Arrays.asList(flightPrice.split(","));
+		Double priceToAdd=0.0;
+		for (String price : priceList) {
+			priceToAdd=priceToAdd+Double.valueOf(price);
+		}
 		String supplierCode = flightPriceModel.getSupplierCode();
 
 		String createUrl = messageUtil.getBundle("flight.search.server.url")+tenantName+"/price?"+"searchId="+searchId+"&msid="+msid+"&mode="+requestMode+
 				"&bpc="+FlightConstant.BPC+"&isSR="+FlightConstant.ISSR+"&unique="+FlightConstant.UNIQUE+"&variation="+FlightConstant.VARIATION+
-				"&flightIdCSV="+flightId+"&flightPrice="+flightPrice+"&sc="+supplierCode;
+				"&flightIdCSV="+flightId+"&flightPrice="+priceToAdd+"&sc="+supplierCode;
 
 		ResponseEntity<String> responseEntity = null;
 		try {
