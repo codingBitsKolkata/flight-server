@@ -43,6 +43,10 @@ public class GatewayEntity extends CommonEntity {
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "gatewayEntity", cascade = { CascadeType.ALL })
 	@JsonProperty("bookingVsPayments")
 	private List<BookingVsPaymentEntity> bookingVsPaymentEntities;
+	
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "gatewayEntity", cascade = { CascadeType.ALL })
+	@JsonProperty("booking")
+	private List<BookingEntity> bookingEntities;
 
 	@Override
 	public String toString() {

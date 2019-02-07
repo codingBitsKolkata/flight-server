@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.CollectionUtils;
 
-import com.orastays.flightserver.converter.BookingInfoConverter;
 import com.orastays.flightserver.entity.BookingEntity;
 import com.orastays.flightserver.helper.Util;
 import com.orastays.flightserver.model.BookingModel;
@@ -17,15 +16,12 @@ import com.orastays.flightserver.model.BookingModel;
 @Component
 public class BookingConverter extends CommonConverter implements BaseConverter<BookingEntity, BookingModel> {
 
-	private static final long serialVersionUID = 754163973023221139L;
-	
+	private static final long serialVersionUID = 4297539419434032155L;
+
 	private static final Logger logger = LogManager.getLogger(BookingConverter.class);
 
 	@Autowired
 	protected BookingInfoConverter bookingInfoConverter;
-
-	/*@Autowired
-	protected BookingVsRoomConverter bookingVsRoomConverter;*/
 
 	@Autowired
 	protected BookingVsPaymentConverter bookingVsPaymentConverter;

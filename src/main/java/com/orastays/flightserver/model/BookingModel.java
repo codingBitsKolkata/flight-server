@@ -20,9 +20,9 @@ public class BookingModel extends CommonModel {
 
 	@JsonProperty("bookingId")
 	private String bookingId;
-	
-	@JsonProperty("orabookingId")
-	private String orabookingId;
+
+	@JsonProperty("oraBookingId")
+	private String oraBookingId;
 
 	@JsonProperty("userId")
 	private String userId;
@@ -38,58 +38,60 @@ public class BookingModel extends CommonModel {
 	
 	@JsonProperty("reviewJson")
 	public ReviewJsonModel reviewJsonModel;
-
-	@JsonProperty("userFinalPrice")
-	private String userFinalPrice;
-
-	@JsonProperty("oraSpecialOfferPerc")
-	private String oraSpecialOfferPerc;
-
-	@JsonProperty("oraSpecialOfferAmt")
-	private String oraSpecialOfferAmt;
-
-	@JsonProperty("convenienceFeePerc")
-	private String convenienceFeePerc;
-
-	@JsonProperty("convenienceFeeAmt")
-	private String convenienceFeeAmt;
-
-	@JsonProperty("convenienceGstAmt")
-	private String convenienceGstAmt;
-
-	@JsonProperty("totalPrice")
-	private String totalPrice;
-
-	//Convenience fee add
-    @JsonProperty("totalPaybleWithoutGST")
-    private String totalPaybleWithoutGST;
-
-    @JsonProperty("grandTotal")
-    private String grandTotal;
-
-    @JsonProperty("totalPaybleWithGST")
-    private String totalPaybleWithGST;
-
-	@JsonProperty("convenienceAmtWgst")
-	private String convenienceAmtWgst;
 	
-	@JsonProperty("bookingInfos")
-	private BookingInfoModel bookingInfoModel;
+	@JsonProperty("baseFare")
+	private String baseFare;
+	
+	@JsonProperty("fuelSurcharges")
+	private String fuelSurcharges;
 
+	@JsonProperty("otherCharges")
+	private String otherCharges;
+
+	@JsonProperty("yatraGst")
+	private String yatraGst;
+
+	@JsonProperty("passengerFee")
+	private String passengerFee;
+
+	@JsonProperty("userDevFee")
+	private String userDevFee;
+
+	@JsonProperty("bookingFee")
+	private String bookingFee;
+	
+    @JsonProperty("igst")
+    private String igst;
+
+    @JsonProperty("totalFare")
+    private String totalFare;
+
+    @JsonProperty("conveniences")
+    private ConvenienceModel convenienceModel;
+	
+    @JsonProperty("totalFareWithConvenience")
+    private String totalFareWithConvenience;
+	
+    @JsonProperty("failureURL")
+    private String failureURL;
+	
+    @JsonProperty("successURL")
+    private String successURL;
+	
+    @JsonProperty("oraCommission")
+    private String oraCommission;
+	
+    @JsonProperty("gateway")
+    private GatewayModel gatewayModel;
+	
 	@JsonProperty("bookingVsPayments")
 	private List<BookingVsPaymentModel> bookingVsPaymentModels;
 	
-	@JsonProperty("conveniences")
-    private ConvenienceModel convenienceModel;
-
 	@JsonProperty("cancellations")
 	private CancellationModel cancellationModel;
-
-	@JsonProperty("failureURL")
-	private String failureURL;
 	
-	@JsonProperty("successURL")
-	private String successURL;
+	@JsonProperty("bookingVsFlights")
+	private List<BookingVsFlightModel> bookingVsFlightModels;
 }
 
 

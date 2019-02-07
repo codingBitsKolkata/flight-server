@@ -1,5 +1,7 @@
 package com.orastays.flightserver.entity;
 
+import java.util.List;
+
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -9,6 +11,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -70,12 +73,20 @@ public class BookingVsFlightEntity extends CommonEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
 	@JoinColumn(name = "booking_id", nullable = false)
-	@JsonProperty("bookings")
+	@JsonProperty("booking")
 	private BookingEntity bookingEntity;
-
-	/*@JsonProperty("cancellationVsRooms")
-	private CancellationVsRoomModel cancellationVsRoomModel;*/
 	
+	/*@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+	@JoinColumn(name = "bvp_id", nullable = false)
+	@JsonProperty("bookingVsFlight")
+	private BookingVsFlightEntity bookingVsFlightEntity;*/
 	
-
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingVsFlightEntity", cascade = { CascadeType.ALL })
+	@JsonProperty("bookingVsTravellers")
+	private List<BookingVsTravellerEntity> bookingVsTravellerEntities;
+	
+	@Override
+	public String toString() {
+		return Long.toString(bookingVsFlightId);
+	}
 }

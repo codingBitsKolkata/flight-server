@@ -49,26 +49,9 @@ public class ReviewJsonEntity extends CommonEntity {
 	@JsonProperty("travellerParams")
 	private List<TravellerParamEntity> travellerParamEntities;
 	
-	/*@JsonProperty("gstDetails")
-	public GstDetailsModel gstDetailsModel;
-	
-	@JsonProperty("discountParams")
-	public DiscountParamsModel discountParamsModels;
-	
-	@JsonProperty("totalBreakup")
-	public TotalBreakupModel totalBreakupModel;
-	
-	@JsonProperty("tourCodes")
-	public List<TourCodeModel> tourCodeModels;
-	
-	@JsonProperty("advancedPricing")
-	public AdvancedPricingModel advancedPricingModel;
-	
-	@JsonProperty("upSellParam")
-	public List<UpSellParamsModel> upSellParamsModel;
-	
-	@JsonProperty("gaResponse")
-	public GaResponseModel gaResponseModel;*/
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "reviewJsonEntity", cascade = { CascadeType.ALL })
+	@JsonProperty("booking")
+	private BookingEntity bookingEntity;
 	
 	@Override
 	public String toString() {

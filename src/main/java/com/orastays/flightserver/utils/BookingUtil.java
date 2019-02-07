@@ -31,16 +31,27 @@ public class BookingUtil extends BaseUtil {
 		try {
 			BookingEntity bookingEntity = bookingConverter.modelToEntity(bookingModel);
 			// set booking master attributes
-			bookingEntity.setOrabookingId("ORA" + new Date().getTime());
+			bookingEntity.setOraBookingId("ORA" + new Date().getTime());
 			bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
 			bookingEntity.setCreatedDate(Util.getCurrentDateTime());
 			bookingEntity.setStatus(BookingStatus.INACTIVE.ordinal());
 			bookingEntity.setProgress(FlightConstant.BEFORE_PAYMENT);
 
+			/*	base_fare
+				fuels_surcharges
+				other_charges
+				yatra_gst
+				passenger_fee	
+				user_dev_fee
+				booking_fee
+				igst
+				total_fare(calculated from above 8 fields from bf)
+				*/
+			
 			Long bookingId = (Long) bookingDAO.save(bookingEntity);
 			//BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
 
-			//List<BookingVsFlightEntity> bookingVsFlightEntities = new ArrayList<>();
+			//List<BookingVsRoomEntity> bookingVsRoomEntities = new ArrayList<>();
 			
 			/*bookingModel.getBookingVsRoomModels().forEach(room -> {
 				BookingVsRoomEntity bookingVsRoomEntity = bookingVsRoomConverter.modelToEntity(room);
@@ -74,14 +85,14 @@ public class BookingUtil extends BaseUtil {
              convenienceAmountWithGst = Util.calculateGstPayableAmount(convenienceAmountWithGst,
                              Double.parseDouble(convenienceEntity.getGstPercentage()));
 
-             bookingEntity.setConvenienceAmtWgst(Util.roundTo2Places((convenienceAmountWithGst)));
+             //bookingEntity.setConvenienceAmtWgst(Util.roundTo2Places((convenienceAmountWithGst)));
 
              Double totalPayableWithoutGst = 0.0;
              Double totalPayableWithGst = 0.0;
              
              BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
 
-             BookingInfoEntity bookingInfoEntity = bookingInfoConverter.modelToEntity(bookingModel.getBookingInfoModel());
+             BookingInfoEntity bookingInfoEntity = null/*bookingInfoConverter.modelToEntity(bookingModel.getBookingInfoModel())*/;
              // set booking vs info
              if(bookingInfoEntity == null) {
                      bookingInfoEntity = new BookingInfoEntity();
@@ -94,9 +105,9 @@ public class BookingUtil extends BaseUtil {
              bookingInfoDAO.save(bookingInfoEntity);
 
              //update booking entity
-             bookingEntity2.setTotalPaybleWithoutGST(Util.roundTo2Places(totalPayableWithoutGst));
-             bookingEntity2.setTotalPaybleWithGST(Util.roundTo2Places(totalPayableWithGst));
-             bookingEntity2.setGrandTotal(Util.roundTo2Places(totalPayableWithGst + convenienceAmountWithGst));
+             //bookingEntity2.setTotalPaybleWithoutGST(Util.roundTo2Places(totalPayableWithoutGst));
+             //bookingEntity2.setTotalPaybleWithGST(Util.roundTo2Places(totalPayableWithGst));
+             //bookingEntity2.setGrandTotal(Util.roundTo2Places(totalPayableWithGst + convenienceAmountWithGst));
 
              bookingDAO.update(bookingEntity2);
 			
@@ -121,7 +132,7 @@ public class BookingUtil extends BaseUtil {
 		bookingVsPaymentEntity.setPercentage(Util.roundTo2Places(100.00)); // remove hardcode
 		GatewayEntity gatewayEntity = gatewayService.getGatewayEntity(FlightConstant.CASHFREE);
 		bookingVsPaymentEntity.setGatewayEntity(gatewayEntity);
-		bookingVsPaymentEntity.setOrderAmount(be.getUserFinalPrice());
+		//bookingVsPaymentEntity.setOrderAmount(be.getUserFinalPrice());
 		bookingVsPaymentEntity.setAmountPaid(String.valueOf(Status.ZERO.ordinal()));
 		bookingVsPaymentEntity.setStatus(PaymentStatus.ACTIVE.ordinal());
 
