@@ -36,8 +36,8 @@ public class BookingConverter extends CommonConverter implements BaseConverter<B
 		}
 
 		BookingEntity bookingEntity = new BookingEntity();
-
 		bookingEntity = (BookingEntity) Util.transform(modelMapper, m, bookingEntity);
+		
 		if (logger.isInfoEnabled()) {
 			logger.info("modelToEntity -- END");
 		}

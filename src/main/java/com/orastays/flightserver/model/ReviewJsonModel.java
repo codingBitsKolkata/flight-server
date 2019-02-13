@@ -5,6 +5,7 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import com.orastays.flightserver.entity.BookingEntity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -22,44 +23,47 @@ public class ReviewJsonModel /*extends CommonModel*/ {
 	private String rvJsonId;
 	
 	@JsonProperty("globalParams")
-	public GlobalParamsModel globalParamsModel;
+	private GlobalParamsModel globalParamsModel;
 	
 	@JsonProperty("addOnParams")
-	public List<AddOnParamsModel> addOnParamsModels;
+	private List<AddOnParamsModel> addOnParamsModels;
 	
 	@JsonProperty("hotelCrossSellParams")
-	public HotelCrossSellParamsModel hotelCrossSellParamsModel;
+	private HotelCrossSellParamsModel hotelCrossSellParamsModel;
 	
 	@JsonProperty("productParams")
-	public ProductParamsModel productParamsModel;
+	private ProductParamsModel productParamsModel;
 	
 	@JsonProperty("promoParams")
-	public PromoParamsModel promoParamsModel;
+	private PromoParamsModel promoParamsModel;
 	
 	@JsonProperty("userParams")
-	public UserParamsModel UserParamsModel;
+	private UserParamsModel UserParamsModel;
 	
 	@JsonProperty("travellerParams")
-	public List<TravellerParamModel> travellerParamModels;
+	private List<TravellerParamModel> travellerParamModels;
 	
 	@JsonProperty("gstDetails")
-	public GstDetailsModel gstDetailsModel;
+	private GstDetailsModel gstDetailsModel;
 	
 	@JsonProperty("discountParams")
-	public DiscountParamsModel discountParamsModels;
+	private DiscountParamsModel discountParamsModels;
 	
 	@JsonProperty("totalBreakup")
-	public TotalBreakupModel totalBreakupModel;
+	private TotalBreakupModel totalBreakupModel;
 	
 	@JsonProperty("tourCodes")
-	public List<TourCodeModel> tourCodeModels;
+	private List<TourCodeModel> tourCodeModels;
 	
 	@JsonProperty("advancedPricing")
-	public AdvancedPricingModel advancedPricingModel;
+	private AdvancedPricingModel advancedPricingModel;
 	
 	@JsonProperty("upSellParam")
-	public List<UpSellParamsModel> upSellParamsModel;
+	private List<UpSellParamsModel> upSellParamsModel;
 	
 	@JsonProperty("gaResponse")
-	public GaResponseModel gaResponseModel;
+	private GaResponseModel gaResponseModel;
+	
+	@JsonProperty("bookings")
+	private BookingEntity bookingEntity;
 }

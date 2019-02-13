@@ -1,9 +1,9 @@
 package com.orastays.flightserver.model;
 
+import java.util.List;
+
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
-import com.orastays.flightserver.model.BookingModel;
-import com.orastays.flightserver.model.CommonModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
@@ -54,5 +54,7 @@ public class BookingVsFlightModel extends CommonModel {
 	/*@JsonProperty("cancellationVsRooms")
 	private CancellationVsRoomModel cancellationVsRoomModel;*/
 	
+	@JsonProperty("bookingVsTravellers")
+	private List<BookingVsTravellerModel> bookingVsTravellerModels;
 	
 }

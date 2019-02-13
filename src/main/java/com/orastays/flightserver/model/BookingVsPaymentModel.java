@@ -55,4 +55,6 @@ public class BookingVsPaymentModel extends CommonModel {
 	@JsonProperty("gateways")
 	private GatewayModel gatewayModel;
 
+	@JsonProperty("percentage")
+	private String percentage;
 }

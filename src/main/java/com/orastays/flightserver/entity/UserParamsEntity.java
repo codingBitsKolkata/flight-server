@@ -45,16 +45,23 @@ public class UserParamsEntity extends CommonEntity {
 	@JsonProperty("mobileNo")
     public String mobileNo;
 	
+	@Column(name = "user_id")
+	@JsonProperty("userId")
+    public String userId;
+	
 	@Column(name = "title")
 	@JsonProperty("title")
     public String title;
 	
+	@Column(name = "first_name")
 	@JsonProperty("firstName")
     public String firstName;
 	
+	@Column(name = "last_name")
 	@JsonProperty("lastName")
     public String lastName;
 	
+	@Column(name = "mobile_no_ISD")
 	@JsonProperty("mobileNoISD")
     public String mobileNoISD;
 	

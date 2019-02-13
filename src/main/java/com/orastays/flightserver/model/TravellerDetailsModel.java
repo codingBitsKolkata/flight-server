@@ -45,4 +45,7 @@ public class TravellerDetailsModel /*extends CommonModel*/ {
 	
 	@JsonProperty("frequentFlyer")
     public FrequentFlyerModel frequentFlyerModel;
+	
+	@JsonProperty("travellerParams")
+	private TravellerParamModel travellerParamModel;
 }

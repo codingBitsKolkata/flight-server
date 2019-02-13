@@ -29,24 +29,29 @@ public class BookingUtil extends BaseUtil {
 	public BookingEntity generateBookingEntity(BookingModel bookingModel) throws FormExceptions {
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
 		try {
+			 
 			BookingEntity bookingEntity = bookingConverter.modelToEntity(bookingModel);
 			// set booking master attributes
 			bookingEntity.setOraBookingId("ORA" + new Date().getTime());
-			bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
+			//bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
 			bookingEntity.setCreatedDate(Util.getCurrentDateTime());
 			bookingEntity.setStatus(BookingStatus.INACTIVE.ordinal());
 			bookingEntity.setProgress(FlightConstant.BEFORE_PAYMENT);
 
-			/*	base_fare
-				fuels_surcharges
-				other_charges
-				yatra_gst
-				passenger_fee	
-				user_dev_fee
-				booking_fee
-				igst
-				total_fare(calculated from above 8 fields from bf)
-				*/
+			//total_fare calculated using base_fare,fuels_surcharges,other_charges,yatra_gst,passenger_fee,user_dev_fee,booking_fee,igst
+			Double totalFare = 0.0;
+			totalFare = Double.parseDouble(bookingModel.getBaseFare()+bookingModel.getFuelSurcharges()+bookingModel.getOtherCharges()+bookingModel.getYatraGst()
+						+bookingModel.getPassengerFee()+bookingModel.getUserDevFee()+bookingModel.getBookingFee()+bookingModel.getIgst());
+			bookingEntity.setTotalFare(totalFare.toString());
+
+			//Get the convenience fee from database
+			ConvenienceEntity convenienceEntity = convenienceService.getActiveConvenienceEntity();
+			Double convenienceAmt = Double.parseDouble(convenienceEntity.getAmount());
+			Double extraGstAmount = Util.calculateGstPayableAmount(convenienceAmt, Double.parseDouble(convenienceEntity.getGstPercentage()));
+			Double totalFareWithConvenience=totalFare+convenienceAmt+extraGstAmount;
+			
+			bookingEntity.setConvenienceEntity(convenienceEntity);
+			bookingEntity.setTotalFareWithConvenience(Util.roundTo2Places((totalFareWithConvenience)));
 			
 			Long bookingId = (Long) bookingDAO.save(bookingEntity);
 			//BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
@@ -79,17 +84,6 @@ public class BookingUtil extends BaseUtil {
 			bookingEntity2.setBookingVsRoomEntities(bookingVsRoomEntities);
 			return bookingEntity2;*/
 			
-			 ConvenienceEntity convenienceEntity = convenienceService.getActiveConvenienceEntity();
-             bookingEntity.setConvenienceEntity(convenienceEntity);
-             Double convenienceAmountWithGst = Double.parseDouble(convenienceEntity.getAmount());
-             convenienceAmountWithGst = Util.calculateGstPayableAmount(convenienceAmountWithGst,
-                             Double.parseDouble(convenienceEntity.getGstPercentage()));
-
-             //bookingEntity.setConvenienceAmtWgst(Util.roundTo2Places((convenienceAmountWithGst)));
-
-             Double totalPayableWithoutGst = 0.0;
-             Double totalPayableWithGst = 0.0;
-             
              BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
 
              BookingInfoEntity bookingInfoEntity = null/*bookingInfoConverter.modelToEntity(bookingModel.getBookingInfoModel())*/;
@@ -98,7 +92,7 @@ public class BookingUtil extends BaseUtil {
                      bookingInfoEntity = new BookingInfoEntity();
              }
              bookingInfoEntity.setCreatedDate(Util.getCurrentDateTime());
-             bookingInfoEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
+             //bookingInfoEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
              bookingInfoEntity.setStatus(Status.ACTIVE.ordinal());
              bookingInfoEntity.setBookingEntity(bookingEntity2);
 
@@ -126,7 +120,7 @@ public class BookingUtil extends BaseUtil {
 
 		BookingVsPaymentEntity bookingVsPaymentEntity = new BookingVsPaymentEntity();
 		bookingVsPaymentEntity.setBookingEntity(be);
-		bookingVsPaymentEntity.setCreatedBy(Long.parseLong(bm.getUserId()));
+		//bookingVsPaymentEntity.setCreatedBy(Long.parseLong(bm.getUserId()));
 		bookingVsPaymentEntity.setCreatedDate(Util.getCurrentDateTime());
 		bookingVsPaymentEntity.setOrderId("ORA_TRNS" + new Date().getTime());
 		bookingVsPaymentEntity.setPercentage(Util.roundTo2Places(100.00)); // remove hardcode

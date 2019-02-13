@@ -31,26 +31,33 @@ public class GlobalParamsEntity extends CommonEntity {
 	@JsonProperty("globalParamsId")
 	private Long globalParamsId;
 	
-	@JsonProperty("pricing_id")
-	public String pricingId;
+	@Column(name = "pricing_id")
+	@JsonProperty("pricingId")
+	private String pricingId;
 	
-	@JsonProperty("search_id")
-	public String searchId;
+	@Column(name = "search_id")
+	@JsonProperty("searchId")
+	private String searchId;
 	
-	@JsonProperty("super_pnr")
-	public String superPnr;
+	@Column(name = "super_pnr")
+	@JsonProperty("superPnr")
+	private String superPnr;
 
+	@Column(name = "ftype")
 	@JsonProperty("ftype")
-	public String ftype;
+	private String ftype;
 	
+	@Column(name = "org")
 	@JsonProperty("org")
-	public String org;
+	private String org;
 	
+	@Column(name = "dest")
 	@JsonProperty("dest")
-	public String dest;
+	private String dest;
 
-	@JsonProperty("child_tenant")
-	public String childTenant;
+	@Column(name = "child_tenant")
+	@JsonProperty("childTenant")
+	private String childTenant;
 	
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "globalParamsEntity", cascade = { CascadeType.ALL })
 	@JsonProperty("reviewJson")

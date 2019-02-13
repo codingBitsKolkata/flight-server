@@ -13,4 +13,14 @@ public class ConvenienceDAO extends GenericDAO<ConvenienceEntity, Long> {
 		super(ConvenienceEntity.class);
 
 	}
+/*	
+	public ConvenienceEntity getActiveConvenienceFee(int status) {
+
+		String hql = "FROM ConvenienceEntity be where be.status = " + status;
+		Query query = sessionFactory.getCurrentSession().createQuery(hql);
+		@SuppressWarnings("rawtypes")
+		List results = query.list();
+		System.out.println("results::"+results);
+		return (ConvenienceEntity) results.get(0);
+	}*/
 }

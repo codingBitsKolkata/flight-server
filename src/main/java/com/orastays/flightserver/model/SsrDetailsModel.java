@@ -18,16 +18,22 @@ import lombok.ToString;
 @JsonInclude(Include.NON_NULL)
 public class SsrDetailsModel /*extends CommonModel*/ {
 
+	@JsonProperty("ssrDetailsId")
+	private String ssrDetailsId;
+	
 	@JsonProperty("ssrMealDetails")
-    public List<SsrMealDetailsModel> ssrMealDetailsModels;
+    private List<SsrMealDetailsModel> ssrMealDetailsModels;
 	
 	@JsonProperty("ssrBaggageDetails")
-    public List<SsrBaggageDetailsModel> SsrBaggageDetailsModels;
+    private List<SsrBaggageDetailsModel> SsrBaggageDetailsModels;
 	
 	@JsonProperty("ssrSeatDetails")
-    public List<SsrSeatDetailsModel> ssrSeatDetailsModel;
+    private List<SsrSeatDetailsModel> ssrSeatDetailsModel;
 	
 	@JsonProperty("ssrOtherDetails")
-    public List<SsrOtherDetailsModel> ssrOtherDetailsModels;
+    private List<SsrOtherDetailsModel> ssrOtherDetailsModels;
+	
+	@JsonProperty("travellerParams")
+	private TravellerParamModel travellerParamModel;
 	
 }

@@ -43,14 +43,14 @@ public class ReviewJsonEntity extends CommonEntity {
 	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
 	@JoinColumn(name = "user_params_id", nullable = false)
 	@JsonProperty("userParams")
-	public UserParamsEntity userParamsEntity;
+	private UserParamsEntity userParamsEntity;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "reviewJsonEntity", cascade = { CascadeType.ALL })
 	@JsonProperty("travellerParams")
 	private List<TravellerParamEntity> travellerParamEntities;
 	
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "reviewJsonEntity", cascade = { CascadeType.ALL })
-	@JsonProperty("booking")
+	@JsonProperty("bookings")
 	private BookingEntity bookingEntity;
 	
 	@Override

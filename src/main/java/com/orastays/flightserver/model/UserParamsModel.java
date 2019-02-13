@@ -17,29 +17,32 @@ import lombok.ToString;
 public class UserParamsModel /*extends CommonModel*/ {
 
 	@JsonProperty("userParamsId")
-    public String userParamsId;
+    private String userParamsId;
 	
 	@JsonProperty("additionalContact")
-    public AdditionalContactModel additionalContactModel;
+    private AdditionalContactModel additionalContactModel;
 	
 	@JsonProperty("emailId")
-    public String emailId;
+    private String emailId;
 	
 	@JsonProperty("mobileNo")
-    public String mobileNo;
+    private String mobileNo;
 	
 	@JsonProperty("userId")
-    public String userId;
+    private String userId;
 	
 	@JsonProperty("title")
-    public String title;
+    private String title;
 	
 	@JsonProperty("firstName")
-    public String firstName;
+    private String firstName;
 	
 	@JsonProperty("lastName")
-    public String lastName;
+    private String lastName;
 	
 	@JsonProperty("mobileNoISD")
-    public String mobileNoISD;
+    private String mobileNoISD;
+	
+	@JsonProperty("reviewJson")
+	private ReviewJsonModel reviewJsonModel;
 }

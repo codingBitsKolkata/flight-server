@@ -61,20 +61,20 @@ public class FlightBookingServiceImpl extends BaseServiceImpl implements FlightB
 			flightBookingModel.getReviewJson().getHotelCrossSellParamsModel().setHotelBookingRequestJSON("");
 			
 			//Constants END
-			flightBookingModel.reviewJson.globalParamsModel.setChannel(FlightConstant.CHANNEL);
-			flightBookingModel.reviewJson.globalParamsModel.setProduct(FlightConstant.PRODUCT);
-			flightBookingModel.reviewJson.globalParamsModel.setIsPartial(FlightConstant.IS_PARTIAL);
-			flightBookingModel.reviewJson.globalParamsModel.setEbsAccountId(FlightConstant.EBS_ACCOUNTID);
-			flightBookingModel.reviewJson.globalParamsModel.setMoProfileType(FlightConstant.MO_PROFILE_TYPE);
+			flightBookingModel.reviewJson.getGlobalParamsModel().setChannel(FlightConstant.CHANNEL);
+			flightBookingModel.reviewJson.getGlobalParamsModel().setProduct(FlightConstant.PRODUCT);
+			flightBookingModel.reviewJson.getGlobalParamsModel().setIsPartial(FlightConstant.IS_PARTIAL);
+			flightBookingModel.reviewJson.getGlobalParamsModel().setEbsAccountId(FlightConstant.EBS_ACCOUNTID);
+			flightBookingModel.reviewJson.getGlobalParamsModel().setMoProfileType(FlightConstant.MO_PROFILE_TYPE);
 			
 			String originCountryCode = searchParameterDAO.fetchCountryCode(flightBookingModel.getReviewJson().getGlobalParamsModel().getOrg());
 			String destCountryCode = searchParameterDAO.fetchCountryCode(flightBookingModel.getReviewJson().getGlobalParamsModel().getDest());
 			if (originCountryCode.equals(destCountryCode)) {
-				flightBookingModel.reviewJson.globalParamsModel.setChildTenant(FlightConstant.DOM_TENANT_NAME);
+				flightBookingModel.reviewJson.getGlobalParamsModel().setChildTenant(FlightConstant.DOM_TENANT_NAME);
 			} else {
-				flightBookingModel.reviewJson.globalParamsModel.setChildTenant(FlightConstant.INT_TENANT_NAME);
+				flightBookingModel.reviewJson.getGlobalParamsModel().setChildTenant(FlightConstant.INT_TENANT_NAME);
 			}
-			flightBookingModel.reviewJson.globalParamsModel.setVariation(FlightConstant.VARIATION);
+			flightBookingModel.reviewJson.getGlobalParamsModel().setVariation(FlightConstant.VARIATION);
 			
 			flightBookingModel.getReviewJson().getUserParamsModel().getAdditionalContactModel().setEmail(FlightConstant.ADTL_EMAIL);
 			flightBookingModel.getReviewJson().getUserParamsModel().getAdditionalContactModel().setMobile(FlightConstant.ADTL_MOBILE);

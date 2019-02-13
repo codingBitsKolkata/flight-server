@@ -73,7 +73,7 @@ public class BookingVsFlightEntity extends CommonEntity {
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
 	@JoinColumn(name = "booking_id", nullable = false)
-	@JsonProperty("booking")
+	@JsonProperty("bookings")
 	private BookingEntity bookingEntity;
 	
 	/*@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })

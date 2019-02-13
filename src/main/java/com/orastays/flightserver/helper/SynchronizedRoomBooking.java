@@ -51,7 +51,7 @@ public class SynchronizedRoomBooking {
 		}
 		BookingVsPaymentEntity bookingVsPaymentEntity = new BookingVsPaymentEntity();
 		bookingVsPaymentEntity.setBookingEntity(be);
-		bookingVsPaymentEntity.setCreatedBy(Long.parseLong(bm.getUserId()));
+		//bookingVsPaymentEntity.setCreatedBy(Long.parseLong(bm.getUserId()));
 		bookingVsPaymentEntity.setCreatedDate(Util.getCurrentDateTime());
 		bookingVsPaymentEntity.setOrderId("ORA_TRNS" + new Date().getTime());
 		bookingVsPaymentEntity.setPercentage(Util.roundTo2Places(100.00)); // remove hardcode
