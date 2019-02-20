@@ -12,7 +12,6 @@ import com.orastays.flightserver.constants.BookingStatus;
 import com.orastays.flightserver.constants.PaymentStatus;
 import com.orastays.flightserver.constants.Status;
 import com.orastays.flightserver.entity.BookingEntity;
-import com.orastays.flightserver.entity.BookingInfoEntity;
 import com.orastays.flightserver.entity.BookingVsPaymentEntity;
 import com.orastays.flightserver.entity.ConvenienceEntity;
 import com.orastays.flightserver.entity.GatewayEntity;
@@ -33,6 +32,11 @@ public class BookingUtil extends BaseUtil {
 			BookingEntity bookingEntity = bookingConverter.modelToEntity(bookingModel);
 			// set booking master attributes
 			bookingEntity.setOraBookingId("ORA" + new Date().getTime());
+			bookingEntity.setBaseFare("100");
+			System.out.println("bookingModel=="+bookingModel);
+			System.out.println("bookingEntity==");
+			System.out.println("bookingEntity=="+bookingEntity);
+			System.out.println("after set getOraBookingId=="+bookingModel.getOraBookingId());
 			//bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
 			bookingEntity.setCreatedDate(Util.getCurrentDateTime());
 			bookingEntity.setStatus(BookingStatus.INACTIVE.ordinal());
@@ -40,6 +44,8 @@ public class BookingUtil extends BaseUtil {
 
 			//total_fare calculated using base_fare,fuels_surcharges,other_charges,yatra_gst,passenger_fee,user_dev_fee,booking_fee,igst
 			Double totalFare = 0.0;
+			System.out.println("FARE CHECK=="+bookingModel.getBaseFare());
+			System.out.println("FARE CHECK=="+Double.parseDouble(bookingModel.getBaseFare()));
 			totalFare = Double.parseDouble(bookingModel.getBaseFare()+bookingModel.getFuelSurcharges()+bookingModel.getOtherCharges()+bookingModel.getYatraGst()
 						+bookingModel.getPassengerFee()+bookingModel.getUserDevFee()+bookingModel.getBookingFee()+bookingModel.getIgst());
 			bookingEntity.setTotalFare(totalFare.toString());
@@ -53,7 +59,7 @@ public class BookingUtil extends BaseUtil {
 			bookingEntity.setConvenienceEntity(convenienceEntity);
 			bookingEntity.setTotalFareWithConvenience(Util.roundTo2Places((totalFareWithConvenience)));
 			
-			Long bookingId = (Long) bookingDAO.save(bookingEntity);
+			/*Long bookingId = (Long) */bookingDAO.save(bookingEntity);
 			//BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
 
 			//List<BookingVsRoomEntity> bookingVsRoomEntities = new ArrayList<>();
@@ -84,9 +90,9 @@ public class BookingUtil extends BaseUtil {
 			bookingEntity2.setBookingVsRoomEntities(bookingVsRoomEntities);
 			return bookingEntity2;*/
 			
-             BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
+             /*BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
 
-             BookingInfoEntity bookingInfoEntity = null/*bookingInfoConverter.modelToEntity(bookingModel.getBookingInfoModel())*/;
+             BookingInfoEntity bookingInfoEntity = nullbookingInfoConverter.modelToEntity(bookingModel.getBookingInfoModel());
              // set booking vs info
              if(bookingInfoEntity == null) {
                      bookingInfoEntity = new BookingInfoEntity();
@@ -103,9 +109,9 @@ public class BookingUtil extends BaseUtil {
              //bookingEntity2.setTotalPaybleWithGST(Util.roundTo2Places(totalPayableWithGst));
              //bookingEntity2.setGrandTotal(Util.roundTo2Places(totalPayableWithGst + convenienceAmountWithGst));
 
-             bookingDAO.update(bookingEntity2);
+             bookingDAO.update(bookingEntity2);*/
 			
-			return bookingEntity2;
+			return bookingEntity;
 		} catch (Exception e) {
 			// throw new FormExceptions(exceptions)
 			e.printStackTrace();

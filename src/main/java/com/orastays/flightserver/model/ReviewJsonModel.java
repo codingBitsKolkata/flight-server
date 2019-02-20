@@ -17,7 +17,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class ReviewJsonModel /*extends CommonModel*/ {
+public class ReviewJsonModel extends CommonModel {
 
 	@JsonProperty("rvJsonId")
 	private String rvJsonId;
