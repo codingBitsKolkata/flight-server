@@ -23,7 +23,7 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false)
 public class GlobalParamsEntity extends CommonEntity {
 
-	private static final long serialVersionUID = 8817468007365861161L;
+	private static final long serialVersionUID = 8877351094145264679L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

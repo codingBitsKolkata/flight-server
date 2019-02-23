@@ -1,5 +1,5 @@
 /**
- * @author SUDEEP
+ * @author Ora Dev
  */
 package com.orastays.flightserver.entity;
 
@@ -22,9 +22,9 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 public abstract class CommonEntity implements Serializable {
-	
+
 	@Transient
-	private static final long serialVersionUID = 7691752649556520308L;
+	private static final long serialVersionUID = 4576129430675298918L;
 	
 	@Column(name = "status")
 	@JsonProperty("status")

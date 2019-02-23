@@ -14,12 +14,14 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class AdditionalContactModel /*extends CommonModel*/ {
+public class AdditionalContactModel extends CommonModel {
 
 	@JsonProperty("email")
 	public String email;
+	
 	@JsonProperty("mobile")
 	public String mobile;
+	
 	@JsonProperty("mobileISD")
 	public String mobileISD;
 	

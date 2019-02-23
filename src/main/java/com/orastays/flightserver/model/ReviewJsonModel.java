@@ -5,7 +5,6 @@ import java.util.List;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.annotation.JsonProperty;
-import com.orastays.flightserver.entity.BookingEntity;
 
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
@@ -38,7 +37,7 @@ public class ReviewJsonModel extends CommonModel {
 	private PromoParamsModel promoParamsModel;
 	
 	@JsonProperty("userParams")
-	private UserParamsModel UserParamsModel;
+	private UserParamsModel userParamsModel;
 	
 	@JsonProperty("travellerParams")
 	private List<TravellerParamModel> travellerParamModels;
@@ -64,6 +63,6 @@ public class ReviewJsonModel extends CommonModel {
 	@JsonProperty("gaResponse")
 	private GaResponseModel gaResponseModel;
 	
-	@JsonProperty("bookings")
-	private BookingEntity bookingEntity;
+	/*@JsonProperty("bookings")
+	private BookingModel bookingModel;*/
 }

@@ -27,7 +27,7 @@ import lombok.Setter;
 @EqualsAndHashCode(callSuper = false)
 public class ReviewJsonEntity extends CommonEntity {
 
-	private static final long serialVersionUID = -3115934028009494887L;
+	private static final long serialVersionUID = -4747023288912727433L;
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -49,9 +49,9 @@ public class ReviewJsonEntity extends CommonEntity {
 	@JsonProperty("travellerParams")
 	private List<TravellerParamEntity> travellerParamEntities;
 	
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "reviewJsonEntity", cascade = { CascadeType.ALL })
+	/*@OneToOne(fetch = FetchType.LAZY, mappedBy = "reviewJsonEntity", cascade = { CascadeType.ALL })
 	@JsonProperty("bookings")
-	private BookingEntity bookingEntity;
+	private BookingEntity bookingEntity;*/
 	
 	@Override
 	public String toString() {

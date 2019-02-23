@@ -14,7 +14,7 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class UserParamsModel /*extends CommonModel*/ {
+public class UserParamsModel extends CommonModel {
 
 	@JsonProperty("userParamsId")
     private String userParamsId;
