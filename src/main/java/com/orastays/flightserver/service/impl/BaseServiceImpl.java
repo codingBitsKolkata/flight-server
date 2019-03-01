@@ -10,6 +10,7 @@ import com.orastays.flightserver.validation.BaggageValidation;
 import com.orastays.flightserver.validation.FareRulesValidation;
 import com.orastays.flightserver.validation.FlightBookingValidation;
 import com.orastays.flightserver.validation.FlightValidation;
+import com.orastays.flightserver.validation.SeatValidation;
 
 public abstract class BaseServiceImpl {
 
@@ -33,6 +34,9 @@ public abstract class BaseServiceImpl {
 	
 	@Autowired
 	protected BaggageValidation baggageValidation;
+	
+	@Autowired
+	protected SeatValidation seatValidation;
 	
 	@Autowired
 	protected BookingUtil bookingUtil;

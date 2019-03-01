@@ -11,6 +11,7 @@ import com.orastays.flightserver.service.BaggageService;
 import com.orastays.flightserver.service.FareRulesService;
 import com.orastays.flightserver.service.FlightBookingService;
 import com.orastays.flightserver.service.FlightService;
+import com.orastays.flightserver.service.SeatService;
 
 public class BaseController {
 
@@ -49,4 +50,7 @@ public class BaseController {
 	
 	@Autowired
 	protected FlightBookingService bookingService;
+	
+	@Autowired
+	protected SeatService seatService;
 }

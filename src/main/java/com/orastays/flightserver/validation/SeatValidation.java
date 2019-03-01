@@ -10,18 +10,18 @@ import org.apache.logging.log4j.Logger;
 import org.springframework.stereotype.Component;
 
 import com.orastays.flightserver.exceptions.FormExceptions;
-import com.orastays.flightserver.model.BaggageModel;
+import com.orastays.flightserver.model.SeatModel;
 
 @Component
 @Transactional
-public class BaggageValidation extends AuthorizeUserValidation {
+public class SeatValidation extends AuthorizeUserValidation {
 
-	private static final Logger logger = LogManager.getLogger(BaggageValidation.class);
+	private static final Logger logger = LogManager.getLogger(SeatValidation.class);
 
-	public BaggageModel validateBaggageInfo(BaggageModel baggageModel) throws FormExceptions {
+	public SeatModel validateSeatDeatils(SeatModel seatModel) throws FormExceptions {
 
 		if (logger.isInfoEnabled()) {
-			logger.info("validateBaggageInfo -- Start");
+			logger.info("validateSeatDeatils -- Start");
 		}
 
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
@@ -41,8 +41,8 @@ public class BaggageValidation extends AuthorizeUserValidation {
 			throw new FormExceptions(exceptions);
 
 		if (logger.isInfoEnabled()) {
-			logger.info("validateBaggageInfo -- End");
+			logger.info("validateSeatDeatils -- End");
 		}	
-		return baggageModel;
+		return seatModel;
 	}
 }
