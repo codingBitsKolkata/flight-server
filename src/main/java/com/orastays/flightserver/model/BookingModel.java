@@ -25,7 +25,7 @@ public class BookingModel extends CommonModel {
 	private String oraBookingId;
 
 	@JsonProperty("userId")
-	private Long userId;
+	private String userId;
 	
 	@JsonProperty("progress")
 	private String progress;

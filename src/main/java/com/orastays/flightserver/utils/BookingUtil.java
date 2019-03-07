@@ -32,29 +32,25 @@ public class BookingUtil extends BaseUtil {
 			BookingEntity bookingEntity = bookingConverter.modelToEntity(bookingModel);
 			// set booking master attributes
 			bookingEntity.setOraBookingId("ORA" + new Date().getTime());
-			bookingEntity.setBaseFare("100");
-			System.out.println("bookingModel=="+bookingModel);
-			System.out.println("bookingEntity==");
-			System.out.println("bookingEntity=="+bookingEntity);
-			System.out.println("after set getOraBookingId=="+bookingModel.getOraBookingId());
-			//bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
+			bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
 			bookingEntity.setCreatedDate(Util.getCurrentDateTime());
 			bookingEntity.setStatus(BookingStatus.INACTIVE.ordinal());
 			bookingEntity.setProgress(FlightConstant.BEFORE_PAYMENT);
 
 			//total_fare calculated using base_fare,fuels_surcharges,other_charges,yatra_gst,passenger_fee,user_dev_fee,booking_fee,igst
 			Double totalFare = 0.0;
-			System.out.println("FARE CHECK=="+bookingModel.getBaseFare());
-			System.out.println("FARE CHECK=="+Double.parseDouble(bookingModel.getBaseFare()));
-			totalFare = Double.parseDouble(bookingModel.getBaseFare()+bookingModel.getFuelSurcharges()+bookingModel.getOtherCharges()+bookingModel.getYatraGst()
-						+bookingModel.getPassengerFee()+bookingModel.getUserDevFee()+bookingModel.getBookingFee()+bookingModel.getIgst());
+			totalFare = Double.parseDouble(bookingModel.getBaseFare())+Double.parseDouble(bookingModel.getFuelSurcharges())+
+					Double.parseDouble(bookingModel.getOtherCharges())+Double.parseDouble(bookingModel.getYatraGst())
+						+Double.parseDouble(bookingModel.getPassengerFee())+Double.parseDouble(bookingModel.getUserDevFee())+
+						Double.parseDouble(bookingModel.getBookingFee())+Double.parseDouble(bookingModel.getIgst());
 			bookingEntity.setTotalFare(totalFare.toString());
-
+			
 			//Get the convenience fee from database
 			ConvenienceEntity convenienceEntity = convenienceService.getActiveConvenienceEntity();
 			Double convenienceAmt = Double.parseDouble(convenienceEntity.getAmount());
 			Double extraGstAmount = Util.calculateGstPayableAmount(convenienceAmt, Double.parseDouble(convenienceEntity.getGstPercentage()));
 			Double totalFareWithConvenience=totalFare+convenienceAmt+extraGstAmount;
+			System.out.println("totalFareWithConvenience::"+totalFareWithConvenience);
 			
 			bookingEntity.setConvenienceEntity(convenienceEntity);
 			bookingEntity.setTotalFareWithConvenience(Util.roundTo2Places((totalFareWithConvenience)));
