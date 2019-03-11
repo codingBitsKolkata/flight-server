@@ -32,7 +32,7 @@ public class BookingUtil extends BaseUtil {
 			BookingEntity bookingEntity = bookingConverter.modelToEntity(bookingModel);
 			// set booking master attributes
 			bookingEntity.setOraBookingId("ORA" + new Date().getTime());
-			bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
+			//bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
 			bookingEntity.setCreatedDate(Util.getCurrentDateTime());
 			bookingEntity.setStatus(BookingStatus.INACTIVE.ordinal());
 			bookingEntity.setProgress(FlightConstant.BEFORE_PAYMENT);
@@ -49,13 +49,13 @@ public class BookingUtil extends BaseUtil {
 			ConvenienceEntity convenienceEntity = convenienceService.getActiveConvenienceEntity();
 			Double convenienceAmt = Double.parseDouble(convenienceEntity.getAmount());
 			Double extraGstAmount = Util.calculateGstPayableAmount(convenienceAmt, Double.parseDouble(convenienceEntity.getGstPercentage()));
-			Double totalFareWithConvenience=totalFare+convenienceAmt+extraGstAmount;
-			System.out.println("totalFareWithConvenience::"+totalFareWithConvenience);
+			Double totalFareWithConvenience=totalFare+extraGstAmount;
 			
 			bookingEntity.setConvenienceEntity(convenienceEntity);
 			bookingEntity.setTotalFareWithConvenience(Util.roundTo2Places((totalFareWithConvenience)));
 			
-			/*Long bookingId = (Long) */bookingDAO.save(bookingEntity);
+			Long bookingId = (Long) bookingDAO.save(bookingEntity);
+			System.out.println("bookingId::"+bookingId);
 			//BookingEntity bookingEntity2 = bookingDAO.find(bookingId);
 
 			//List<BookingVsRoomEntity> bookingVsRoomEntities = new ArrayList<>();
