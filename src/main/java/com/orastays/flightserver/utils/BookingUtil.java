@@ -15,6 +15,7 @@ import com.orastays.flightserver.entity.BookingEntity;
 import com.orastays.flightserver.entity.BookingVsPaymentEntity;
 import com.orastays.flightserver.entity.ConvenienceEntity;
 import com.orastays.flightserver.entity.GatewayEntity;
+import com.orastays.flightserver.entity.ReviewJsonEntity;
 import com.orastays.flightserver.exceptions.FormExceptions;
 import com.orastays.flightserver.helper.FlightConstant;
 import com.orastays.flightserver.helper.Util;
@@ -56,6 +57,16 @@ public class BookingUtil extends BaseUtil {
 			
 			GatewayEntity gatewayEntity = gatewayService.getGatewayEntity(FlightConstant.CASHFREE);
 			bookingEntity.setGatewayEntity(gatewayEntity);
+			
+			//Save the reviewjson
+			ReviewJsonEntity reviewJsonEntity = new ReviewJsonEntity();
+			//reviewJsonEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
+			reviewJsonEntity.setCreatedDate(Util.getCurrentDateTime());
+			reviewJsonEntity.setStatus(BookingStatus.INACTIVE.ordinal());
+			bookingEntity.setReviewJsonEntity(reviewJsonEntity);
+			Long reviewJsonId = (Long) reviewJsonDAO.save(reviewJsonEntity);
+			//Get the reviewJson Id
+			ReviewJsonEntity reviewJsonEntity2 = reviewJsonDAO.find(reviewJsonId);
 			
 			Long bookingId = (Long) bookingDAO.save(bookingEntity);
 			System.out.println("bookingId::"+bookingId);

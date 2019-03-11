@@ -8,6 +8,7 @@ import com.orastays.flightserver.converter.BookingInfoConverter;
 import com.orastays.flightserver.dao.BookingDAO;
 import com.orastays.flightserver.dao.BookingInfoDAO;
 import com.orastays.flightserver.dao.ConvenienceDAO;
+import com.orastays.flightserver.dao.ReviewJsonDAO;
 import com.orastays.flightserver.helper.CashFreeApi;
 import com.orastays.flightserver.service.ConvenienceService;
 import com.orastays.flightserver.service.GatewayService;
@@ -18,6 +19,9 @@ public class BaseUtil {
 	
 	@Autowired
 	protected BookingDAO bookingDAO;
+	
+	@Autowired
+	protected ReviewJsonDAO reviewJsonDAO;
 	
 	@Autowired
 	protected ConvenienceDAO convenienceDAO;
