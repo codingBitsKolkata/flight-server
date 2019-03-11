@@ -46,6 +46,7 @@ public class BookingUtil extends BaseUtil {
 			bookingEntity.setTotalFare(totalFare.toString());
 			
 			//Get the convenience fee from database
+			//Calculate the total fare
 			ConvenienceEntity convenienceEntity = convenienceService.getActiveConvenienceEntity();
 			Double convenienceAmt = Double.parseDouble(convenienceEntity.getAmount());
 			Double extraGstAmount = Util.calculateGstPayableAmount(convenienceAmt, Double.parseDouble(convenienceEntity.getGstPercentage()));

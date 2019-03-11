@@ -31,6 +31,7 @@ public class GatewayServiceImpl implements GatewayService {
 
 	@Override
 	public GatewayEntity getGatewayEntity(String gatewayName) {
+		
 		if (logger.isInfoEnabled()) {
 			logger.info("getGatewayEntity -- START");
 		}
@@ -54,7 +55,7 @@ public class GatewayServiceImpl implements GatewayService {
 		}
 
 		if (logger.isInfoEnabled()) {
-			logger.info("getActiveConvenienceEntity -- END");
+			logger.info("getGatewayEntity -- END");
 		}
 
 		return gatewayEntity;
