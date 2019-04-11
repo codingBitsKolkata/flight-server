@@ -59,55 +59,10 @@ public class BookingEntity extends CommonEntity {
 	@JsonProperty("superPnr")
 	private String superPnr;
 	
-	@OneToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
-	@JoinColumn(name = "rvJson_id", nullable = false)
-	@JsonProperty("reviewJson")
-	public ReviewJsonEntity reviewJsonEntity;
-	
-	@Column(name = "base_fare")
-	@JsonProperty("baseFare")
-	private String baseFare;
-	
-	@Column(name = "fuel_surcharges")
-	@JsonProperty("fuelSurcharges")
-	private String fuelSurcharges;
-
-	@Column(name = "other_charges")
-	@JsonProperty("otherCharges")
-	private String otherCharges;
-
-	@Column(name = "yatra_gst")
-	@JsonProperty("yatraGst")
-	private String yatraGst;
-
-	@Column(name = "passenger_fee")
-	@JsonProperty("passengerFee")
-	private String passengerFee;
-
-	@Column(name = "user_dev_fee")
-	@JsonProperty("userDevFee")
-	private String userDevFee;
-
-	@Column(name = "booking_fee")
-	@JsonProperty("bookingFee")
-	private String bookingFee;
-	
-	@Column(name = "igst")
-    @JsonProperty("igst")
-    private String igst;
-
-	@Column(name = "total_fare")
-    @JsonProperty("totalFare")
-    private String totalFare;
-
-	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
-    @JoinColumn(name = "convenience_id", nullable = false)
-    @JsonProperty("conveniences")
-    private ConvenienceEntity convenienceEntity;
-	
-	@Column(name = "total_fare_with_convenience")
-    @JsonProperty("totalFareWithConvenience")
-    private String totalFareWithConvenience;
+	//searchId and msid will be same
+	@Column(name = "search_id")
+	@JsonProperty("searchId")
+	private String searchId;
 	
 	@Column(name = "failure_url")
     @JsonProperty("failureURL")
@@ -116,15 +71,15 @@ public class BookingEntity extends CommonEntity {
 	@Column(name = "success_url")
     @JsonProperty("successURL")
     private String successURL;
-	
-	@Column(name = "ora_commission")
-    @JsonProperty("oraCommission")
-    private String oraCommission;
-	
+
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
     @JoinColumn(name = "gateway_id", nullable = false)
     @JsonProperty("gateway")
     private GatewayEntity gatewayEntity;
+		
+	@OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingEntity", cascade = { CascadeType.ALL })
+	@JsonProperty("bookingVsFlights")
+	private List<BookingVsFlightEntity> bookingVsFlightEntities;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingEntity", cascade = { CascadeType.ALL })
 	@JsonProperty("bookingVsPayments")
@@ -134,9 +89,9 @@ public class BookingEntity extends CommonEntity {
 	@JsonProperty("cancellations")
 	private CancellationEntity cancellationEntity;
 	
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingEntity", cascade = { CascadeType.ALL })
-	@JsonProperty("bookingVsFlights")
-	private List<BookingVsFlightEntity> bookingVsFlightEntities;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "bookingEntity", cascade = { CascadeType.ALL })
+	@JsonProperty("bookingVsUserDetails")
+	private BookingVsUserDetailsEntity bookingVsUserDetailsEntity;
 	
 	@Override
 	public String toString() {

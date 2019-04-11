@@ -25,7 +25,7 @@ public abstract class CommonEntity implements Serializable {
 
 	@Transient
 	private static final long serialVersionUID = 4576129430675298918L;
-	
+
 	@Column(name = "status")
 	@JsonProperty("status")
 	private Integer status;

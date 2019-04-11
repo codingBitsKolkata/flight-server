@@ -8,18 +8,20 @@ import org.springframework.stereotype.Service;
 
 import com.orastays.flightserver.entity.BookingEntity;
 import com.orastays.flightserver.exceptions.FormExceptions;
-import com.orastays.flightserver.model.BookingModel;
 import com.orastays.flightserver.model.PaymentModel;
+import com.orastays.flightserver.model.booking.BookingModel;
 import com.orastays.flightserver.service.BookingService;
 
 @Service
 @Transactional
 public class BookingServiceImpl extends BaseServiceImpl implements BookingService {
+	
 	private static final Logger logger = LogManager.getLogger(BookingServiceImpl.class);
+	
 	@Override
-	public PaymentModel addBooking(BookingModel bookingModel) throws FormExceptions {
+	public PaymentModel bookFlights(BookingModel bookingModel) throws FormExceptions {
 		
-		logger.info("addBooking -- START");
+		logger.info("bookFlights -- START");
 		
 		BookingEntity bookingEntity = bookingUtil.generateBookingEntity(bookingModel);
 		
@@ -27,7 +29,7 @@ public class BookingServiceImpl extends BaseServiceImpl implements BookingServic
 		//proceed with online payment
 		paymentModel = bookingUtil.bookFlightForCashLessPayments(bookingModel, bookingEntity);
 		
-		logger.info("addBooking -- END");
+		logger.info("bookFlights -- END");
 		return paymentModel;
 	}
 }

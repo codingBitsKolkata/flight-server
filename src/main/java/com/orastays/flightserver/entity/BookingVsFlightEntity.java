@@ -70,20 +70,64 @@ public class BookingVsFlightEntity extends CommonEntity {
 	@Column(name = "flight_number")
 	@JsonProperty("flightNumber")
 	private String flightNumber;
+	
+	@Column(name = "base_fare")
+	@JsonProperty("baseFare")
+	private String baseFare;
+	
+	@Column(name = "fuel_surcharges")
+	@JsonProperty("fuelSurcharges")
+	private String fuelSurcharges;
+
+	@Column(name = "other_charges")
+	@JsonProperty("otherCharges")
+	private String otherCharges;
+
+	@Column(name = "yatra_gst")
+	@JsonProperty("yatraGst")
+	private String yatraGst;
+
+	@Column(name = "passenger_fee")
+	@JsonProperty("passengerFee")
+	private String passengerFee;
+
+	@Column(name = "user_dev_fee")
+	@JsonProperty("userDevFee")
+	private String userDevFee;
+
+	@Column(name = "booking_fee")
+	@JsonProperty("bookingFee")
+	private String bookingFee;
+	
+	@Column(name = "igst")
+    @JsonProperty("igst")
+    private String igst;
+
+	@Column(name = "total_fare")
+    @JsonProperty("totalFare")
+    private String totalFare;
 
 	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
+    @JoinColumn(name = "convenience_id", nullable = false)
+    @JsonProperty("conveniences")
+    private ConvenienceEntity convenienceEntity;
+	
+	@Column(name = "total_fare_with_convenience")
+    @JsonProperty("totalFareWithConvenience")
+    private String totalFareWithConvenience;
+	
+	@Column(name = "ora_commission")
+    @JsonProperty("oraCommission")
+    private String oraCommission;
+	
+	@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
 	@JoinColumn(name = "booking_id", nullable = false)
-	@JsonProperty("bookings")
+	@JsonProperty("booking")
 	private BookingEntity bookingEntity;
 	
-	/*@ManyToOne(fetch = FetchType.LAZY, cascade = { CascadeType.MERGE })
-	@JoinColumn(name = "bvp_id", nullable = false)
-	@JsonProperty("bookingVsFlight")
-	private BookingVsFlightEntity bookingVsFlightEntity;*/
-	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "bookingVsFlightEntity", cascade = { CascadeType.ALL })
-	@JsonProperty("bookingVsTravellers")
-	private List<BookingVsTravellerEntity> bookingVsTravellerEntities;
+	@JsonProperty("flightVsTravellers")
+	private List<FlightVsTravellerEntity> flightVsTravellerEntities;
 	
 	@Override
 	public String toString() {

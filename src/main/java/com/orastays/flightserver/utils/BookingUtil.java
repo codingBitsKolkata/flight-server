@@ -12,6 +12,7 @@ import com.orastays.flightserver.constants.BookingStatus;
 import com.orastays.flightserver.constants.PaymentStatus;
 import com.orastays.flightserver.constants.Status;
 import com.orastays.flightserver.entity.BookingEntity;
+import com.orastays.flightserver.entity.BookingVsFlightEntity;
 import com.orastays.flightserver.entity.BookingVsPaymentEntity;
 import com.orastays.flightserver.entity.ConvenienceEntity;
 import com.orastays.flightserver.entity.GatewayEntity;
@@ -19,41 +20,47 @@ import com.orastays.flightserver.entity.ReviewJsonEntity;
 import com.orastays.flightserver.exceptions.FormExceptions;
 import com.orastays.flightserver.helper.FlightConstant;
 import com.orastays.flightserver.helper.Util;
-import com.orastays.flightserver.model.BookingModel;
 import com.orastays.flightserver.model.PaymentModel;
+import com.orastays.flightserver.model.booking.BookingModel;
+import com.orastays.flightserver.model.booking.BookingVsFlightModel;
 
 @Component
 public class BookingUtil extends BaseUtil {
 	private static final Logger logger = LogManager.getLogger(BookingUtil.class);
 
 	public BookingEntity generateBookingEntity(BookingModel bookingModel) throws FormExceptions {
+		
 		Map<String, Exception> exceptions = new LinkedHashMap<>();
 		try {
 			 
 			BookingEntity bookingEntity = bookingConverter.modelToEntity(bookingModel);
 			// set booking master attributes
 			bookingEntity.setOraBookingId("ORA" + new Date().getTime());
-			//bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
+			bookingEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
 			bookingEntity.setCreatedDate(Util.getCurrentDateTime());
 			bookingEntity.setStatus(BookingStatus.INACTIVE.ordinal());
 			bookingEntity.setProgress(FlightConstant.BEFORE_PAYMENT);
 
 			//total_fare calculated using base_fare,fuels_surcharges,other_charges,yatra_gst,passenger_fee,user_dev_fee,booking_fee,igst
 			Double totalFare = 0.0;
-			totalFare = Double.parseDouble(bookingModel.getBaseFare())+Double.parseDouble(bookingModel.getFuelSurcharges())+
-					Double.parseDouble(bookingModel.getOtherCharges())+Double.parseDouble(bookingModel.getYatraGst())
-						+Double.parseDouble(bookingModel.getPassengerFee())+Double.parseDouble(bookingModel.getUserDevFee())+
-						Double.parseDouble(bookingModel.getBookingFee())+Double.parseDouble(bookingModel.getIgst());
-			bookingEntity.setTotalFare(totalFare.toString());
-			
-			//Get the convenience fee from database
-			//Calculate the total fare
-			ConvenienceEntity convenienceEntity = convenienceService.getActiveConvenienceEntity();
-			Double convenienceAmt = Double.parseDouble(convenienceEntity.getAmount());
-			Double extraGstAmount = Util.calculateGstPayableAmount(convenienceAmt, Double.parseDouble(convenienceEntity.getGstPercentage()));
-			Double totalFareWithConvenience=totalFare+extraGstAmount;	
-			bookingEntity.setConvenienceEntity(convenienceEntity);
-			bookingEntity.setTotalFareWithConvenience(Util.roundTo2Places((totalFareWithConvenience)));
+			for(BookingVsFlightModel bookingVsFlightModel:bookingModel.getBookingVsFlightModels()) {
+				totalFare = Double.parseDouble(bookingVsFlightModel.getBaseFare())+Double.parseDouble(bookingVsFlightModel.getFuelSurcharges())+
+						Double.parseDouble(bookingVsFlightModel.getOtherCharges())+Double.parseDouble(bookingVsFlightModel.getYatraGst())
+							+Double.parseDouble(bookingVsFlightModel.getPassengerFee())+Double.parseDouble(bookingVsFlightModel.getUserDevFee())+
+							Double.parseDouble(bookingVsFlightModel.getBookingFee())+Double.parseDouble(bookingVsFlightModel.getIgst());
+				BookingVsFlightEntity bookingVsFlightEntity = bookingVsFlightConverter.modelToEntity(bookingVsFlightModel);
+				bookingVsFlightEntity.setTotalFare(totalFare.toString());
+				
+				//Get the convenience fee from database
+				//Calculate the total fare
+				ConvenienceEntity convenienceEntity = convenienceService.getActiveConvenienceEntity();
+				Double convenienceAmt = Double.parseDouble(convenienceEntity.getAmount());
+				Double extraGstAmount = Util.calculateGstPayableAmount(convenienceAmt, Double.parseDouble(convenienceEntity.getGstPercentage()));
+				Double totalFareWithConvenience=totalFare+extraGstAmount;	
+				bookingVsFlightEntity.setConvenienceEntity(convenienceEntity);
+				bookingVsFlightEntity.setTotalFareWithConvenience(Util.roundTo2Places((totalFareWithConvenience)));
+				Long bookingVsFlightId = (Long) bookingVsFlightDAO.save(bookingVsFlightEntity);
+			}
 			
 			GatewayEntity gatewayEntity = gatewayService.getGatewayEntity(FlightConstant.CASHFREE);
 			bookingEntity.setGatewayEntity(gatewayEntity);
@@ -63,7 +70,7 @@ public class BookingUtil extends BaseUtil {
 			//reviewJsonEntity.setCreatedBy(Long.parseLong(bookingModel.getUserId()));
 			reviewJsonEntity.setCreatedDate(Util.getCurrentDateTime());
 			reviewJsonEntity.setStatus(BookingStatus.INACTIVE.ordinal());
-			bookingEntity.setReviewJsonEntity(reviewJsonEntity);
+			//bookingEntity.setReviewJsonEntity(reviewJsonEntity);
 			Long reviewJsonId = (Long) reviewJsonDAO.save(reviewJsonEntity);
 			//Get the reviewJson Id
 			ReviewJsonEntity reviewJsonEntity2 = reviewJsonDAO.find(reviewJsonId);

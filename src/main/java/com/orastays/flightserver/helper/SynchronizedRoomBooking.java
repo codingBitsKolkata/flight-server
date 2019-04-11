@@ -15,8 +15,8 @@ import com.orastays.flightserver.entity.BookingEntity;
 import com.orastays.flightserver.entity.BookingVsPaymentEntity;
 import com.orastays.flightserver.entity.GatewayEntity;
 import com.orastays.flightserver.exceptions.FormExceptions;
-import com.orastays.flightserver.model.BookingModel;
 import com.orastays.flightserver.model.PaymentModel;
+import com.orastays.flightserver.model.booking.BookingModel;
 import com.orastays.flightserver.service.BookingVsPaymentService;
 import com.orastays.flightserver.service.GatewayService;
 

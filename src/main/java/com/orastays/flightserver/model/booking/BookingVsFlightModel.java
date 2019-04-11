@@ -1,9 +1,11 @@
-package com.orastays.flightserver.model;
+package com.orastays.flightserver.model.booking;
 
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.orastays.flightserver.model.CommonModel;
+import com.orastays.flightserver.model.ConvenienceModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;
@@ -16,28 +18,37 @@ import lombok.ToString;
 @EqualsAndHashCode(callSuper = false)
 @ToString
 @JsonInclude(Include.NON_NULL)
-public class BookingModel extends CommonModel {
+public class BookingVsFlightModel extends CommonModel {
 
-	@JsonProperty("bookingId")
-	private String bookingId;
+	@JsonProperty("bookingVsFlightId")
+	private String bookingVsFlightId;
 
-	@JsonProperty("oraBookingId")
-	private String oraBookingId;
+	@JsonProperty("pnrNumber")
+	private String pnrNumber;
+	
+	@JsonProperty("journeyDate")
+	private String journeyDate;
 
-	@JsonProperty("userId")
-	private String userId;
+	@JsonProperty("origin")
+	private String origin;
+
+	@JsonProperty("destination")
+	private String destination;
 	
-	@JsonProperty("progress")
-	private String progress;
+	@JsonProperty("fltSchedule")
+	private String fltSchedule;
+
+	@JsonProperty("flightClass")
+	private String flightClass;
+
+	@JsonProperty("airlineCode")
+	private String airlineCode;
 	
-	@JsonProperty("pricingId")
-	private String pricingId;
+	@JsonProperty("airlineNumber")
+	private String airlineNumber;
 	
-	@JsonProperty("superPnr")
-	private String superPnr;
-	
-	@JsonProperty("reviewJson")
-	public ReviewJsonModel reviewJsonModel;
+	@JsonProperty("flightNumber")
+	private String flightNumber;
 	
 	@JsonProperty("baseFare")
 	private String baseFare;
@@ -65,34 +76,19 @@ public class BookingModel extends CommonModel {
 
     @JsonProperty("totalFare")
     private String totalFare;
-
+    
     @JsonProperty("conveniences")
     private ConvenienceModel convenienceModel;
-	
+    
     @JsonProperty("totalFareWithConvenience")
     private String totalFareWithConvenience;
-	
-    @JsonProperty("failureURL")
-    private String failureURL;
-	
-    @JsonProperty("successURL")
-    private String successURL;
-	
+    
     @JsonProperty("oraCommission")
     private String oraCommission;
+    
+	@JsonProperty("booking")
+	private BookingModel bookingModel;
 	
-    @JsonProperty("gateway")
-    private GatewayModel gatewayModel;
-	
-	@JsonProperty("bookingVsPayments")
-	private List<BookingVsPaymentModel> bookingVsPaymentModels;
-	
-	@JsonProperty("cancellations")
-	private CancellationModel cancellationModel;
-	
-	@JsonProperty("bookingVsFlights")
-	private List<BookingVsFlightModel> bookingVsFlightModels;
+	@JsonProperty("flightVsTravellers")
+	private List<FlightVsTravellerModel> flightVsTravellerModels;
 }
-
-
-

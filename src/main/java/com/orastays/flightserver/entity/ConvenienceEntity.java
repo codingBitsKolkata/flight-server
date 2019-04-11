@@ -45,8 +45,8 @@ public class ConvenienceEntity extends CommonEntity {
 	private String gstPercentage;
 	
 	@OneToMany(fetch = FetchType.LAZY, mappedBy = "convenienceEntity", cascade = { CascadeType.ALL })
-	@JsonProperty("bookings")
-	private List<BookingEntity> bookingEntities;
+	@JsonProperty("bookingVsFlights")
+	private List<BookingVsFlightEntity> bookingVsFlightEntities;
 
 	@Override
 	public String toString() {

@@ -10,7 +10,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.orastays.flightserver.entity.BookingVsPaymentEntity;
 import com.orastays.flightserver.helper.Util;
-import com.orastays.flightserver.model.BookingVsPaymentModel;
+import com.orastays.flightserver.model.booking.BookingVsPaymentModel;
 
 @Component
 public class BookingVsPaymentConverter extends CommonConverter

@@ -11,7 +11,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.orastays.flightserver.entity.BookingEntity;
 import com.orastays.flightserver.helper.Util;
-import com.orastays.flightserver.model.BookingModel;
+import com.orastays.flightserver.model.booking.BookingModel;
 
 @Component
 public class BookingConverter extends CommonConverter implements BaseConverter<BookingEntity, BookingModel> {

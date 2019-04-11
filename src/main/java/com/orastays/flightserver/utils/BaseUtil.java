@@ -5,8 +5,10 @@ import org.springframework.beans.factory.annotation.Value;
 
 import com.orastays.flightserver.converter.BookingConverter;
 import com.orastays.flightserver.converter.BookingInfoConverter;
+import com.orastays.flightserver.converter.BookingVsFlightConverter;
 import com.orastays.flightserver.dao.BookingDAO;
 import com.orastays.flightserver.dao.BookingInfoDAO;
+import com.orastays.flightserver.dao.BookingVsFlightDAO;
 import com.orastays.flightserver.dao.ConvenienceDAO;
 import com.orastays.flightserver.dao.ReviewJsonDAO;
 import com.orastays.flightserver.helper.CashFreeApi;
@@ -14,6 +16,7 @@ import com.orastays.flightserver.service.ConvenienceService;
 import com.orastays.flightserver.service.GatewayService;
 
 public class BaseUtil {
+	
 	@Autowired
 	protected BookingConverter bookingConverter;
 	
@@ -46,4 +49,10 @@ public class BaseUtil {
 	
 	@Autowired
 	protected GatewayService gatewayService;
+	
+	@Autowired
+	protected BookingVsFlightConverter bookingVsFlightConverter;
+	
+	@Autowired
+	protected BookingVsFlightDAO bookingVsFlightDAO;
 }

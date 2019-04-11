@@ -1,7 +1,8 @@
-package com.orastays.flightserver.model;
+package com.orastays.flightserver.model.booking;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.orastays.flightserver.model.CommonModel;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.EqualsAndHashCode;

@@ -23,8 +23,8 @@ import com.orastays.flightserver.dao.BookingVsPaymentDAO;
 import com.orastays.flightserver.entity.BookingEntity;
 import com.orastays.flightserver.entity.BookingVsPaymentEntity;
 import com.orastays.flightserver.exceptions.FormExceptions;
-import com.orastays.flightserver.model.BookingModel;
 import com.orastays.flightserver.model.PaymentModel;
+import com.orastays.flightserver.model.booking.BookingModel;
 import com.orastays.flightserver.model.cashfree.RefundModel;
 
 @Component
@@ -90,10 +90,10 @@ public class CashFreeApi {
 		map.add(FlightConstant.orderId, bookingVsPaymentEntity.getOrderId());
 		map.add(FlightConstant.orderAmount, bookingVsPaymentEntity.getOrderAmount());
 		//map.add(FlightConstant.orderCurrency, bm.getFormOfPayment().getCurrency());
-		map.add(FlightConstant.customerEmail, bm.getReviewJsonModel().getUserParamsModel().getEmailId());
+		/*map.add(FlightConstant.customerEmail, bm.getReviewJsonModel().getUserParamsModel().getEmailId());
 		map.add(FlightConstant.customerName, bm.getReviewJsonModel().getUserParamsModel().getFirstName()+ " "+
 				bm.getReviewJsonModel().getUserParamsModel().getLastName());
-		map.add(FlightConstant.customerPhone, bm.getReviewJsonModel().getUserParamsModel().getMobileNo());
+		map.add(FlightConstant.customerPhone, bm.getReviewJsonModel().getUserParamsModel().getMobileNo());*/
 		map.add(FlightConstant.returnUrl, returnUrl);
 		map.add(FlightConstant.notifyUrl, notifyUrl);
 

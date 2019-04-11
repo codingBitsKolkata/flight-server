@@ -10,7 +10,7 @@ import org.springframework.util.CollectionUtils;
 
 import com.orastays.flightserver.entity.CancellationEntity;
 import com.orastays.flightserver.helper.Util;
-import com.orastays.flightserver.model.CancellationModel;
+import com.orastays.flightserver.model.booking.CancellationModel;
 
 @Component
 public class CancellationConverter extends CommonConverter
