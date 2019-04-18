@@ -59,7 +59,10 @@ public class BookingUtil extends BaseUtil {
 				Double totalFareWithConvenience=totalFare+extraGstAmount;	
 				bookingVsFlightEntity.setConvenienceEntity(convenienceEntity);
 				bookingVsFlightEntity.setTotalFareWithConvenience(Util.roundTo2Places((totalFareWithConvenience)));
+				System.out.println("totalFare:"+totalFare);
+				System.out.println("totalFareWithConvenience:"+totalFareWithConvenience);
 				Long bookingVsFlightId = (Long) bookingVsFlightDAO.save(bookingVsFlightEntity);
+				System.out.println("bookingVsFlightId:"+bookingVsFlightId);
 			}
 			
 			GatewayEntity gatewayEntity = gatewayService.getGatewayEntity(FlightConstant.CASHFREE);

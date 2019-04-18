@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.8.3
+-- version 4.8.4
 -- https://www.phpmyadmin.net/
 --
--- Host: 127.0.0.1:3306
--- Generation Time: Mar 07, 2019 at 12:45 PM
--- Server version: 5.7.23
--- PHP Version: 7.2.10
+-- Host: 127.0.0.1
+-- Generation Time: Apr 18, 2019 at 06:19 AM
+-- Server version: 10.1.37-MariaDB
+-- PHP Version: 7.3.1
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -28,9 +28,8 @@ SET time_zone = "+00:00";
 -- Table structure for table `booking_info`
 --
 
-DROP TABLE IF EXISTS `booking_info`;
-CREATE TABLE IF NOT EXISTS `booking_info` (
-  `booking_info_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `booking_info` (
+  `booking_info_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
@@ -42,9 +41,7 @@ CREATE TABLE IF NOT EXISTS `booking_info` (
   `gstin` varchar(255) DEFAULT NULL,
   `mobile` varchar(255) DEFAULT NULL,
   `name` varchar(255) DEFAULT NULL,
-  `booking_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`booking_info_id`),
-  KEY `FKo1b17kgui5bkhpme9y5n1hnnd` (`booking_id`)
+  `booking_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -53,9 +50,8 @@ CREATE TABLE IF NOT EXISTS `booking_info` (
 -- Table structure for table `booking_vs_flight`
 --
 
-DROP TABLE IF EXISTS `booking_vs_flight`;
-CREATE TABLE IF NOT EXISTS `booking_vs_flight` (
-  `booking_vs_flight_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `booking_vs_flight` (
+  `booking_vs_flight_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
@@ -63,16 +59,26 @@ CREATE TABLE IF NOT EXISTS `booking_vs_flight` (
   `status` int(11) DEFAULT NULL,
   `airline_code` varchar(255) DEFAULT NULL,
   `airline_number` varchar(255) DEFAULT NULL,
+  `base_fare` varchar(255) DEFAULT NULL,
+  `booking_fee` varchar(255) DEFAULT NULL,
   `destination` varchar(255) DEFAULT NULL,
   `flight_class` varchar(255) DEFAULT NULL,
   `flight_number` varchar(255) DEFAULT NULL,
   `flt_schedule` varchar(255) DEFAULT NULL,
+  `fuel_surcharges` varchar(255) DEFAULT NULL,
+  `igst` varchar(255) DEFAULT NULL,
   `journey_date` varchar(255) DEFAULT NULL,
+  `ora_commission` varchar(255) DEFAULT NULL,
   `origin` varchar(255) DEFAULT NULL,
+  `other_charges` varchar(255) DEFAULT NULL,
+  `passenger_fee` varchar(255) DEFAULT NULL,
   `pnr_number` varchar(255) DEFAULT NULL,
+  `total_fare` varchar(255) DEFAULT NULL,
+  `total_fare_with_convenience` varchar(255) DEFAULT NULL,
+  `user_dev_fee` varchar(255) DEFAULT NULL,
+  `yatra_gst` varchar(255) DEFAULT NULL,
   `booking_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`booking_vs_flight_id`),
-  KEY `FKqsnqk7u1bofnds87h3ogjd1os` (`booking_id`)
+  `convenience_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -81,9 +87,8 @@ CREATE TABLE IF NOT EXISTS `booking_vs_flight` (
 -- Table structure for table `booking_vs_payment`
 --
 
-DROP TABLE IF EXISTS `booking_vs_payment`;
-CREATE TABLE IF NOT EXISTS `booking_vs_payment` (
-  `booking_vs_payment_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `booking_vs_payment` (
+  `booking_vs_payment_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
@@ -101,32 +106,62 @@ CREATE TABLE IF NOT EXISTS `booking_vs_payment` (
   `txStatus` varchar(255) DEFAULT NULL,
   `txTime` varchar(255) DEFAULT NULL,
   `booking_id` bigint(20) NOT NULL,
-  `gateway_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`booking_vs_payment_id`),
-  KEY `FK7o4e18jl8hkm5t6t1xs00gtr8` (`booking_id`),
-  KEY `FKs3qn4233lkx83a4rimjvfs563` (`gateway_id`)
+  `gateway_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
 
 --
--- Table structure for table `booking_vs_traveller`
+-- Table structure for table `booking_vs_user_details`
 --
 
-DROP TABLE IF EXISTS `booking_vs_traveller`;
-CREATE TABLE IF NOT EXISTS `booking_vs_traveller` (
-  `booking_vs_traveller_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `booking_vs_user_details` (
+  `booking_vs_user_details_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
   `modified_date` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  `passenger_email` varchar(255) DEFAULT NULL,
-  `passenger_mobile` varchar(255) DEFAULT NULL,
-  `passenger_name` varchar(255) DEFAULT NULL,
-  `booking_vs_flight_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`booking_vs_traveller_id`),
-  KEY `FKssl46b8c14utndaug1p4s5wpr` (`booking_vs_flight_id`)
+  `adtl_contact_email` varchar(255) DEFAULT NULL,
+  `adtl_contact_mobile` varchar(255) DEFAULT NULL,
+  `adtl_contact_mobile_isd` varchar(255) DEFAULT NULL,
+  `user_email` varchar(255) DEFAULT NULL,
+  `user_first_name` varchar(255) DEFAULT NULL,
+  `user_id` varchar(255) DEFAULT NULL,
+  `user_last_name` varchar(255) DEFAULT NULL,
+  `user_mobile` varchar(255) DEFAULT NULL,
+  `user_mobile_isd` varchar(255) DEFAULT NULL,
+  `user_title` varchar(255) DEFAULT NULL,
+  `booking_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `flight_vs_traveller`
+--
+
+CREATE TABLE `flight_vs_traveller` (
+  `flight_vs_traveller_id` bigint(20) NOT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `created_date` varchar(255) DEFAULT NULL,
+  `modified_by` bigint(20) DEFAULT NULL,
+  `modified_date` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `date_of_birth` varchar(255) DEFAULT NULL,
+  `id` varchar(255) DEFAULT NULL,
+  `passenger_class` varchar(255) DEFAULT NULL,
+  `passport_expiry_date` varchar(255) DEFAULT NULL,
+  `passport_issuing_country_code` varchar(255) DEFAULT NULL,
+  `passport_issuing_country_name` varchar(255) DEFAULT NULL,
+  `passport_nationality` varchar(255) DEFAULT NULL,
+  `passport_number` varchar(255) DEFAULT NULL,
+  `traveller_first_name` varchar(255) DEFAULT NULL,
+  `traveller_last_name` varchar(255) DEFAULT NULL,
+  `traveller_middle_name` varchar(255) DEFAULT NULL,
+  `traveller_pax_class` varchar(255) DEFAULT NULL,
+  `traveller_title` varchar(255) DEFAULT NULL,
+  `booking_vs_flight_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -135,9 +170,8 @@ CREATE TABLE IF NOT EXISTS `booking_vs_traveller` (
 -- Table structure for table `ga_response`
 --
 
-DROP TABLE IF EXISTS `ga_response`;
-CREATE TABLE IF NOT EXISTS `ga_response` (
-  `gaResponseId` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ga_response` (
+  `gaResponseId` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
@@ -145,8 +179,7 @@ CREATE TABLE IF NOT EXISTS `ga_response` (
   `status` int(11) DEFAULT NULL,
   `action` varchar(255) DEFAULT NULL,
   `action_data` varchar(255) DEFAULT NULL,
-  `event` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`gaResponseId`)
+  `event` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -155,9 +188,8 @@ CREATE TABLE IF NOT EXISTS `ga_response` (
 -- Table structure for table `global_param`
 --
 
-DROP TABLE IF EXISTS `global_param`;
-CREATE TABLE IF NOT EXISTS `global_param` (
-  `global_params_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `global_param` (
+  `global_params_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
@@ -169,8 +201,7 @@ CREATE TABLE IF NOT EXISTS `global_param` (
   `org` varchar(255) DEFAULT NULL,
   `pricing_id` varchar(255) DEFAULT NULL,
   `search_id` varchar(255) DEFAULT NULL,
-  `super_pnr` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`global_params_id`)
+  `super_pnr` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -179,39 +210,22 @@ CREATE TABLE IF NOT EXISTS `global_param` (
 -- Table structure for table `master_booking`
 --
 
-DROP TABLE IF EXISTS `master_booking`;
-CREATE TABLE IF NOT EXISTS `master_booking` (
-  `booking_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `master_booking` (
+  `booking_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
   `modified_date` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  `base_fare` varchar(255) DEFAULT NULL,
-  `booking_fee` varchar(255) DEFAULT NULL,
   `failure_url` varchar(255) DEFAULT NULL,
-  `fuel_surcharges` varchar(255) DEFAULT NULL,
-  `igst` varchar(255) DEFAULT NULL,
   `ora_booking_id` varchar(255) DEFAULT NULL,
-  `ora_commission` varchar(255) DEFAULT NULL,
-  `other_charges` varchar(255) DEFAULT NULL,
-  `passenger_fee` varchar(255) DEFAULT NULL,
   `pricing_id` varchar(255) DEFAULT NULL,
   `progress` varchar(255) DEFAULT NULL,
+  `search_id` varchar(255) DEFAULT NULL,
   `success_url` varchar(255) DEFAULT NULL,
   `super_pnr` varchar(255) DEFAULT NULL,
-  `total_fare` varchar(255) DEFAULT NULL,
-  `total_fare_with_convenience` varchar(255) DEFAULT NULL,
-  `user_dev_fee` varchar(255) DEFAULT NULL,
   `user_id` bigint(20) DEFAULT NULL,
-  `yatra_gst` varchar(255) DEFAULT NULL,
-  `convenience_id` bigint(20) NOT NULL,
-  `gateway_id` bigint(20) NOT NULL,
-  `rvJson_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`booking_id`),
-  KEY `FKggx0d1efi7l9qvxfoxwuq72e7` (`convenience_id`),
-  KEY `FK3eqfb8m56dbmncxh3hirol8sd` (`gateway_id`),
-  KEY `FK637dq9txjoseuypvwmsr4d2r7` (`rvJson_id`)
+  `gateway_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -220,9 +234,8 @@ CREATE TABLE IF NOT EXISTS `master_booking` (
 -- Table structure for table `master_cancellation`
 --
 
-DROP TABLE IF EXISTS `master_cancellation`;
-CREATE TABLE IF NOT EXISTS `master_cancellation` (
-  `cancellation_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `master_cancellation` (
+  `cancellation_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
@@ -233,9 +246,7 @@ CREATE TABLE IF NOT EXISTS `master_cancellation` (
   `total_amount_refunded` varchar(255) DEFAULT NULL,
   `total_payble_without_gst` varchar(255) DEFAULT NULL,
   `user_id` varchar(255) DEFAULT NULL,
-  `booking_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`cancellation_id`),
-  KEY `FKn4ln85ds3dvicd3f41q3jvxt4` (`booking_id`)
+  `booking_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -244,18 +255,16 @@ CREATE TABLE IF NOT EXISTS `master_cancellation` (
 -- Table structure for table `master_convenience`
 --
 
-DROP TABLE IF EXISTS `master_convenience`;
-CREATE TABLE IF NOT EXISTS `master_convenience` (
-  `convenience_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `master_convenience` (
+  `convenience_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
   `modified_date` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `amount` varchar(255) DEFAULT NULL,
-  `gst_percentage` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`convenience_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=latin1;
+  `gst_percentage` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `master_convenience`
@@ -270,17 +279,15 @@ INSERT INTO `master_convenience` (`convenience_id`, `created_by`, `created_date`
 -- Table structure for table `master_gateway`
 --
 
-DROP TABLE IF EXISTS `master_gateway`;
-CREATE TABLE IF NOT EXISTS `master_gateway` (
-  `gateway_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `master_gateway` (
+  `gateway_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
   `modified_date` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
-  `gateway_name` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`gateway_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=latin1;
+  `gateway_name` varchar(255) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `master_gateway`
@@ -295,9 +302,8 @@ INSERT INTO `master_gateway` (`gateway_id`, `created_by`, `created_date`, `modif
 -- Table structure for table `master_search_param`
 --
 
-DROP TABLE IF EXISTS `master_search_param`;
-CREATE TABLE IF NOT EXISTS `master_search_param` (
-  `search_param_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `master_search_param` (
+  `search_param_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
@@ -316,9 +322,8 @@ CREATE TABLE IF NOT EXISTS `master_search_param` (
   `dst_end_date` varchar(255) DEFAULT NULL,
   `dst_mv_hour` varchar(255) DEFAULT NULL,
   `dst_valid` varchar(255) DEFAULT NULL,
-  `gmt1` bigint(20) DEFAULT NULL,
-  PRIMARY KEY (`search_param_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4813 DEFAULT CHARSET=latin1;
+  `gmt1` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 --
 -- Dumping data for table `master_search_param`
@@ -5158,19 +5163,15 @@ INSERT INTO `master_search_param` (`search_param_id`, `created_by`, `created_dat
 -- Table structure for table `review_json`
 --
 
-DROP TABLE IF EXISTS `review_json`;
-CREATE TABLE IF NOT EXISTS `review_json` (
-  `rvJson_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `review_json` (
+  `rvJson_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
   `modified_date` varchar(255) DEFAULT NULL,
   `status` int(11) DEFAULT NULL,
   `global_params_id` bigint(20) NOT NULL,
-  `user_params_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`rvJson_id`),
-  KEY `FKfue6adaf15rqsokbmi055omop` (`global_params_id`),
-  KEY `FKqppmrt4xpwt6n437ttj8ycnbr` (`user_params_id`)
+  `user_params_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -5179,15 +5180,13 @@ CREATE TABLE IF NOT EXISTS `review_json` (
 -- Table structure for table `ssr_details`
 --
 
-DROP TABLE IF EXISTS `ssr_details`;
-CREATE TABLE IF NOT EXISTS `ssr_details` (
-  `ssr_details_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `ssr_details` (
+  `ssr_details_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
   `modified_date` varchar(255) DEFAULT NULL,
-  `status` int(11) DEFAULT NULL,
-  PRIMARY KEY (`ssr_details_id`)
+  `status` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -5196,9 +5195,8 @@ CREATE TABLE IF NOT EXISTS `ssr_details` (
 -- Table structure for table `traveller_details`
 --
 
-DROP TABLE IF EXISTS `traveller_details`;
-CREATE TABLE IF NOT EXISTS `traveller_details` (
-  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `traveller_details` (
+  `id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
@@ -5210,8 +5208,7 @@ CREATE TABLE IF NOT EXISTS `traveller_details` (
   `middle_name` varchar(255) DEFAULT NULL,
   `passenger_class` varchar(255) DEFAULT NULL,
   `pax_class` varchar(255) DEFAULT NULL,
-  `title` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
+  `title` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -5220,9 +5217,8 @@ CREATE TABLE IF NOT EXISTS `traveller_details` (
 -- Table structure for table `traveller_param`
 --
 
-DROP TABLE IF EXISTS `traveller_param`;
-CREATE TABLE IF NOT EXISTS `traveller_param` (
-  `pax_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `traveller_param` (
+  `pax_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
@@ -5230,11 +5226,86 @@ CREATE TABLE IF NOT EXISTS `traveller_param` (
   `status` int(11) DEFAULT NULL,
   `rvJson_id` bigint(20) NOT NULL,
   `ssrDetailsId` bigint(20) NOT NULL,
-  `id` bigint(20) NOT NULL,
-  PRIMARY KEY (`pax_id`),
-  KEY `FK50303qjmxvrngdtci7vrdqdw7` (`rvJson_id`),
-  KEY `FKc9xvljm71cpvisoppdn9abqio` (`ssrDetailsId`),
-  KEY `FKirw6jixy5hgeq41g6i6sga5g` (`id`)
+  `id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `traveller_vs_baggages`
+--
+
+CREATE TABLE `traveller_vs_baggages` (
+  `traveller_vs_baggage_id` bigint(20) NOT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `created_date` varchar(255) DEFAULT NULL,
+  `modified_by` bigint(20) DEFAULT NULL,
+  `modified_date` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `amt` varchar(255) DEFAULT NULL,
+  `baggage_desc` varchar(255) DEFAULT NULL,
+  `convamt` varchar(255) DEFAULT NULL,
+  `curr` varchar(255) DEFAULT NULL,
+  `dispAmt` varchar(255) DEFAULT NULL,
+  `isdata` varchar(255) DEFAULT NULL,
+  `pax` varchar(255) DEFAULT NULL,
+  `rph` varchar(255) DEFAULT NULL,
+  `trip` varchar(255) DEFAULT NULL,
+  `typ` varchar(255) DEFAULT NULL,
+  `uid` varchar(255) DEFAULT NULL,
+  `flight_vs_traveller_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `traveller_vs_meals`
+--
+
+CREATE TABLE `traveller_vs_meals` (
+  `traveller_vs_meals_id` bigint(20) NOT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `created_date` varchar(255) DEFAULT NULL,
+  `modified_by` bigint(20) DEFAULT NULL,
+  `modified_date` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `amt` varchar(255) DEFAULT NULL,
+  `convamt` varchar(255) DEFAULT NULL,
+  `curr` varchar(255) DEFAULT NULL,
+  `dispAmt` varchar(255) DEFAULT NULL,
+  `isdata` varchar(255) DEFAULT NULL,
+  `meals_desc` varchar(255) DEFAULT NULL,
+  `pax` varchar(255) DEFAULT NULL,
+  `rph` varchar(255) DEFAULT NULL,
+  `trip` varchar(255) DEFAULT NULL,
+  `typ` varchar(255) DEFAULT NULL,
+  `uid` varchar(255) DEFAULT NULL,
+  `flight_vs_traveller_id` bigint(20) NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `traveller_vs_seat`
+--
+
+CREATE TABLE `traveller_vs_seat` (
+  `traveller_vs_seat_id` bigint(20) NOT NULL,
+  `created_by` bigint(20) DEFAULT NULL,
+  `created_date` varchar(255) DEFAULT NULL,
+  `modified_by` bigint(20) DEFAULT NULL,
+  `modified_date` varchar(255) DEFAULT NULL,
+  `status` int(11) DEFAULT NULL,
+  `arrloc` varchar(255) DEFAULT NULL,
+  `deploc` varchar(255) DEFAULT NULL,
+  `isdata` varchar(255) DEFAULT NULL,
+  `pax` varchar(255) DEFAULT NULL,
+  `price` varchar(255) DEFAULT NULL,
+  `rph` varchar(255) DEFAULT NULL,
+  `seatValue` varchar(255) DEFAULT NULL,
+  `trip` varchar(255) DEFAULT NULL,
+  `uid` varchar(255) DEFAULT NULL,
+  `flight_vs_traveller_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -5243,13 +5314,11 @@ CREATE TABLE IF NOT EXISTS `traveller_param` (
 -- Table structure for table `user_addtl_contact`
 --
 
-DROP TABLE IF EXISTS `user_addtl_contact`;
-CREATE TABLE IF NOT EXISTS `user_addtl_contact` (
-  `addtl_contact_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user_addtl_contact` (
+  `addtl_contact_id` bigint(20) NOT NULL,
   `email` varchar(255) DEFAULT NULL,
   `mobile` varchar(255) DEFAULT NULL,
-  `mobileISD` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`addtl_contact_id`)
+  `mobileISD` varchar(255) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
 -- --------------------------------------------------------
@@ -5258,9 +5327,8 @@ CREATE TABLE IF NOT EXISTS `user_addtl_contact` (
 -- Table structure for table `user_params`
 --
 
-DROP TABLE IF EXISTS `user_params`;
-CREATE TABLE IF NOT EXISTS `user_params` (
-  `user_params_id` bigint(20) NOT NULL AUTO_INCREMENT,
+CREATE TABLE `user_params` (
+  `user_params_id` bigint(20) NOT NULL,
   `created_by` bigint(20) DEFAULT NULL,
   `created_date` varchar(255) DEFAULT NULL,
   `modified_by` bigint(20) DEFAULT NULL,
@@ -5273,10 +5341,286 @@ CREATE TABLE IF NOT EXISTS `user_params` (
   `mobile_no_ISD` varchar(255) DEFAULT NULL,
   `title` varchar(255) DEFAULT NULL,
   `user_id` varchar(255) DEFAULT NULL,
-  `addtl_contact_id` bigint(20) NOT NULL,
-  PRIMARY KEY (`user_params_id`),
-  KEY `FKlgafgos1yb6x7hd4rgb5aqwu3` (`addtl_contact_id`)
+  `addtl_contact_id` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+--
+-- Indexes for dumped tables
+--
+
+--
+-- Indexes for table `booking_info`
+--
+ALTER TABLE `booking_info`
+  ADD PRIMARY KEY (`booking_info_id`),
+  ADD KEY `FKo1b17kgui5bkhpme9y5n1hnnd` (`booking_id`);
+
+--
+-- Indexes for table `booking_vs_flight`
+--
+ALTER TABLE `booking_vs_flight`
+  ADD PRIMARY KEY (`booking_vs_flight_id`),
+  ADD KEY `FKqsnqk7u1bofnds87h3ogjd1os` (`booking_id`),
+  ADD KEY `FKfx3pyy1619g0j9ei851kupqpj` (`convenience_id`);
+
+--
+-- Indexes for table `booking_vs_payment`
+--
+ALTER TABLE `booking_vs_payment`
+  ADD PRIMARY KEY (`booking_vs_payment_id`),
+  ADD KEY `FK7o4e18jl8hkm5t6t1xs00gtr8` (`booking_id`),
+  ADD KEY `FKs3qn4233lkx83a4rimjvfs563` (`gateway_id`);
+
+--
+-- Indexes for table `booking_vs_user_details`
+--
+ALTER TABLE `booking_vs_user_details`
+  ADD PRIMARY KEY (`booking_vs_user_details_id`),
+  ADD KEY `FKjb2txv8utrl6sitb637c075xb` (`booking_id`);
+
+--
+-- Indexes for table `flight_vs_traveller`
+--
+ALTER TABLE `flight_vs_traveller`
+  ADD PRIMARY KEY (`flight_vs_traveller_id`),
+  ADD KEY `FK2062sjvvsbcqdh5oqd1ehs0x` (`booking_vs_flight_id`);
+
+--
+-- Indexes for table `ga_response`
+--
+ALTER TABLE `ga_response`
+  ADD PRIMARY KEY (`gaResponseId`);
+
+--
+-- Indexes for table `global_param`
+--
+ALTER TABLE `global_param`
+  ADD PRIMARY KEY (`global_params_id`);
+
+--
+-- Indexes for table `master_booking`
+--
+ALTER TABLE `master_booking`
+  ADD PRIMARY KEY (`booking_id`),
+  ADD KEY `FK3eqfb8m56dbmncxh3hirol8sd` (`gateway_id`);
+
+--
+-- Indexes for table `master_cancellation`
+--
+ALTER TABLE `master_cancellation`
+  ADD PRIMARY KEY (`cancellation_id`),
+  ADD KEY `FKn4ln85ds3dvicd3f41q3jvxt4` (`booking_id`);
+
+--
+-- Indexes for table `master_convenience`
+--
+ALTER TABLE `master_convenience`
+  ADD PRIMARY KEY (`convenience_id`);
+
+--
+-- Indexes for table `master_gateway`
+--
+ALTER TABLE `master_gateway`
+  ADD PRIMARY KEY (`gateway_id`);
+
+--
+-- Indexes for table `master_search_param`
+--
+ALTER TABLE `master_search_param`
+  ADD PRIMARY KEY (`search_param_id`);
+
+--
+-- Indexes for table `review_json`
+--
+ALTER TABLE `review_json`
+  ADD PRIMARY KEY (`rvJson_id`),
+  ADD KEY `FKfue6adaf15rqsokbmi055omop` (`global_params_id`),
+  ADD KEY `FKqppmrt4xpwt6n437ttj8ycnbr` (`user_params_id`);
+
+--
+-- Indexes for table `ssr_details`
+--
+ALTER TABLE `ssr_details`
+  ADD PRIMARY KEY (`ssr_details_id`);
+
+--
+-- Indexes for table `traveller_details`
+--
+ALTER TABLE `traveller_details`
+  ADD PRIMARY KEY (`id`);
+
+--
+-- Indexes for table `traveller_param`
+--
+ALTER TABLE `traveller_param`
+  ADD PRIMARY KEY (`pax_id`),
+  ADD KEY `FK50303qjmxvrngdtci7vrdqdw7` (`rvJson_id`),
+  ADD KEY `FKc9xvljm71cpvisoppdn9abqio` (`ssrDetailsId`),
+  ADD KEY `FKirw6jixy5hgeq41g6i6sga5g` (`id`);
+
+--
+-- Indexes for table `traveller_vs_baggages`
+--
+ALTER TABLE `traveller_vs_baggages`
+  ADD PRIMARY KEY (`traveller_vs_baggage_id`),
+  ADD KEY `FKo2iegi90fs4mgvfmivass0911` (`flight_vs_traveller_id`);
+
+--
+-- Indexes for table `traveller_vs_meals`
+--
+ALTER TABLE `traveller_vs_meals`
+  ADD PRIMARY KEY (`traveller_vs_meals_id`),
+  ADD KEY `FKhlqbq9ayxol7ht05f36glhiql` (`flight_vs_traveller_id`);
+
+--
+-- Indexes for table `traveller_vs_seat`
+--
+ALTER TABLE `traveller_vs_seat`
+  ADD PRIMARY KEY (`traveller_vs_seat_id`),
+  ADD KEY `FK3gqnsbmcxkptiay1lr98w541p` (`flight_vs_traveller_id`);
+
+--
+-- Indexes for table `user_addtl_contact`
+--
+ALTER TABLE `user_addtl_contact`
+  ADD PRIMARY KEY (`addtl_contact_id`);
+
+--
+-- Indexes for table `user_params`
+--
+ALTER TABLE `user_params`
+  ADD PRIMARY KEY (`user_params_id`),
+  ADD KEY `FKlgafgos1yb6x7hd4rgb5aqwu3` (`addtl_contact_id`);
+
+--
+-- AUTO_INCREMENT for dumped tables
+--
+
+--
+-- AUTO_INCREMENT for table `booking_info`
+--
+ALTER TABLE `booking_info`
+  MODIFY `booking_info_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `booking_vs_flight`
+--
+ALTER TABLE `booking_vs_flight`
+  MODIFY `booking_vs_flight_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `booking_vs_payment`
+--
+ALTER TABLE `booking_vs_payment`
+  MODIFY `booking_vs_payment_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `booking_vs_user_details`
+--
+ALTER TABLE `booking_vs_user_details`
+  MODIFY `booking_vs_user_details_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `flight_vs_traveller`
+--
+ALTER TABLE `flight_vs_traveller`
+  MODIFY `flight_vs_traveller_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ga_response`
+--
+ALTER TABLE `ga_response`
+  MODIFY `gaResponseId` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `global_param`
+--
+ALTER TABLE `global_param`
+  MODIFY `global_params_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `master_booking`
+--
+ALTER TABLE `master_booking`
+  MODIFY `booking_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `master_cancellation`
+--
+ALTER TABLE `master_cancellation`
+  MODIFY `cancellation_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `master_convenience`
+--
+ALTER TABLE `master_convenience`
+  MODIFY `convenience_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `master_gateway`
+--
+ALTER TABLE `master_gateway`
+  MODIFY `gateway_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
+-- AUTO_INCREMENT for table `master_search_param`
+--
+ALTER TABLE `master_search_param`
+  MODIFY `search_param_id` bigint(20) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4813;
+
+--
+-- AUTO_INCREMENT for table `review_json`
+--
+ALTER TABLE `review_json`
+  MODIFY `rvJson_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `ssr_details`
+--
+ALTER TABLE `ssr_details`
+  MODIFY `ssr_details_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `traveller_details`
+--
+ALTER TABLE `traveller_details`
+  MODIFY `id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `traveller_param`
+--
+ALTER TABLE `traveller_param`
+  MODIFY `pax_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `traveller_vs_baggages`
+--
+ALTER TABLE `traveller_vs_baggages`
+  MODIFY `traveller_vs_baggage_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `traveller_vs_meals`
+--
+ALTER TABLE `traveller_vs_meals`
+  MODIFY `traveller_vs_meals_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `traveller_vs_seat`
+--
+ALTER TABLE `traveller_vs_seat`
+  MODIFY `traveller_vs_seat_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user_addtl_contact`
+--
+ALTER TABLE `user_addtl_contact`
+  MODIFY `addtl_contact_id` bigint(20) NOT NULL AUTO_INCREMENT;
+
+--
+-- AUTO_INCREMENT for table `user_params`
+--
+ALTER TABLE `user_params`
+  MODIFY `user_params_id` bigint(20) NOT NULL AUTO_INCREMENT;
 
 --
 -- Constraints for dumped tables
@@ -5292,6 +5636,7 @@ ALTER TABLE `booking_info`
 -- Constraints for table `booking_vs_flight`
 --
 ALTER TABLE `booking_vs_flight`
+  ADD CONSTRAINT `FKfx3pyy1619g0j9ei851kupqpj` FOREIGN KEY (`convenience_id`) REFERENCES `master_convenience` (`convenience_id`),
   ADD CONSTRAINT `FKqsnqk7u1bofnds87h3ogjd1os` FOREIGN KEY (`booking_id`) REFERENCES `master_booking` (`booking_id`);
 
 --
@@ -5302,18 +5647,22 @@ ALTER TABLE `booking_vs_payment`
   ADD CONSTRAINT `FKs3qn4233lkx83a4rimjvfs563` FOREIGN KEY (`gateway_id`) REFERENCES `master_gateway` (`gateway_id`);
 
 --
--- Constraints for table `booking_vs_traveller`
+-- Constraints for table `booking_vs_user_details`
 --
-ALTER TABLE `booking_vs_traveller`
-  ADD CONSTRAINT `FKssl46b8c14utndaug1p4s5wpr` FOREIGN KEY (`booking_vs_flight_id`) REFERENCES `booking_vs_flight` (`booking_vs_flight_id`);
+ALTER TABLE `booking_vs_user_details`
+  ADD CONSTRAINT `FKjb2txv8utrl6sitb637c075xb` FOREIGN KEY (`booking_id`) REFERENCES `master_booking` (`booking_id`);
+
+--
+-- Constraints for table `flight_vs_traveller`
+--
+ALTER TABLE `flight_vs_traveller`
+  ADD CONSTRAINT `FK2062sjvvsbcqdh5oqd1ehs0x` FOREIGN KEY (`booking_vs_flight_id`) REFERENCES `booking_vs_flight` (`booking_vs_flight_id`);
 
 --
 -- Constraints for table `master_booking`
 --
 ALTER TABLE `master_booking`
-  ADD CONSTRAINT `FK3eqfb8m56dbmncxh3hirol8sd` FOREIGN KEY (`gateway_id`) REFERENCES `master_gateway` (`gateway_id`),
-  ADD CONSTRAINT `FK637dq9txjoseuypvwmsr4d2r7` FOREIGN KEY (`rvJson_id`) REFERENCES `review_json` (`rvJson_id`),
-  ADD CONSTRAINT `FKggx0d1efi7l9qvxfoxwuq72e7` FOREIGN KEY (`convenience_id`) REFERENCES `master_convenience` (`convenience_id`);
+  ADD CONSTRAINT `FK3eqfb8m56dbmncxh3hirol8sd` FOREIGN KEY (`gateway_id`) REFERENCES `master_gateway` (`gateway_id`);
 
 --
 -- Constraints for table `master_cancellation`
@@ -5335,6 +5684,24 @@ ALTER TABLE `traveller_param`
   ADD CONSTRAINT `FK50303qjmxvrngdtci7vrdqdw7` FOREIGN KEY (`rvJson_id`) REFERENCES `review_json` (`rvJson_id`),
   ADD CONSTRAINT `FKc9xvljm71cpvisoppdn9abqio` FOREIGN KEY (`ssrDetailsId`) REFERENCES `ssr_details` (`ssr_details_id`),
   ADD CONSTRAINT `FKirw6jixy5hgeq41g6i6sga5g` FOREIGN KEY (`id`) REFERENCES `traveller_details` (`id`);
+
+--
+-- Constraints for table `traveller_vs_baggages`
+--
+ALTER TABLE `traveller_vs_baggages`
+  ADD CONSTRAINT `FKo2iegi90fs4mgvfmivass0911` FOREIGN KEY (`flight_vs_traveller_id`) REFERENCES `flight_vs_traveller` (`flight_vs_traveller_id`);
+
+--
+-- Constraints for table `traveller_vs_meals`
+--
+ALTER TABLE `traveller_vs_meals`
+  ADD CONSTRAINT `FKhlqbq9ayxol7ht05f36glhiql` FOREIGN KEY (`flight_vs_traveller_id`) REFERENCES `flight_vs_traveller` (`flight_vs_traveller_id`);
+
+--
+-- Constraints for table `traveller_vs_seat`
+--
+ALTER TABLE `traveller_vs_seat`
+  ADD CONSTRAINT `FK3gqnsbmcxkptiay1lr98w541p` FOREIGN KEY (`flight_vs_traveller_id`) REFERENCES `flight_vs_traveller` (`flight_vs_traveller_id`);
 
 --
 -- Constraints for table `user_params`
